@@ -12,7 +12,10 @@
 		"platformbackoffice",
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
-		"cmsbackoffice"		
+		"cmsbackoffice"
+    "smarteditwebservices",
+    "cmssmarteditwebservices",
+    "cmssmartedit",
     ],
 		"storefrontAddons": [
 		{
@@ -20,7 +23,7 @@
 		"storefront": "yacceleratorstorefront",
 		"template": "yacceleratorstorefront"
 		}
-		],	
+		],
          "aspects": [
         {
             "name": "backoffice",
@@ -34,7 +37,7 @@
                     "key": "test.property.2",
                     "value": "test.property-2-value-backoffice"
                 }
-            ],			
+            ],
             "webapps": [
                 {
                     "name": "hac",
@@ -51,7 +54,7 @@
 				{
 				"name": "smartedit",
 				"contextPath": "/smartedit"
-				}			
+				}
             ]
         },
         {
@@ -77,7 +80,7 @@
                     "key":"storefrontContextRoot",
                     "value":""
                 }
-            ],			
+            ],
             "webapps": [
                 {
                     "name": "mediaweb",
