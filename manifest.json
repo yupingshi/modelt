@@ -12,10 +12,10 @@
 		"platformbackoffice",
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
-		"cmsbackoffice"
+		"cmsbackoffice",
     "smarteditwebservices",
     "cmssmarteditwebservices",
-    "cmssmartedit",
+    "cmssmartedit"
     ],
 		"storefrontAddons": [
 		{
