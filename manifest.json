@@ -13,7 +13,6 @@
       "commerceservicesbackoffice",
       "solrfacetsearchbackoffice",
       "cmsbackoffice",
-      "cmswebservices",
       "permissionswebservices",
       "smarteditwebservices",
       "cmssmarteditwebservices",
@@ -97,38 +96,6 @@
                "name":"acceleratorservices",
                "contextPath":"/acceleratorservices"
             }
-            /* {
-               "contextPath":"/smartedit"
-            },
-            {
-               "name":"cmssmartedit",
-               "contextPath":"/cmssmartedit"
-            },
-            {
-               "name":"smarteditwebservices",
-               "contextPath":"/smarteditwebservices"
-            },
-            {
-               "name":"cmssmarteditwebservices",
-               "contextPath":"/cmssmarteditwebservices"
-            },
-            {
-               "name":"oauth2",
-               "contextPath":"/authorizationserver"
-            },
-            {
-               "name":"cmswebservices",
-               "contextPath":"/cmswebservices"
-            },
-            {
-               "name":"previewwebservices",
-               "contextPath":"/previewwebservices"
-            },
-            {
-               "name":"permissionswebservices",
-               "contextPath":"/permissionswebservices"
-            } */
-
          ]
       },
       {
