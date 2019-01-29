@@ -96,8 +96,8 @@
             {
                "name":"acceleratorservices",
                "contextPath":"/acceleratorservices"
-            },
-            {
+            }
+            /* {
                "contextPath":"/smartedit"
             },
             {
@@ -127,7 +127,7 @@
             {
                "name":"permissionswebservices",
                "contextPath":"/permissionswebservices"
-            }
+            } */
 
          ]
       },
