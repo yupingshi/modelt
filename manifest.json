@@ -1,6 +1,5 @@
 {
-    "commerceSuiteVersion": "18.08.0.26102",
-    "modelTModuleVersion":"18.08.0-201807201055",
+    "commerceSuiteVersion": "1808.4",
     "extensions": [
         "mcc",
         "adaptivesearchsolr",
