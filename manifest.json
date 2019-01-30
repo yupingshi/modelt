@@ -1,5 +1,5 @@
 {
-    "commerceSuiteArtifact": "de.hybris.platform.suite:commerce-suite:1811.0.26540",
+    "commerceSuiteArtifact": "de.hybris.platform.suite:commerce-suite:1811",
     "extensions": [
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
