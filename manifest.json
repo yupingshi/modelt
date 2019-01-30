@@ -1,5 +1,5 @@
 {
-    "commerceSuiteVersion": "1810.0",
+    "commerceSuiteVersion":"1808.4",
     "extensions": [
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
