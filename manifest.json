@@ -231,30 +231,6 @@
                     "value":""
                 },
                 {
-                    "key":"website.electronics.http",
-                    "value":"http://electronics.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
-                    "key":"website.electronics.https",
-                    "value":"https://electronics.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
-                    "key":"website.apparel-uk.http",
-                    "value":"http://apparel-uk.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
-                    "key":"website.apparel-uk.https",
-                    "value":"https://apparel-uk.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
-                    "key":"website.apparel-de.http",
-                    "value":"http://apparel-de.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
-                    "key":"website.apparel-de.https",
-                    "value":"https://apparel-de.cs1vqt9-1808mnk1-p1-public.model-t.myhybris.cloud" (this value should be set to your domainname)
-                },
-                {
                     "key":"xss.filter.header.X-Frame-Options",
                     "value":""
                 }
