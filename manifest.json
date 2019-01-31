@@ -20,7 +20,18 @@
 		"cmssmartedit",
 		"cmsbackoffice",
     "previewwebservices",
-		"previewpersonalizationweb"
+		"previewpersonalizationweb",
+    "personalizationcmsweb",
+    "personalizationsmartedit",
+    "personalizationpromotionssmartedit",
+    "personalizationsampledataaddon",
+    "personalizationpromotions",
+    "personalizationpromotionsweb",
+    "personalizationservicesbackoffice",
+    "personalizationpromotionsbackoffice",
+    "personalizationcmsbackoffice",
+    "personalizationsearchbackoffice",
+    "personalizationsearchsmartedit"
     ],
 	"storefrontAddons": [
 		{
