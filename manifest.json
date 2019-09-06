@@ -4,6 +4,7 @@
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
 		"solrserver",
+	        "assistedservicewebservices",
 		"yacceleratorcockpits",
 		"yacceleratorinitialdata",
 		"yacceleratorstorefront",
