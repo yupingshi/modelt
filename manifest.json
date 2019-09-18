@@ -39,10 +39,16 @@
     ],
 	"storefrontAddons": [
 		{
+		    "addon": "assistedservicestorefront",
+		    "storefront": "yacceleratorstorefront",
+		    "template": "yacceleratorstorefront"
+		},
+		{
 		    "addon": "smarteditaddon",
 		    "storefront": "yacceleratorstorefront",
 		    "template": "yacceleratorstorefront"
-		}
+		},
+		
 	],
     "properties": [
         {
