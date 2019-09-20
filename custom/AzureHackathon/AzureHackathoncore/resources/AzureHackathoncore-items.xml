@@ -53,6 +53,11 @@
                         <modifiers/>
                         <persistence type="property"/>
                     </attribute>
+		   <attribute qualifier="test" type="java.lang.String">
+                        <description>just added for media backup testing</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
                 </attributes>
         </itemtype>
         
