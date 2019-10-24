@@ -48,7 +48,7 @@
 		    "storefront": "yacceleratorstorefront",
 		    "template": "yacceleratorstorefront"
 		}
-		
+
 	],
     "properties": [
         {
@@ -239,6 +239,46 @@
                     "contextPath": "/medias"
                 }
             ]
-        }
+        },
+        {
+    			"name": "api",
+    			/* "properties": [
+    					{
+    						"key":"xss.filter.header.X-Frame-Options",
+    						"value":""
+    					},
+              {
+    						"key":"assistedservicewebservices.xss.filter.header.X-Frame-Options",
+    						"value":"SAMEORIGIN",
+                "persona": "development"
+    					},
+              {
+                "key":"assistedservicewebservices.xss.filter.header.Access-Control-Allow-Origin",
+                "value":"*"
+              },
+              {
+                "key":"assistedservicewebservices.xss.filter.header.Access-Control-Allow-Methods",
+                "value":"GET, POST, HEAD, PUT, PATCH, DELETE, OPTIONS"
+              },
+              {
+                "key":"assistedservicewebservices.xss.filter.header.Access-Control-Allow-Headers",
+                "value":"Content-Type"
+              }
+    			], */
+    			"webapps": [
+    				{
+    					"name": "platformwebservices",
+    					"contextPath": "/ws410"
+    				},
+    				{
+    					"name": "oauth2",
+    					"contextPath": "/authorizationserver"
+    				},
+    				{
+    					"name": "assistedservicewebservices",
+    					"contextPath": "/assistedservicewebservices"
+    				}
+    			]
+    		}
     ]
 }
