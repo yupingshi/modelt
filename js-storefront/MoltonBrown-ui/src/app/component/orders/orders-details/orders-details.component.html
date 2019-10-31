@@ -1,98 +1,170 @@
 <h2>
   Order Details
- </h2>
- <div class="orderDetailsServiceNumber">Call customer services Free on +44 (0) 8081781188</div>
- <div *ngIf="orderDetail">
- <div class="orderDetailsBlock" >
- <div class="orderList" >Order Number:<span>{{orderDetail.code}}</span> </div>
- <div class="orderList">Placed on:<span>{{orderDetail.created  | date: 'dd/MM/yyyy hh:mm:ss'}}</span> </div>
- <div class="orderList">Status :<span>{{orderDetail.statusDisplay}}</span></div>
- 
- </div>
- <div class="orderDetailsBlock">
-  <div class="orderShipTrackInfo">
-    <h6>
-      Shipment Tracking Information
-    </h6>
-    <div class="tr header">
- 
-        <div class="td trackNumber">
-Tracking Number
-          </div>
-          <div class="td deliverOption">
- Delivery Option
-          </div>
+</h2>
+<div class="orderDetailsServiceNumber">
+  Call customer services Free on +44 (0) 8081781188
+</div>
+<div *ngIf="orderDetail">
+  <div class="orderDetailsBlock">
+    <div class="orderList">
+      Order Number:<span>{{ orderDetail.code }}</span>
     </div>
-    <div class="tr">
- 
-        <div class="td">
-xxxxx
-          </div>
-          <div class="td">
- {{orderDetail.deliveryMode.code}}<br>
- {{orderDetail.deliveryMode.description}}
-          </div>
+    <div class="orderList">
+      Placed on:<span>{{
+        orderDetail.created | date: "dd/MM/yyyy hh:mm:ss"
+      }}</span>
+    </div>
+    <div class="orderList">
+      Status :<span>{{ orderDetail.shippingStatus }}</span>
     </div>
   </div>
- 
- 
+  <div class="orderDetailsBlock">
+    <div class="orderShipTrackInfo">
+      <h6>
+        Shipment Tracking Information
+      </h6>
+      <div class="tr header">
+        <div class="td trackNumber">
+          Tracking Number
+        </div>
+        <div class="td deliverOption">
+          Delivery Option
+        </div>
+      </div>
+      <div class="tr orderShipTrack-cell">
+        <div class="td td-left-cell"> 
+          {{(orderDetail.trackingNumber)?orderDetail.trackingNumber:"xxxx-xxx-xx"}}
+         </div>
+        <div class="td td-right-cell">
+          {{ orderDetail.deliveryMode.description }}
+        </div>
+      </div>
+    </div>
   </div>
   <div class="orderDetailsBlock">
     <h6>
       Detailed Order Information
     </h6>
-    <div class="orderDetailsInfo" >
- 
+    <div class="orderDetailsInfo">
       <div class="tr header">
         <td class="td image"></td>
-               <div class="td product">
-       Product
-                 </div>
-                 <div class="td price">
-       Price
-                 </div>
-                 <div class="td quantity">
-       Quantity
-                 </div>
-                 <div class="td total">
-       Total
-                 </div>
-           </div>
-           <div class="tr" *ngFor="let deliveryData of orderDetail.entries">
-      <td class="td image">
-        <img src="http://i1.adis.ws/s/moltonbrown/{{deliveryData.product.code}}_uk_set?$mediumImg$&amp;fmt=webp"  alt="Molton Brown UK " >
-      </td>
-             <div class="td product">
-     {{deliveryData.product.productDisplayName}}
-               </div>
-               <div class="td price">
-     {{deliveryData.product.price.formattedValue}}
-               </div>
-               <div class="td quantity">
-     {{deliveryData.quantity}}
-               </div>
-               <div class="td total">
-     {{deliveryData.totalPrice.value}}
-               </div>
-         </div>
+        <div class="td product">
 
+          Product
+        </div>
+        <div class="td price">
+          Price
+        </div>
+        <div class="td quantity">
+          Quantity
+        </div>
+        <div class="td total">
+          Total
+        </div>
+      </div>
+      <div class="tr" *ngFor="let deliveryData of orderDetail.entries;let i = index">
+        <td class="td image">
+         <a (click)="onShowProductDtls(deliveryData.product)" *ngIf="!deliveryData.isBundle; else bundleTypeImage">
+          <picture>
+              <source srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{deliveryData.product.code}}_uk_set?$mediumImg$&amp;fmt=webp" type="image/webp">
+              <source srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{deliveryData.product.code}}_uk_set?$mediumImg$&amp;fmt=jpg" type="image/jpeg">
+              <img src="//media.moltonbrown.co.uk/s/moltonbrown/{{deliveryData.product.code}}_uk_set?$mediumImg$&amp;fmt=jpg">
+           </picture>
+         </a> 
+
+          <ng-template #bundleTypeImage>
+                <picture >
+                <source [srcset]="getPixMixImage(deliveryData['product'][0])" type="image/webp">
+                <source [srcset]="getPixMixImageJpg(deliveryData['product'][0])" type="image/jpeg">
+                <img    [src]="getPixMixImageJpg(deliveryData['product'][0])">
+             </picture>
+          </ng-template>
+        </td>
+        <div class="td product">
+          <a
+            (click)="onShowProductDtls(deliveryData.product)"
+            *ngIf="!deliveryData.isBundle; else bundleType"
+          >
+            {{ deliveryData.product.productDisplayName }}
+          </a>
+          <ng-template #bundleType>
+            <div class="text-left " *ngIf="deliveryData.bundleTemplateId">
+              <span class="order-product-name ">
+                <a> {{ getBundleContent(deliveryData) }}</a>
+              </span>
+            </div>
+            <a
+              (click)="onShowProductDtls(bottle[j])"
+              *ngFor="let bottle of deliveryData['product']; let j = index"
+            >
+              <ul class="bundle-list"  *ngIf="!bottle.product.isSample">
+                <li>
+                  <span>{{ bottle.quantity }}&nbsp;&#10005;&nbsp;</span>
+                  {{ bottle.product.productDisplayName }}
+                </li>
+              </ul>
+            </a>
+            <ul
+              class="bundle-list"
+              *ngIf="deliveryData['product'][0]['isTravelPouchSelected']"
+            >
+              <li>
+                <span>1&nbsp;&#10005;&nbsp;</span>
+                Travel Pouch
+              </li>
+            </ul>
+          </ng-template>
+        </div>
+        <div class="td price">
+          <span  *ngIf="deliveryData.isBundle" [innerHtml]="getBundlePrice(deliveryData)"></span>
+          <span  *ngIf="!deliveryData.isBundle" [innerHtml]="getProdPrice(deliveryData)"></span>
+        </div>
+        <div class="td quantity">
+          {{ deliveryData.quantity }}
+        </div>
+        <div class="td total">
+          <span  *ngIf="deliveryData.isBundle" [innerHtml]="getBundlePrice(deliveryData)"></span>
+          <span  *ngIf="!deliveryData.isBundle" [innerHtml]="getTotalPrice(deliveryData)"></span>
+        </div>
+      </div>
     </div>
     <div class="finalBlock">
       <div class="OrderSubtotal">
-        <div class="innerOrdTotal">Subtotal: <span>
-          {{orderDetail.subTotal.formattedValue}}
-        </span></div>
-        <div class="innerOrdTotal">Delivery:<span>
-{{orderDetail.deliveryCost.formattedValue}}
-        </span></div>
-        <div class="innerOrdTotal">Total:<span>
-{{orderDetail.totalPrice.formattedValue}}
-        </span></div>
+        <div class="innerOrdTotal">
+          <span class="finalBlock-lt">Subtotal:</span>
+          <span class="finalBlock-rt">
+            {{ orderDetail.subTotal.formattedValue }}
+          </span>
+        </div>
+        <div class="innerOrdTotal"
+          *ngIf="orderDetail.totalTax&&(orderDetail.deliveryAddress.country.isocode=='US'||orderDetail.deliveryAddress.country.isocode=='CA'||orderDetail.deliveryAddress.country.isocode=='UM'||orderDetail.deliveryAddress.country.isocode=='VI')">
+          <span class="finalBlock-lt">Sale Tax:</span>
+          <span class="finalBlock-rt">
+            {{ orderDetail.totalTax.formattedValue }}
+          </span>
+        </div>
+        <div class="innerOrdTotal">
+          <span class="finalBlock-lt"> Delivery:</span>
+          <span class="finalBlock-rt">
+            {{ orderDetail.deliveryCost.formattedValue }}
+          </span>
+        </div>
+        <div class="innerOrdTotal">
+          <span class="finalBlock-lt"> Total:</span>
+          <span class="finalBlock-rt">
+            {{ orderDetail.totalPriceWithTax.formattedValue }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
-  <div ><p>Repeat order. When repeating an order, only products still available will be added to your basket.</p></div>
   <div>
-<button class="buttonStyle ">Repeat Order</button>
+    <p>
+      Repeat order. When repeating an order, only products still available will
+      be added to your basket.
+    </p>
+  </div>
+  <div>
+    <button class="buttonStyle" *ngIf="orderDetail.repeatOrder" (click)="onRepeatOrder($event)">Repeat Order</button>
   </div>
 </div>

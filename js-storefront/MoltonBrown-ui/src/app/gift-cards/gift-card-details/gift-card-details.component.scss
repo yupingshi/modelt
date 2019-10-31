@@ -1,3 +1,4 @@
+@import"../../../variable";
 .check-balance-required{
     color: #260e03!important;
     line-height: 20px;
@@ -9,15 +10,15 @@
         font-size: 28px;
         margin-bottom: 0;
         padding: 0 0 14px 0;
-        color: #000;
+        color: $primary-color;
     }
 }
 .register_label{
-    float:right;
+    float: left;
     padding-top: 5px;
     color: #535353;
     font-weight:normal;
-    @media screen and(max-width:768px){
+    @media screen and(max-width:$screen-sm){
        float: left;
     }
 }

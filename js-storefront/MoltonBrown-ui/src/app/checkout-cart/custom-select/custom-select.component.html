@@ -1,0 +1,12 @@
+<li class="select">
+    <a class="dropdown">
+      <a class="dropdown-toggle country-toggle" data-toggle="dropdown" >  {{select}}</a>
+      <ul class="dropdown-menu country-menu select-dropdown">
+        <li>Please select a country</li>
+        <li
+          *ngFor="let data of countries; let k = index"
+        >{{data.name}}
+        </li>
+      </ul>
+    </a>
+  </li>

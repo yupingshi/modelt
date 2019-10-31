@@ -1,8 +1,12 @@
-import { Component, OnInit,ViewEncapsulation,ChangeDetectionStrategy,SecurityContext,HostListener,ElementRef,ViewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Component, OnInit,ViewEncapsulation,ChangeDetectionStrategy,AfterViewInit,SecurityContext,HostListener,ElementRef,ViewChild } from '@angular/core';
+import { Title } from "@angular/platform-browser";
+import { Location } from "@angular/common";
+import { Router, ActivatedRoute } from "@angular/router";
+import { SingletonService } from "../services/singleton.service";
+import {PickMixTravelComponentService} from './pick-mix-travel.service';
 import * as _ from 'lodash';
 declare var $: any;
-declare var AmpCa :any
+declare var AmpCa :any;
 @Component({
   selector: 'app-pick-mix-travel',
   templateUrl: './pick-mix-travel.component.html',
@@ -12,67 +16,119 @@ declare var AmpCa :any
 })
 export class PickMixTravelComponent implements OnInit {
   @ViewChild('scrollbarRef') scrollRef: ElementRef;
-  current:boolean=true;
-  safeUrl:  SafeResourceUrl;
-  pickMix=false;
-  pickMixProducts=[
-    {
-      data:'section-1',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    },
-    {
-      data:'section-2',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    },
-    {
-      data:'section-3',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    },
-    {
-      data:'section-4',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    },
-    {
-      data:'section-5',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    },
-    {
-      data:'section-6',
-      description:'Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum! Rem iste iure blanditiis excepturi esse nisi corrupti sequi, illo, laborum quo quis quaerat assumenda perspiciatis quod fuga vel laudantium doloribus architecto tempora omnis earum!'
-    }
-  ]
-  @HostListener("window:scroll", ['$event'])
-  windowScroll(event) {
-    var scrollDistance = $(window).scrollTop();
+  current:boolean;
+  pickMix:boolean; 
+  collection:any;
+  pack:boolean;
+  pickItems:boolean;
+  viewMode:string ='pick';
+  collectionData:any;
+  pickStore:boolean=true;
+  pickPackPrice:string;
+  pickmixAmpContent:boolean;
+  switchMode:string;
+  constructor(
+    public location: Location,
+    public router: Router,
+    public route: ActivatedRoute,
+    public singletonServ: SingletonService,
+    public titleService:Title,
+    public pickMixServ:PickMixTravelComponentService
+  ) {
+    const baseSite=this.singletonServ.catalogVersion;
+    this.getPickMixContent();
+    this.pickMix=false;
 
- $('.page-section').each(function(i) {
-  if ($(this).position().top <= scrollDistance) {
-    console.log(scrollDistance,$(this).position().top)
-      $('.navigation a.active').removeClass('active');
-      $('.navigation a').eq(i).addClass('active');
+    if(this.singletonServ.getStoreData(baseSite.reg)){
+      if( this.singletonServ.getStoreData(baseSite.regPickMix)){
+        this. switchMode='localStore';
+      }else{
+        this. switchMode='emptyStore';
+      }
+   }else{
+         if(this.singletonServ.getStoreData(baseSite.guestPickMix)){
+          this. switchMode='localStore';
+        }else{
+          this. switchMode='emptyStore';
+        }
+   }
+   }
+   onChecKToCart(){
+     this.viewMode='pick&Buy';
+   }
+   onStart(){
+    const baseSite=this.singletonServ.catalogVersion;
+    // this.singletonServ.removeItem('pick-buy');
+    if(this.singletonServ.getStoreData(baseSite.reg)){
+      if( this.singletonServ.getStoreData(baseSite.regPickMix)){
+          this.singletonServ.removeItem(baseSite.regPickMix);
+      }
+      this.viewMode='pick';
+      this.pickMix=true; 
+   }else{
+    this.singletonServ.removeItem(baseSite.guestPickMix); 
+    this.viewMode='pick';
+    this.pickMix=true;        
+   }
+
+   }
+
+   onViewModeChange(container){ 
+    this.viewMode=container;
+    this.pack=false; 
   }
-});
-
-  
-  };
-  constructor() { }
-
   ngOnInit() {
+    this.titleService.setTitle('Pick & Mix Travel Toiletries | Holiday Toiletries | Molton Brown UK')
+    this.pickMix=false;
   }
-  scrollToUsageSection(event){
-    event.preventDefault();
-
-    const target =event.target.getAttribute('href');
-    console.log($(target).offset().top);
-    $('html, body').stop().animate({
-      scrollTop: $(target).offset().top
-  }, 600, function() {
-    
-      location.hash = target; //attach the hash (#jumptarget) to the pageurl
-  });
-
-  // return false;
-
-    // this.scrollRef.nativeElement.scrollToTop(target);
+  getPickMixContent(){
+    AmpCa.utils = new AmpCa.Utils();
+   
+    const baseSite=this.singletonServ.catalogVersion;
+    AmpCa.utils.getHtmlServiceData({
+      auth: {
+        baseUrl: "https://c1.adis.ws",
+        id: "12400cd8-5f67-4c86-b8f1-93c3d87f4018",
+        store: "moltonbrown",
+        templateName: "acc-template-banner",
+        locale:baseSite.locale
+      },
+      callback: function(data) {
+        this.pickmixAmpContent=true;
+        document.querySelectorAll("#pickmix-amp-content")[0].innerHTML = data;
+        AmpCa.utils.postProcessing.execHtmlService('banner'); 
+      }
+    });
+  }
+  onChangeCollection(data){     
+    this.viewMode='pick'; 
+    this.pack=false; 
+  }
+  setCollection(data){
+   this.collection=data;
+   this.viewMode='pick&Buy';
+   this.pack=true;
+  }
+  onStartPickMix(){
+    const baseSite=this.singletonServ.catalogVersion;
+    if(this.singletonServ.getStoreData(baseSite.reg)){
+      if( this.singletonServ.getStoreData(baseSite.regPickMix)){
+          this.singletonServ.removeItem(baseSite.regPickMix);
+      }
+      this.viewMode='pick';
+      this.pickMix=true; 
+   }else{
+    this.singletonServ.removeItem(baseSite.guestPickMix); 
+    this.viewMode='pick';
+    this.pickMix=true;        
+   }
+ 
+  }
+  onContinue(){
+    this.viewMode='pick';
+    this.pickMix=true;  
+  }
+  onActivate(e,parent){
+    parent.scrollTop = 0;
   }
 }

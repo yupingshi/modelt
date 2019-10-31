@@ -1,6 +1,6 @@
+@import "./../../../variable";
 .mb-breadcrumb {
-    font-size: 11px;
-    background: #fff;
+    background: $mb-white;
     color: #9d9799;
     display: block;
     overflow: hidden;
@@ -11,8 +11,7 @@
         color: #666;
         text-align: left;
         text-transform: uppercase;
-        font-size: 11px;
-        line-height: 11px;
+         line-height: 11px;
         padding-right: 0;
         padding-left: 5px;
         cursor: pointer;
@@ -21,20 +20,15 @@
             padding-left: 5px;
         }
         &:last-child {
-                color: #000;
+                color: $primary-color;
             &::after {
                 content: '';
             }
         }
-        &:hover{
-            
-        }
     }
-    a:nth-child(3) {
-      //  display: none;
-    }
+ 
 }
-@media(max-width:768px){
+@media(max-width:$screen-sm){
     .mb-breadcrumb{
         background-color: #eeeeef;
         padding: 7px 0px 5px !important;

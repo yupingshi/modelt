@@ -1,0 +1,96 @@
+<div class="shop-menu pull-right"  
+(mouseenter)="onHoverCartIcon($event)"
+
+>
+  <span class="store_cart" [ngClass]="{ animated: showCartBlock }" (click)="onViewBasket()">
+    <a title="YOUR BASKET">
+      <span class="store_viewCart"></span>
+      <span class="cart-items">
+        <span #storeCartCount id="storeCartCount">{{
+          getCartCount()
+        }}</span>
+      </span>
+    </a>
+  </span>
+  <div
+    class="mb-basketDropdown-content"
+    (mouseleave)="onleaveCart($event)"
+    [ngClass]="{
+      'show-cart-cntnt-block': showCartBlock,
+      'show-cart-cntnt': toggleCartBox
+    }"
+  >
+    <div class="basketDropdownCartHeader">
+      <h3>YOUR BASKET</h3>
+    </div>
+    <div *ngIf="cart; else emptyCart">
+      <div *ngIf="cart.totalItems !=0; else emptyCart">
+          <ul class="cart-list-container" #scrollContainer>
+                  <li 
+                      class="basket-items" 
+                      *ngFor="let entry of cart.entries;let k=index;"
+                      [hidden]="entry.product.isSample"  
+                      [attr.id]="entry.product.code" >
+                      <a class="basket-item-Image" routerLink="{{getRouterPath(entry)}}" routerLinkActive="active">
+                              <picture   *ngIf="!entry.isBundle;else bundleTypeImage"  >
+                                <source srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{entry.product.code}}_uk_set?$smallImg$&amp;fmt=webp" type="image/webp">
+                                <source srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{entry.product.code}}_uk_set?$smallImg$&amp;fmt=jpg" type="image/jpeg">
+                                <img src="https://media.moltonbrown.co.uk/s/moltonbrown/{{entry.product.code}}_uk_set?$smallImg$&amp;fmt=jpg">
+                             </picture>
+                              <ng-template #bundleTypeImage>
+                              <picture >
+                                <source [srcset]="getPixMixImage(entry['product'][0])" type="image/webp">
+                                <source [srcset]="getPixMixImageJpg(entry['product'][0])" type="image/jpeg">
+                                <img    [src]="getPixMixImageJpg(entry['product'][0])">
+                             </picture>
+                              </ng-template>
+                      </a>
+                      <div class="basket-item">
+                          <div class="prod-title">
+                              <h4 style="width: 100%;">
+                                  <a routerLink="{{getRouterPath(entry)}}" routerLinkActive="active"
+                                      (click)="onShowProduct($event,entry)">
+                                        {{(entry.product.productDisplayName)?entry.product.productDisplayName:getBundleContent(entry)}}
+                                      </a>
+                                      <p style="padding-top:5px;" class="prdct-size" *ngIf="entry.product.size"> 
+                                        Size:&nbsp;<span>{{entry.product.size}}</span>
+                                      </p>
+                              </h4>
+                         </div>
+                      </div>
+                      <div class="prod-qty">QTY:&nbsp;{{entry.quantity}}</div>
+                      <ul class="pricesContainer">
+                          <span  *ngIf="entry.isBundle" [innerHtml]="getBundlePrice(entry)"></span>
+                          <span  *ngIf="!entry.isBundle" [innerHtml]="getTotalPrice(entry)"></span>                        
+                          <a (click)="onSpliceItem($event,entry,k)"
+                              class="remove-item header-basket-remove-itm"><span></span>
+                          </a>
+                      </ul>
+
+                  </li>
+           </ul>
+
+        <div *ngIf="cart.totalItems != 0" class="sub-totalItems">
+          <div class="sub-total-block">
+            <div class="sub-total-content">SUB TOTAL</div>
+            <div class="sub-total-value price-format" >
+              {{ cart.subTotal.formattedValue }}
+            </div>
+          </div>
+          <div class="view-basket-block ">
+            <span class="basket-btn" (click)="onViewBasket()">
+              View Basket</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #emptyCart>
+      <div class="basketDropdownCartHeader">
+        <li class="emptycart-list">
+          <span>{{basketEmptyContent}}</span>
+        </li>
+      </div>
+    </ng-template>
+  </div>
+</div>

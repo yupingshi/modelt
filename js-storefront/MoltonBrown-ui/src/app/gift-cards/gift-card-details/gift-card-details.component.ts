@@ -4,7 +4,7 @@ import { FormBuilder,FormGroup } from '@angular/forms';
 import {SingletonService} from '../../services/singleton.service';
 import {GiftCardComponentService} from '../gift-cards.service';
 import { Location } from '@angular/common';
-import { Router,ActivatedRoute ,NavigationEnd} from '@angular/router';
+import { Router,ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'app-gift-card-details',
   templateUrl: './gift-card-details.component.html',
@@ -24,28 +24,71 @@ export class GiftCardDetailsComponent implements OnInit {
   }
   onSubmitForm(event){
     event.stopPropagation();
-    const that =this;
-    const cVrsnid = this.singletonServ.catalogVersionId;
+    const that =this;    
+    const baseSite = this.singletonServ.catalogVersion;
+    const baseSiteid = baseSite.catalogversionId;
     const card=this.givexForm.value;
-    this.showBalance=false;
-    that.cardService.generateToken().subscribe((token)=>{
-      const _token=token['access_token'];
-      const _body={
+    this.showBalance=false;  
+    const _body={
             "giftcardnumber":card.GivexCardNumber,
             "giftcardpin":card.GivexPinNumber
-        }
-          that.cardService.checkBalance(cVrsnid,_token,_body).subscribe((response)=>{
-             this.showBalance=true;
-             // const data=response['givexstatus'];
-             this.givexInfo=JSON.parse(JSON.stringify(response));
-             console.log(this.givexInfo);
-             this.singletonServ.giftObj=this.givexInfo
-            //  this.router.navigate(['store','giftcards','balanceStatement'],{ queryParams: { _requestid: 188}, queryParamsHandling: 'merge' });
-          },(error)=>{
+          }
+        if(this.singletonServ.getStoreData(baseSite.reg)){
+          const _user =JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
+          if(_user.token){
+            this.checkBalance(_user.token,_user.email,_body);
+          }else{
+            that.cardService.generateToken().subscribe((token)=>{ 
+              const _token=token['access_token'];
+              this.singletonServ.setStoreData(baseSite.reg,JSON.stringify(_user));
+              this.checkBalance(_token,_user.email,_body);
+            },(error)=>{
 
-          });
-    },(error)=>{
+            });
+          }
+        }else if(this.singletonServ.getStoreData(baseSite.guest)){
+          const _guest =JSON.parse(this.singletonServ.getStoreData(baseSite.guest));
+          if(_guest.token){
+            this.checkBalance(_guest.token,'anonymous',_body);
+          }else{
+            that.cardService.generateToken().subscribe((token)=>{ 
+              const _token=token['access_token'];
+              this.singletonServ.setStoreData(baseSite.guest,JSON.stringify(_guest));
+              this.checkBalance(_token,'anonymous',_body);
+            },(error)=>{
 
-    });
+            });
+          }
+       }else{
+        const _guest ={token:''};
+        that.cardService.generateToken().subscribe((token)=>{ 
+          const _token=token['access_token'];
+          this.singletonServ.setStoreData(baseSite.guest,JSON.stringify(_guest));
+          this.checkBalance(_token,'anonymous',_body);
+        },(error)=>{
+
+        });
+       }
+   
+  }
+  checkBalance(_token,email,_body){
+    const that =this;    
+    const baseSite = this.singletonServ.catalogVersion;
+    const baseSiteid = baseSite.catalogversionId;
+    this.cardService.givexLogin(_token,email,_body).subscribe((reg)=>{
+    this.cardService.checkBalance(_token,email).subscribe((response)=>{
+      this.showBalance=true;
+      let givexInfo=JSON.parse(JSON.stringify(response));
+      this.givexInfo=JSON.parse(givexInfo);
+      this.singletonServ.giftObj=this.givexInfo;
+      let baseSiteidGift=baseSiteid+email+'-Giftcard';
+      this.singletonServ.setStoreData(baseSiteidGift,JSON.stringify(this.givexInfo));
+      this.router.navigate(['store','gift-cards','balanceStatement'],{ queryParams: { _requestid: 188}, queryParamsHandling: 'merge' });
+   },(error)=>{
+
+   });
+  },(error)=>{
+
+  });
   }
 }

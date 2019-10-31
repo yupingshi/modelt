@@ -57,7 +57,6 @@
             store: 'csdemo'
         },
         callback: function (data) {
-            console.log(data);
             var template = Handlebars.template(AmpCa.templates['acc-template-splitBlock']);
             document.querySelectorAll(".js_splitBlock_wrap")[0].innerHTML = template(data[0]);
         },

@@ -1,3 +1,4 @@
+@import"../../../variable";
 .cardRegistration{
     padding: 5px 0;
     min-height: 460px;
@@ -5,7 +6,7 @@
         font-size: 28px;
         margin-bottom: 0;
         padding: 0 0 14px 0;
-        color: #000;
+        color: $primary-color;
     }
 }
 

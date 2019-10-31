@@ -1,0 +1,140 @@
+@import"../../../variable";
+.billing_form{
+    .main-short-field{
+        margin-right:10px;
+    }
+    .card_field{
+    .contextual-help{
+        right:31%;
+        top:3px;
+    }}
+    .manual_field{
+        .form-group{
+            @media (max-width:$screen-sm) {
+                  width:47%;
+                input.form-control.short-field{
+                  width:100% !important;
+                }
+            }
+    
+        }
+    }
+    .not-valid-error-msg{
+        width:305px;
+        @media screen and(max-width:768px){
+            width:90%;
+        }
+    } 
+}
+.section-heading{
+    h2{
+        font-size: 18px;
+        margin: 0 0 12px 0;
+    }
+}
+.card_field{
+    position: relative;
+}
+
+.shippingButtons{
+    justify-content: flex-start;
+    &_btn-block{
+    width:50%;
+    }
+    &_btn-full-width{
+        width:100%;
+    }
+    button{
+        &:focus{
+            box-shadow: none;
+            outline: none;
+        }  
+      }
+}
+
+.form-inline.manual_field{
+    align-items: flex-start !important;
+}
+
+
+select.selectDropdown {
+    background-image: linear-gradient(45deg, transparent 50%, #666666 50%), linear-gradient(135deg, #666666 50%, transparent 50%), linear-gradient(to right, $light-grey 1%, #ebebeb 2%);
+    background-position: calc(100% - 20px) calc(14px + 5px), calc(100% - 10px) calc(15px + 4px), 100% 0;
+    background-size: 11px 11px, 11px 12px, 43px 48px;
+    background-repeat: no-repeat;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+     -ms-appearance: none;
+      -o-appearance: none;
+         appearance: none;
+        &::-ms-expand {
+        display: none;
+        }
+        height: 48px;
+  }
+  .slct-post-address{
+      width:240px;
+    &:focus {
+      width: auto;
+    }
+  }
+  .shippingButtons{
+    justify-content: flex-start;
+    &_btn-block{
+    width:50%;
+    }
+    &_btn-full-width{
+        width:100%;
+    }
+    button{
+    &:focus{
+        box-shadow: none;
+        outline: none;
+    }  
+  }
+}
+.reset-btn {
+    display: flex;
+    -webkit-writing-mode: horizontal-tb !important;
+    writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    justify-content: center;
+    align-items: center;
+    color:$mb-white !important;
+  }
+  .btn {
+    border: 0;
+    width: 180px;
+    height: 48px;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+    position: relative;
+    background: $primary-color;
+    color: $mb-white;
+    cursor: pointer;
+  }
+  .disabled-active {
+      cursor: pointer;
+    background-color: $light-grey;
+    opacity: 1;
+    &:hover{
+      background-color: $light-grey;
+    }
+  }
+  input.form-control.short-field {
+    width: 110px!important;
+}
+.ds-f {
+    display: flex;
+}
+.billing_form {
+    .form-control:focus {
+        border-color: $mb-skyblue !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+    }
+}

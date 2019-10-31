@@ -1,0 +1,415 @@
+<div class="container reg_form">
+  <div class="rowComponents">
+    <h2 class="col-sm-12 register-in">Distribution Enquiry - UK & Ireland</h2>
+    <form [formGroup]="contactEnquiryForm" (ngSubmit)="onSubmit($event, true)" custom-focus
+      class="contact_enquiry_form">
+
+      <div class="col-xs-12 required_text">
+        &nbsp;<span class="redcolor">*</span>Required Field
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_title">Title<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <select class="mandatory form-control" formControlName="titleCode" [ngClass]="{
+                  'has-error  not-valid':
+                    !contactEnquiryForm.controls['titleCode'].valid &&
+                    contactEnquiryForm.get('titleCode').touched
+                }">
+              <option value="null" selected>Please Select</option>
+              <option value="miss">Miss</option>
+              <option value="mrs">Mrs</option>
+              <option value="ms">Ms</option>
+              <option value="mr">Mr</option>
+              <option value="dr">Dr</option>
+            </select>
+            <div *ngIf="
+                  !contactEnquiryForm.controls['titleCode'].valid &&
+                  contactEnquiryForm.get('titleCode').touched
+                " class="not-valid-error-msg">
+              <span [hidden]="
+                    !contactEnquiryForm.controls['titleCode'].errors.required
+                  ">Title</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_firstname">First Name<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="firstName" class="mandatory form-control reg_field "     [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['firstName'].valid &&
+                contactEnquiryForm.get('firstName').touched
+            }" />
+            <div *ngIf="
+                  !contactEnquiryForm.controls['firstName'].valid &&
+                  contactEnquiryForm.get('firstName').touched
+                " class="not-valid-error-msg">
+              <span [hidden]="
+                    !contactEnquiryForm.controls['firstName'].errors.required
+                  ">
+                firstname error
+              </span>
+              <span *ngIf="
+                    contactEnquiryForm.controls['firstName'].errors.patternInvalid
+                  ">
+                first name pattern error
+              </span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_lastname">Last Name<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="lastName" class="mandatory form-control reg_field "      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['lastName'].valid &&
+                contactEnquiryForm.get('lastName').touched
+            }" />
+            <div *ngIf="
+                  !contactEnquiryForm.controls['lastName'].valid &&
+                  contactEnquiryForm.get('lastName').touched
+                " class="not-valid-error-msg">
+              <span [hidden]="
+                    !contactEnquiryForm.controls['lastName'].errors.required
+                  ">
+                last name error
+              </span>
+              <span *ngIf="
+                    contactEnquiryForm.controls['lastName'].errors.patternInvalid
+                  ">
+                last name pattern error
+              </span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_lastname">Job Title<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="jobTitle" class="mandatory form-control reg_field "      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['jobTitle'].valid &&
+                contactEnquiryForm.get('jobTitle').touched
+            }" />
+            <div *ngIf="
+          !contactEnquiryForm.controls['jobTitle'].valid &&
+          contactEnquiryForm.get('jobTitle').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="
+            !contactEnquiryForm.controls['jobTitle'].errors.required
+          ">
+                job error
+              </span>
+              <span *ngIf="
+            contactEnquiryForm.controls['jobTitle'].errors.patternInvalid
+          ">
+                job title pattern error
+              </span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_compName">Company Name<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="companyName" class="mandatory form-control reg_field"      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['companyName'].valid &&
+                contactEnquiryForm.get('companyName').touched
+            }" />
+            <div *ngIf="
+          !contactEnquiryForm.controls['companyName'].valid &&
+          contactEnquiryForm.get('companyName').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="!contactEnquiryForm.controls['companyName'].errors.required">companyName error</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['companyName'].errors.patternInvalid
+          ">companyName pattern</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_businessType">Business Type<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="businessType" class="mandatory form-control reg_field"      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['businessType'].valid &&
+                contactEnquiryForm.get('businessType').touched
+            }"/>
+            <div *ngIf="
+          !contactEnquiryForm.controls['businessType'].valid &&
+          contactEnquiryForm.get('businessType').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="!contactEnquiryForm.controls['businessType'].errors.required">businessType error</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['businessType'].errors.patternInvalid
+          ">businessType pattern</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_email">Email Address<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="email" formControlName="uid" class="mandatory form-control reg_field"      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['uid'].valid &&
+                contactEnquiryForm.get('uid').touched
+            }" />
+            <div *ngIf="
+          !contactEnquiryForm.controls['uid'].valid &&
+          contactEnquiryForm.get('uid').touched
+        " class="not-valid-error-msg">
+              <span
+                [hidden]="!contactEnquiryForm.controls['uid'].errors.required">email error</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['uid'].errors.patternInvalid
+          ">invaild error</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_email">Confirm Email Address<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="email" formControlName="confirmemail" class="mandatory form-control reg_field"      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['confirmemail'].valid &&
+                contactEnquiryForm.get('confirmemail').touched
+            }"/>
+            <div *ngIf="
+          !contactEnquiryForm.controls['confirmemail'].valid &&
+          contactEnquiryForm.get('confirmemail').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="
+            !contactEnquiryForm.controls['confirmemail'].errors.required
+          ">confirmemail error</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['confirmemail'].errors
+              .appCustomValidator
+          ">confirmemail pattern</span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_town">Phone Number<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields regPhone">
+            <input type="text" formControlName="phone" class="mandatory form-control reg_field "      [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['phone'].valid &&
+                contactEnquiryForm.get('phone').touched
+            }" />
+            <div *ngIf="
+          !contactEnquiryForm.controls['phone'].valid &&
+          contactEnquiryForm.get('phone').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="!contactEnquiryForm.controls['phone'].errors.required">
+                phone error
+              </span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['phone'].errors.patternInvalid
+          "> phone error pattern</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_country">Country<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <select class="mandatory form-control" formControlName="country"  [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['country'].valid &&
+                contactEnquiryForm.get('country').touched
+            }">
+              <option value="" selected="selected">Choose Country *</option>
+              <option></option>
+            </select>
+            <div *ngIf="
+          !contactEnquiryForm.controls['country'].valid &&
+          contactEnquiryForm.get('country').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="
+            !contactEnquiryForm.controls['country'].errors.required
+          ">
+                country error</span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_postcode">Postcode/Zipcode<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" class="mandatory form-control " formControlName="postalCode" maxlength="10"  [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['postalCode'].valid &&
+                contactEnquiryForm.get('postalCode').touched
+            }" />
+
+            <div *ngIf="
+          (!contactEnquiryForm.controls['postalCode'].valid &&
+          contactEnquiryForm.get('postalCode').touched)
+        " class="not-valid-error-msg">
+              <span *ngIf="!postCodeStatus">Please enter a valid postcode or enter the address manually.</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['postalCode'].errors.required
+          ">
+                postalCode error</span>
+              <span [hidden]="
+            !contactEnquiryForm.controls['postalCode'].errors.patternInvalid
+          ">postalCode pattern</span>
+            </div>
+            <div class="postcode-msg-block">
+              <span>Please enter a valid postcode or enter the address manually.</span>
+            </div>
+          </span>
+          <span class="ml-8 find-address" *ngIf="ukLoopBtnStatus">
+            <button
+              class="buttonStyle mt-1"
+              (click)="onLookupAddress($event)"
+            >
+              Lookup Address
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label ">Address<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="line1" class="mandatory form-control reg_field "  [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['line1'].valid &&
+                contactEnquiryForm.get('line1').touched
+            }" />
+            <div *ngIf="
+          !contactEnquiryForm.controls['line1'].valid &&
+          contactEnquiryForm.get('line1').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="!contactEnquiryForm.controls['line1'].errors.required">
+                line1 error</span>
+            </div>
+            <input type="text" class="mandatory form-control" formControlName="line2" />
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label " for="reg_town">Town/City</label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="town" class="mandatory form-control" />
+        
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label ">Country/State/Region</label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="district" class="mandatory form-control  " />
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label">Fax Number</label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="faxNumber" class="mandatory form-control  " />
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label ">Web Site</label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <input type="text" formControlName="webSite" class="mandatory form-control  " />
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-12 row">
+        <div class="col-sm-12 col-md-4 ">
+          <label class="enquiry_label ">Message<span class="redstar">*</span></label>
+        </div>
+        <div class="col-sm-12 col-md-8 text-left ">
+          <span class="login_fields">
+            <textarea type="text" formControlName="message" class="mandatory form-control reg_field " [ngClass]="{
+              'has-error  not-valid':
+                !contactEnquiryForm.controls['message'].valid &&
+                contactEnquiryForm.get('message').touched
+            }"></textarea>
+            <div *ngIf="
+          !contactEnquiryForm.controls['message'].valid &&
+          contactEnquiryForm.get('message').touched
+        " class="not-valid-error-msg">
+              <span [hidden]="!contactEnquiryForm.controls['message'].errors.required"> 
+                message error</span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 row">
+        <div class="col-xs-1 col-sm-12 col-md-2"></div>
+      </div>
+
+      <div class="col-sm-12 text-right" >
+        <button class="buttonStyle" type="submit">
+          Submit
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

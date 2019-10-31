@@ -1,0 +1,78 @@
+<form [formGroup]="giftMessageForm" custom-focus>
+<div class="section-giftmessage">
+  <img
+    src="https://www.moltonbrown.co.uk//MBPromoImages/CheckoutGraphics/gift-boxes-v2.jpg"
+  />
+  <legend>{{ "wouldLikeFreeGiftBox" | translate }}</legend>
+  <div class="form-group form-checkbox">
+    <div class="checkbox gift-box">
+      <input
+        style="padding-top: 0px; cursor: pointer;"
+        type="checkbox"
+        class="checkbox"
+        (change)="onGiftBoxSChecked($event)"
+        [disableControl]="disableGiftBox"
+        formControlName="giftBox"
+      />
+      <label *ngIf="!giftEligibleLabel">{{
+        "yesIWouldLGiftBox" | translate
+      }}</label>
+      <label *ngIf="giftEligibleLabel">{{
+          "yesAlreadyGiftBoxed" | translate
+        }}</label>
+    </div>
+  </div>
+  <div class="form-group form-checkbox">
+    <div class="checkbox">
+      <input
+         #isGifBoxElement
+        style="padding-top: 0px; cursor: pointer;"
+        type="checkbox"
+        class="checkbox"
+        (change)="showTextarea($event)"
+        formControlName="giftMsg"
+      />
+
+      <label >{{
+        "YIWouldPGiftMsg" | translate
+      }} </label>
+    </div>
+  </div>
+
+    <div
+      class="from-group gift-message "
+      [@openClose]="tooltipMsg ? 'shows' : 'hides'"
+    >
+      <textarea
+        maxlength="250"
+        placeholder="Please enter a message up to 250 characters (including spaces)*"
+        class="form-control gift-msg"
+        (input)="onChangeText($event)"
+        rows="5"
+        formControlName="giftMessage"
+        class="mandatory form-control reg_field "
+        [ngClass]="{
+          'has-error  not-valid':
+            !giftMessageForm.controls['giftMessage'].valid &&
+            giftMessageForm.get('giftMessage').touched
+        }"
+      ></textarea>
+      <div
+        *ngIf="
+          !giftMessageForm.controls['giftMessage'].valid &&
+          giftMessageForm.get('giftMessage').touched
+        "
+        class="not-valid-error-msg"
+      >
+        <span
+          [hidden]="
+            !giftMessageForm.controls['giftMessage'].errors.required
+          "
+        >
+          {{ "giftMsg.giftMessage" | translate }}
+        </span>
+      </div>
+      <div class="giftMessageChar">({{ textlength }})</div>
+    </div>
+</div>
+</form>

@@ -1,5 +1,5 @@
 import { Component, OnInit,ViewEncapsulation } from '@angular/core';
-
+import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
@@ -8,9 +8,20 @@ import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
   }
-
+  onRouteTo(event,route){
+    if(event.ctrlKey && event.which === 1){
+      window.open(route); 
+   }  else{
+      const _path= route.slice(1);
+      let _route =_path.split('/');
+      this.router.navigate(_route);
+    }
+  }
 }

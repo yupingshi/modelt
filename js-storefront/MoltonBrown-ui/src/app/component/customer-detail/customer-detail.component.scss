@@ -1,16 +1,48 @@
-
+@import "../../../variable";
+.cred-error{
+    border:1px solid $mb-error-bg !important;
+}
+.credential-err-msg{
+    font-size:14px !important;
+    position: absolute;
+    bottom: 100%;
+    background-color: $mb-error-bg;
+    color: $mb-white;
+    padding: 10px;
+    left: 6%;
+    text-align: center;
+    width: 88%;
+    z-index: 9;
+    &::after{
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border: 0;
+        left: 5%;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        background: $mb-error-bg;
+        bottom: -7px;
+    }
+}
 .my-account{
-    margin:15px;
+    // margin:15px;
+    padding: 6px 0 5px 18px;
     position: relative;
      h2 {
     font-size: 28px;
     margin-bottom: 0;
     padding: 0 0 14px 0;
-    color: #000;
-    @media screen and(max-width:768px) {
+    color: $primary-color;
+    @media screen and(max-width:$screen-sm) {
         width:100%;  
         //   min-height: 190px;
     }
+}
+.password-cntnt{
+    font-weight:bold;
 }
 .edit-profile {
     border: 1px solid #d6d6d6;
@@ -19,21 +51,22 @@
     margin: 15px 0;
     width: 488px;
     h3 {
-        font-weight: bold;
+        font-family: $font-century-bold;
         font-size: 1.2em;
-        color: #000!important;
+        color: $primary-color!important;
         padding-left: 0!important;
+        padding-bottom: 10px;
     }
     .label{
         padding: 5px 30px 5px 0;
-        width: 50%;
-        text-align:right;
+        width: 51%;
+        text-align:right;overflow-wrap: break-word;
     }
 }
 }
 .update-pwd {
     padding-bottom: 47px;
-    width: 235px;
+    width: 238px;
     margin-right: 20px !important;
  
 }
@@ -45,28 +78,43 @@
     float: left;
     h3 {
         padding-left: 0!important;
-        font-weight: bold;
+        font-family: $font-century-bold;
         margin-bottom: 10px;
-        color: #000!important;        
+        color: $primary-color!important;        
         font-size: 14px;
      }
 }
 .edit-options {
-max-width: 410px;
+max-width: 488px;
 }
+    @media screen and(max-width:768px) {
 .accountPasswordChange{
-    justify-content: space-around;
+        justify-content: space-evenly;
+        .update-pwd{
+            margin-right: 0 !important;
+        }
+    }
+
+    .rightColumn[_ngcontent-c9] {
+        width: 96% !important;
+        margin: auto;
+    }
 }
 .no-padding{
     padding:0;
 }
 .login-fields-small {
-    width: 210px;
+    width: 210px !important;
     position: relative;
     padding: 0!important;
     display: inline-block;
     input{
         width:inherit;
+
+    }
+    input[type=password]{
+        
+    height:25px !important;
     }
 }
 .update-pwd-btn{
@@ -77,6 +125,15 @@ max-width: 410px;
 }
 .update-profileBlock{
     margin-top:20px;
+    p{
+        font-size: 12px;
+        font-family: $font-century-bold;
+        word-break: break-all;
+        &.label{
+            font-weight:normal !important;
+            font-family: $font-century-bold;
+        }
+    }
 }
 @media screen and (max-width:425px){
     .profile-block{
@@ -100,4 +157,34 @@ max-width: 410px;
     p{
         width:48%;
     }
+}
+.gender{
+    text-transform: lowercase;
+}
+
+.login-fields-small{
+    input[type="text"].form-control,
+    input[type="email"].form-control,
+    input[type="password"].form-control {
+    &.not-valid{
+        background-position:95% 2px !important;
+        background-size:4px !important;
+    }
+    &.valid {
+        background-image: url('https://www.moltonbrown.co.uk/images/tick-symbol.png') !important;
+        background-position: 95% 2px;
+        background-repeat: no-repeat;
+    }
+    }
+}
+.default-address{
+    margin:0 !important;
+    div{
+        margin:0 !important;   
+        line-height: 2;
+    }
+}
+.cc-accountnumber{
+    text-transform:uppercase;
+    font-size:14px;
 }

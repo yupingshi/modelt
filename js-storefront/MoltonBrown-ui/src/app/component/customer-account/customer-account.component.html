@@ -1,23 +1,31 @@
-
-
 <section class="checkout-middle-content contentOverlay">
+  <div class="container">
+    <app-mb-bread-crumb [breadcrumb]="breadcrumb"></app-mb-bread-crumb>
+    <div class="rowComponents asideMenuMobile">
+      <aside class="leftColumn hidden-xs account" style="margin-top:15px;">
+        <h2 class="facet_header" (click)="onCollapseMenu()">MY ACCOUNT</h2>
+        <ul
+          [ngClass]="{
+            'show-menu-block': orgMenu,
+            'hide-menu-block': !orgMenu
+          }"
+        >
+          <li (click)="onContentClick('profile')"><a>My Profile</a></li>
+          <li (click)="onContentClick('address')"><a>Address Book</a></li>
+          <li (click)="onContentClick('payment')"><a>Payment Details</a></li>
+          <li (click)="onContentClick('favourites')"><a>Favourites</a></li>
+          <li (click)="onContentClick('history')"><a>Order History</a></li>
+        </ul>
+      </aside>
+      <div class=" rightColumn">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 
-    <div class="container">
-        <app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
-        <div class="rowComponents asideMenuMobile">
-            <aside class="leftColumn col-md-3 hidden-xs account" style="margin-top:15px;">
-    <h2 class="facet_header">MY ACCOUNT</h2>
-<ul>
-<li (click)="onContentClick('profile')"><a>My Profile</a></li>
-<li (click)="onContentClick('address')"><a >Address Book</a></li>
-<li (click)="onContentClick('payment')"><a >Payment Details</a></li>
-<li (click)="onContentClick('favourites')"><a >Favourites</a></li>
-<li (click)="onContentClick('history')"><a >Order History</a></li>
-</ul>
-</aside>
-<div class=" rightColumn">
-   <router-outlet></router-outlet>
-</div>
-</div>
-</div>
+  <!-- <div  class="overlay-load-block" >
+      <div class="b2c-title">
+       <span class="loading-txt"> loading... </span> 
+      </div>
+  </div> -->
 </section>

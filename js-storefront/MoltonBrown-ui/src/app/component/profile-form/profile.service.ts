@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient ,HttpHeaders,HttpErrorResponse} from '@angular/common/http';
 import { map,catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
-import { SERVER_PATHS, PATH } from '../../app.constant';
- import {publish} from  'rxjs/operators';
- import { Headers, RequestOptions } from '@angular/http';
- 
+import { throwError } from 'rxjs';
+import {  PATH } from '../../app.constant';
+ import { Headers } from '@angular/http';
+ import {environment} from '../../../environments/environment';
  import {InterPolateUrlService} from "../../services/commons/InterPolateUrl.service";
-import {of} from 'rxjs'
+import {of} from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class profileComponentService extends InterPolateUrlService {
     private headers: Headers;
@@ -19,116 +18,22 @@ export class profileComponentService extends InterPolateUrlService {
         this.headers.append('Content-Type', 'application/json');
     }
     generateToken() {
-        const url =PATH.CART_TOKEN_PATH;
+        const url =this.interpolateUrl(environment.AUTHRISATION_PATH +PATH.CART_TOKEN_PATH());
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
         };
+        if(url){
+            
+        }
         return this.http
             .post<any[]>(url, httpOptions)
             .pipe(map(data => data));
     }
-    mergeCart(baseSiteid,data,_email,token,oldCartId,newCartId){
-        const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid+PATH.MERGE_CART.trim(),{email:_email,oldCartId:oldCartId,newCartId:newCartId});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization':'bearer '+token
-                
-            })
-        };
-        return this.http
-            .post<any[]>(url,JSON.stringify(data),httpOptions)
-            .pipe(map(data => data));
-    }
-    createUser(cVrsnid,body,tokenId){
-        const url = SERVER_PATHS.DEV + cVrsnid+ PATH.CREATE_USER_PATH.trim();
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
-            })
-        };
-        return this.http
-            .post<any[]>(url,JSON.stringify(body), httpOptions)
-            .pipe(map(data => data));
-    }
-    getUserData(cVrsnid,tokenId,email){
-        const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnid+ PATH.PROFILE.trim(),{email:email});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
-            })
-        };
-        return this.http
-            .get<any[]>(url,httpOptions)
-            .pipe(map(data => data));
-    }
-    createUserAddress(cVrsnid,body,tokenId,email){
-        const url = this.interpolateUrl( SERVER_PATHS.DEV + cVrsnid+ PATH.CREATE_ADDRESS.trim(),{email:email});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
-            })
-        };
-        return this.http
-            .post<any[]>(url,JSON.stringify(body), httpOptions)
-            .pipe(map(data => data));
-    }
-    siteAuthentication(cVrsnid,user){
-        const url =this.interpolateUrl(PATH.SITE_AUTENTICATION.trim(),{uid:user.email,password:user.password,siteId:cVrsnid});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                
-            })
-        };
-        return this.http
-            .post<any[]>(url,httpOptions)
-            .pipe(map(data => data));
-    }
-    siteanonymousAuth(cVrsnid,cart,user){
-        const url = SERVER_PATHS.DEV +cVrsnid+PATH.ANANONYMOUSCART+'/'+cart['guid']+'/email?email='+user.email;
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+cart['tokenId']
-            })
-        };
-        return this.http
-            .put(url,JSON.stringify({}),httpOptions)
-            .pipe(map(data => data));
-            
-    }
-    getUserAddress(cVrsnid,token,email){
-        const url =this.interpolateUrl( SERVER_PATHS.DEV + cVrsnid+ PATH.CREATE_ADDRESS.trim(),{email:email});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+token
-            })
-        };
-        return this.http
-        .get<any[]>(url,httpOptions)
-        .pipe(map(data => data));
-    }
-    updateUserAddress(cVrsnid,body,tokenId,email,addressId){
-        const url =this.interpolateUrl( SERVER_PATHS.DEV + cVrsnid+ PATH.UPDATE_ADDRESS.trim(),{email:email,addressId:addressId});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
-            })
-        };
-        return this.http
-        .put<any[]>(url,JSON.stringify(body),httpOptions)
-        .pipe(map(data => data));
-    }
-    creatEmptyCart(baseSiteid,token,data,email){
-        const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid + PATH.REGISTER_CART.trim(),{email:email} );
+
+    mergeCart(data,_email,token,oldCartId,newCartId){
+        const url = this.interpolateUrl(environment.API_PATH() + PATH.MERGE_CART(),{email:_email,oldCartId:oldCartId,newCartId:newCartId});
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -141,12 +46,133 @@ export class profileComponentService extends InterPolateUrlService {
             .pipe(map(data => data));
     }
 
-    getCurrentUserRelevantCart(baseSiteid,token,email){
-        const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid + PATH.REGISTER_CART.trim(),{email:email});
+    createUser(body,tokenId){
+        const url = environment.API_PATH() +  PATH.CREATE_USER_PATH();
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization':'bearer'+token
+                'Authorization': 'bearer '+tokenId
+            })
+        };
+        return this.http
+            .post<any[]>(url,JSON.stringify(body), httpOptions)
+            .pipe(map(data => data));
+    }
+
+    getUserData(tokenId,email){
+        const url = this.interpolateUrl(environment.API_PATH() +  PATH.PROFILE(),{email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+tokenId
+            })
+        };
+        return this.http
+            .get<any[]>(url,httpOptions)
+            .pipe(map(data => data));
+    }
+
+    createUserAddress(body,tokenId,email){
+        const url = this.interpolateUrl( environment.API_PATH() +  PATH.CREATE_ADDRESS(),{email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+tokenId
+            })
+        };
+        return this.http
+            .post<any[]>(url,JSON.stringify(body), httpOptions)
+            .pipe(map(data => data));
+    }
+
+    siteAuthentication(cVrsnid,user){
+        const url =this.interpolateUrl(environment.AUTHRISATION_PATH+PATH.SITE_AUTENTICATION(),{uid:user.email,password:user.password,siteId:cVrsnid});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                
+            })
+        };
+        return this.http
+            .post<any[]>(url,httpOptions)
+            .pipe(map(data => data));
+    }
+
+    siteanonymousAuth(tokenId,code,email){
+       const url =this.interpolateUrl(environment.API_PATH()+PATH.ANANONYMOUSCART(),{email:email,cartCode:code});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+tokenId
+            })
+        };
+        return this.http
+            .put(url,JSON.stringify({}),httpOptions)
+            .pipe(map(data => data));
+            
+    }
+
+    getUserAddress(token,email){
+        const url =this.interpolateUrl( environment.API_PATH() +  PATH.RETREIVE_ADDRESS(),{email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+token
+            })
+        };
+        return this.http
+        .get<any[]>(url,httpOptions)
+        .pipe(map(data => data));
+    }
+
+    updateUserAddress(body,tokenId,email,addressId){
+        const url =this.interpolateUrl( environment.API_PATH() +  PATH.UPDATE_ADDRESS(),{email:email,addressId:addressId});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+tokenId
+            })
+        };
+        return this.http
+        .patch<any[]>(url,JSON.stringify(body),httpOptions)
+        .pipe(map(data => data));
+    }
+
+    generateCartId(token,email){
+        const url = this.interpolateUrl(environment.API_PATH()+PATH.GENERATTE_CART(),
+                                         {email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization':'bearer '+token
+            })
+        };
+        return this.http.post(url, JSON.stringify({}), httpOptions)
+            .pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+     }
+     
+    creatEmptyCart(token,data,email){
+        const url = this.interpolateUrl(environment.API_PATH() +  PATH.REGISTER_CART(),{email:email} );
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization':'bearer '+token
+                
+            })
+        };
+        return this.http
+            .post<any[]>(url,JSON.stringify(data),httpOptions)
+            .pipe(map(data => data));
+    }
+
+    getCurrentUserRelevantCart(token,email){
+        const url = this.interpolateUrl(environment.API_PATH() +  PATH.REGISTER_CART(),{email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization':'bearer '+token
                 
             })
         };
@@ -156,7 +182,7 @@ export class profileComponentService extends InterPolateUrlService {
             ));
     }
     spliceUserAddress(cVrsnid,tokenId,email,addressId){
-        const url =this.interpolateUrl( SERVER_PATHS.DEV + cVrsnid+ PATH.UPDATE_ADDRESS.trim(),{email:email,addressId:addressId});
+        const url =this.interpolateUrl( environment.API_PATH() +  PATH.UPDATE_ADDRESS(),{email:email,addressId:addressId});
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -180,6 +206,8 @@ export class profileComponentService extends InterPolateUrlService {
     // return an observable
     return throwError(errMsg);
 }
+
+
 getPostCode(postCode){
     const url=this.interpolateUrl(PATH.FIND_POSTCODE.trim(),{postCode:postCode});
       return this.http
@@ -205,7 +233,7 @@ retrievePostalAddress(postCode){
     .pipe(map(data => data));
 }
 updateProfile(cVrsnId,tokenId,email,data){
-    const url =this.interpolateUrl( SERVER_PATHS.DEV + cVrsnId +PATH.PROFILE.trim(),{email:email});
+    const url =this.interpolateUrl( environment.API_PATH() + PATH.PROFILE(),{email:email});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -214,12 +242,12 @@ updateProfile(cVrsnId,tokenId,email,data){
         })
     };
     return this.http
-        .put<any[]>(url,JSON.stringify(data),httpOptions).pipe(map(data => data,
+        .patch<any[]>(url,JSON.stringify(data),httpOptions).pipe(map(data => data,
             catchError(err => of(err.message))
         ));
 }
 updateProfileAddress(cVrsnId,tokenId,email,addressId,data){
-    const url =this.interpolateUrl( SERVER_PATHS.DEV + cVrsnId +PATH.UPDATE_ADDRESS.trim(),{email:email,addressId:addressId});
+    const url =this.interpolateUrl( environment.API_PATH() + PATH.UPDATE_ADDRESS(),{email:email,addressId:addressId});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -234,7 +262,7 @@ updateProfileAddress(cVrsnId,tokenId,email,addressId,data){
 }
 
 createRegisterCart(baseSiteid,tokenId,email){
-    const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid + PATH.REGISTER_CART.trim(),{email:email});
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.REGISTER_CART(),{email:email});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -247,8 +275,8 @@ createRegisterCart(baseSiteid,tokenId,email){
         ));
  }
 
-getFavourites(cVrsnId,tokenId,email){
-    const url=this.interpolateUrl( SERVER_PATHS.DEV + cVrsnId+PATH.FAVOURITES.trim(),{email:email});
+getFavourites(tokenId,email){
+    const url=this.interpolateUrl( environment.API_PATH() + PATH.FAVOURITES(),{email:email});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -261,8 +289,8 @@ getFavourites(cVrsnId,tokenId,email){
             catchError(err => of(err.message))
         ));
 }
-storeCurrentUserProducts(baseSiteid,item,tokenId,productCode,email){
-    const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid + PATH.ADD_TO_BASKET.trim(),{email:email,productCode:productCode});
+storeCurrentUserProducts(item,tokenId,code,email){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.ADD_TO_BASKET(),{email:email,cartCode:code});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -275,7 +303,7 @@ storeCurrentUserProducts(baseSiteid,item,tokenId,productCode,email){
         ));
  }
  removeFavorite(cVrsnid,tokenId,email,productCode){
-    const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnid+ PATH.REMOVE_FAVOURITE.trim(),{email:email,productCode:productCode});
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.REMOVE_FAVOURITE(),{email:email,productCode:productCode});
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -286,5 +314,94 @@ storeCurrentUserProducts(baseSiteid,item,tokenId,productCode,email){
     .pipe(map(data => data,
         catchError(err => of(err.message))
     ));
+ }
+ yMarketingSignUp(baseSiteid,item){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.Y_MARKETING_SIGNUP());
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+        })
+    };
+    return this.http.post(url, JSON.stringify(item), httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+ }
+
+ getDlMethod(token,email,code){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.DELIVERY_METHODS(),{
+                 email:email,
+                 cartCode:code
+                });
+    
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer'+token
+        })
+    };
+    return this.http.get(url,  httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+ }
+ getDlEUDEMethods(token,email,code,countryCode){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.EU_DL_METHODS(),{
+                email:email,
+                 cartCode:code,
+                countryCode:countryCode});
+   const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer'+token
+        })
+    };
+    return this.http.get(url,  httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+ }
+ 
+ getDlUSMethod(token,email,code,deliveryGroup){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.US_DELIVERY_SERVICES(),{
+                  email:email,
+                  cartCode:code,
+                  deliveryGroup:deliveryGroup
+                });    
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer'+token
+        })
+    };
+    return this.http.get(url,  httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+ }
+
+ postDeliveryMethod(token,email,dlMode){
+     let deliveryMethod=(dlMode.code)?dlMode.code:dlMode.zoneName;
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.SET_DELIVERY_METHOD(),{email:email,deliveryMethod:deliveryMethod});
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer'+token
+        })
+    };
+    let _body={
+        serviceName: dlMode.serviceName,  
+        description:dlMode.description, 
+        deliveryCost: dlMode.deliveryCost
+    }
+    if(dlMode.code){
+        _body['code']=dlMode.code;
+    }else{
+        _body['zoneName']=dlMode.zoneName;
+    }
+    return this.http.post(url, JSON.stringify(_body), httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
  }
 }

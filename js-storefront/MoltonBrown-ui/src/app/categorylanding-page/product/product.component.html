@@ -1,0 +1,304 @@
+<div *ngIf="activeProducts" class="row plp_hb_specific">
+    <div
+      id="frProduct"
+      class="col-lg-4 col-sm-6 col-md-4 mb-child col-xs-6 col-xxs-6  tab-responsive-plp-grid"
+      *ngFor="let product of pagedItems; let i = index"
+      lazy-load-images
+      [ngClass]="{
+        'col-md-4 col-sm-4  col-xs-6': gridtoggle,
+        'col-md-6 col-sm-6 col-xs-12': !gridtoggle,
+        'col-xs-6 ': gridtoggle,
+        'col-xs-12': !gridtoggle,
+        'height-show': product.show,
+        'height-hide': !product.show
+      }"
+
+    >
+    <div *ngIf="!product.isDummy; else amplienceAdvertiseBlock"> 
+      <input
+      *ngIf="!mobileDevice&&localData"
+        #qvElement
+        name="qvContent"
+        id="qvContent"
+        type="radio"
+        class="{{ product.code }}"
+        (change)="onCollapseQuickView($event, product)"
+      />
+      <a    
+       class="FR-quick-view">
+       {{ (localData.quickView)?localData.quickView:'Quick View'}}
+      </a>
+      <div class="FR-plp-product-container">
+        <div class="FR-plp-product-flex">
+          <div class="FR-plp-prod-image">
+
+            <a   
+               routerLink="{{getRouterPath(product)}}" 
+               routerLinkActive="active"    
+               (click)="onShowDetailPage($event, product)">
+                <picture>
+                    <source
+                      srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$largeImg$&amp;fmt=webp"
+                      media="(max-width: 768px)"
+                      type="image/webp"
+                    />
+                    <source
+                      srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$largeImg$&amp;fmt=jpg"
+                      media="(max-width: 768px)"
+                      type="image/jpeg"
+                    />
+    
+                    <source
+                      srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$largeImg$&amp;fmt=webp"
+                      type="image/webp"
+                    />
+                    <source
+                      srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$largeImg$&amp;fmt=jpg"
+                      type="image/jpeg"
+                    />
+                    <img
+                      src="https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                        product.code
+                      }}_uk_set?$largeImg$&amp;fmt=jpg"
+                      srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                        product.code
+                      }}_uk_set?$largeImg$&fmt=webp 1x,https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                        product.code
+                      }}_uk_set?$largeImgRetina$&fmt=webp 2x"
+                      alt="{{product.productDisplayName}}"
+                    />
+                  </picture>
+            </a>
+          </div>
+          <div class="text-center">
+              <div class="plp-prdct-edition-block text-center">
+                
+                  <h3
+                    class="plp-prdct-edition text-center"
+                    (click)="onShowDetailPage($event, product)"
+                    *ngIf="product.productEdition"
+                  >
+                    {{ product.productEdition }}
+                  </h3>
+                </div>
+                <div
+                  class="text-center"
+                  (click)="onShowDetailPage($event, product)"
+                >
+                  <div class="plp-prdct-name">
+                    <h2 [innerHtml]="product.productDisplayName" title="Molton Brown UK | {{product.productDisplayName}} "></h2>
+                  </div>
+                  <div class="product-rating-block" *ngIf="siteSpecific">
+                    <span class="avg-rating" *ngIf="product.productAverageRating">
+                      <ngx-stars
+                        *ngIf="siteSpecific && product.productAverageRating"
+                        [readonly]="true"
+                        [initialStars]="product.productAverageRating"
+                        [color]="'#484848'"
+                        [size]="1"
+                      >
+                      </ngx-stars>
+                      <span *ngIf="product.reviewCount"
+                        class="mb-product-review-content"
+                        (click)="onShowProductReview($event, product)"
+                        title="Read Reviews"
+                      >
+                        {{ product.reviewCount }} reviews
+                      </span>
+                    </span>
+                  </div>
+                  
+                </div>
+                <div class="price-format text-center" *ngIf="product.stock">
+                    <div
+                      *ngIf="
+                        product.stock.stockLevelStatus != 'outOfStock';
+                        else outOfStock
+                      "
+                    >
+                      <span *ngIf="!product.originalPrice">{{
+                        product.price ? product.price.formattedValue : "loading"
+                      }}</span>
+                      <span
+                        class="price-format-discount"
+                        *ngIf="product.originalPrice"
+                      >
+                        <del class="price-format-discount-retail-price">{{
+                          product.originalPrice
+                        }}</del>
+                        &nbsp;
+                        <span class="ds-price" >{{
+                          product.price ? product.price.formattedValue : "loading"
+                        }}</span>
+                      </span>
+                    </div>
+                    <ng-template #outOfStock>
+                      <div class="product_avial">
+                        <span>
+                          Out of stock
+                        </span>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div *ngIf="!siteSpecific">
+                    <span class="product-base-price" *ngIf="product.basePrice">
+                      {{ product.basePrice }}
+                    </span>
+                  </div>
+                
+          </div>
+        </div>
+      </div>
+  
+      <!--Quick-view Block -->
+      <div id="{{ product.code }}" class="content quick-view-content">
+        <div><span class="mb-QV-collapse-arrow"></span></div>
+        <div class="mb-QVHide">
+          <span class="mb-QVHide-btn" 
+          (click)="onCloseWindow(product, i)"
+            >Close</span
+          >
+        </div>
+        <div class="row iframe">
+          <div class="col-md-6">
+            <a  routerLink="{{getRouterPath(product)}}" routerLinkActive="active">
+         <picture>
+          
+                <source
+                  srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$quickViewImg$&amp;fmt=webp"
+                  media="(max-width: 768px)"
+                  type="image/webp"
+                />
+                <source
+                  srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$quickViewImg$&amp;fmt=jpg"
+                  media="(max-width: 768px)"
+                  type="image/jpeg"
+                />
+
+                <source
+                  srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$quickViewImg$&amp;fmt=webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{product.code}}_uk_set?$quickViewImg$&amp;fmt=jpg"
+                  type="image/jpeg"
+                />
+                <img
+                  src="https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                    product.code
+                  }}_uk_set?$quickViewImg$&amp;fmt=jpg"
+
+                  srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                    product.code
+                  }}_uk_set?$quickViewImg$&fmt=webp 1x,https://media.moltonbrown.co.uk/s/moltonbrown/{{
+                    product.code
+                  }}_uk_set?$quickViewImgRetina$&fmt=webp 2x"
+                  alt="{{product.productDisplayName}}"
+                />
+              </picture>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-prodcut-block">
+              <a  routerLink="{{getRouterPath(product)}}" routerLinkActive="active">
+                <div class="FR-plp-prod-name">
+                  <h2 class="plp-product-QV-name" [innerHtml]="product.productDisplayName "></h2>
+                </div>
+              </a>
+              <div class="pricePoint">
+                  <span class="pricePoint-price" *ngIf="!product.originalPrice">{{
+                    product.price ? product.price.formattedValue : "loading"
+                  }}</span>
+                  <span class="pricePoint-discount" *ngIf="product.originalPrice">
+                    <del class="pricePoint-old-price">{{
+                      product.originalPrice
+                    }}</del>
+                    &nbsp;
+                    <span class="ds-price">{{
+                      product.price ? product.price.formattedValue : "loading"
+                    }}</span>
+                  </span>
+                </div>
+          
+                <div class="product-base-price" *ngIf="!siteSpecific">
+                  <span *ngIf="product.basePrice">
+                    {{ product.basePrice ? product.basePrice : "" }}</span
+                  >
+                  <span class="product-vat-text">
+                    inkl. MwSt., zzgl.&nbsp;
+                    <a  href="/store/german-delivery">
+                      Versand</a
+                    >
+                  </span>
+                </div>
+              <div class="FR-product-content" *ngIf="siteSpecific">
+                  <div class="product-rating-block" *ngIf="product.productAverageRating">
+                      <span class="avg-rating">
+                        <ngx-stars
+                          *ngIf="siteSpecific && product.productAverageRating"
+                          [readonly]="true"
+                          [initialStars]="product.productAverageRating"
+                          [color]="'#484848'"
+                          [size]="1"
+                        >
+                        </ngx-stars>
+                        <span *ngIf="product.reviewCount"
+                          class="mb-product-review-content"
+                          (click)="onShowProductReview($event, product)"
+                          title="Read Reviews"
+                        >
+                          {{ product.reviewCount }} reviews
+                        </span>
+                      </span>
+                    </div>
+              </div>
+              <div *ngIf="product.stock.stockLevelStatus != 'outOfStock';else outOfStock">
+              <div *ngIf="product.price" class="FR-plp-basket-block">
+                <button
+                   (click)="addToBasket($event,product)"
+                >
+                  add to basket <span></span>
+                </button>
+                <span
+                  >Quantity :
+                  <input
+                    type="text"
+                    id="FR-product-quantity"
+                    [(ngModel)]="prodQuantity"
+                    type="text"
+                    (keypress)="numberOnly($event)"
+                    maxlength="2"
+                    pattern="[0-9]+"
+                /></span>
+              </div>
+            </div>
+              <ng-template #outOfStock>
+                <div class="product_avial">
+                  <span>
+                    Out of stock
+                  </span>
+                </div>
+              </ng-template>
+              <div class="FR-QV-product-info-block">
+                <h2 class="plp-product-CatDisplay-name"  [innerHtml]="product.productDisplayName"></h2>
+                <p>
+                  Product Code: <span>{{ product.code }}</span>
+                </p>
+                <p *ngIf="product.size">Size:&nbsp;{{product.size}}</p>
+                <p class="fullDetails">
+                  <a   (click)="onShowDetailPage($event,product)" routerLink="{{getRouterPath(product)}}" routerLinkActive="active">Full Details</a>
+                  <span></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #amplienceAdvertiseBlock>
+        <div class="advertisement_block"  >
+          <span [innerHtml]="product.htmlData| safe: 'html'"></span>
+        </div>
+      </ng-template>
+   </div>
+  </div>

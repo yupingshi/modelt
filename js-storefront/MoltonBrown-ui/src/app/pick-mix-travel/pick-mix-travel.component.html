@@ -1,62 +1,62 @@
+<div class="pickmix pickmix-conatiner">
+  <section class="text-center justify-content-center"
+   *ngIf="!pickMix;else pickMixTraveler">
+ 
+    <h1>Pick &amp; Mix Travel Toiletries</h1>
+    <h2 class="starp-line">Create your own toiletries travel bag.</h2>
 
-<div class="container pickmix">
-  <section class="pickmix-conatiner text-center justify-content-center" *ngIf="pickMix;else pickMixTraveler">
-  <h1>Pick &amp; Mix Travel Toiletries</h1>
-  <h2 class="starp-line">Create your own toiletries travel bag.</h2>
-  <div class="form-inline justify-content-center margin-top-20" >
-      <button class="cta">Start</button>
-  </div>
-  
-</section>
-<ng-template #pickMixTraveler>
-  <section class="pickmix-sticky-wrapper">
+    <ng-container [ngSwitch]="switchMode">
+    <div  class="form-inline justify-content-center margin-top-20 " *ngSwitchCase="'emptyStore'">      
+        <button class="cta" (click)="onStart()"  >Start</button>
+    </div>
+    <!-- <ng-template #choosePick> -->
+    <div class="form-inline justify-content-center margin-top-20 continue-container" *ngSwitchCase="'localStore'">
+        <button class="cta active_bg" (click)="onContinue()">Continue </button>
+        <span>&nbsp;or&nbsp;</span>
+        <button class="cta"  data-toggle="modal" data-target="#pickMixStore">Start</button>     
+    </div>
+  </ng-container>
+  <!-- </ng-template> -->
+
+
+    <div id="pickmix-amp-content"></div>
+
+  </section>
+  <ng-template #pickMixTraveler>
+    <section class="pickmix-sticky-wrapper" [ngClass]="{'pm-initial-wrapper':viewMode=='pick&Buy'}">
       <div class="step-indicator clearfix checkout-cart">
-          <ol>
-                  <li class="step-one"> <div class="active"  [ngClass]="{'current':current}" > PACK</div>
-             </li>
-                  <li class="step-two"> <div class="active step-two-content" >PACK&BUY</div>
-             </li>
-                
-          </ol>
-           </div>
+        <ol>
+          <li class="step active  step-size-50" style="cursor: pointer;" [ngClass]="{'current':!pack}"  rel="pick" (click)="onViewModeChange('pick')">pick </li>
+          <li class="step active step-size-50" [ngClass]="{'current':pack}" rel="pick&Buy">pack & buy</li>
+        </ol>
+      </div>
 
-   <div class="pickMix-block clearfix">
-         <div class="pickMix-block-container">
-           <div class="group">
-            <div class="pickMix-item item-1">
-              <div class="pickMix-item-img">sDs</div>
-              <div class="pickMix-selection-indicator">D</div>
-            </div>
-           </div>
-         </div>
-         <div class="pickMix-block-container">
-          <div class="group">
-            <div class="pickMix-item item-1">
-              <div class="pickMix-item-img"></div>
-              <div class="pickMix-selection-indicator"></div>
-            </div>
-           </div>
-        </div>
-   </div>        
-  </section>
-<section class="pickmix-category-container">
-<aside class="pickMix-aside category-wrapper">
-  <ul class="navigation">
-    <li><a href="#{{data.data}}" (click)="scrollToUsageSection($event)" *ngFor="let data of pickMixProducts">{{data.data}}</a></li>
-   
-  </ul>
-</aside>
-
-<div class="pickmix-product-container" #scrollbarRef>
-
-  <section id="{{data.data}}" class="page-section"  *ngFor="let data of pickMixProducts">
-    <h1>{{data.data}}</h1>
-    <p>{{data.description}}</p>
-  </section>
-
+    </section>
+   <section [ngSwitch]="viewMode">
+    <app-pick    #pickMixEl   *ngSwitchCase="'pick'" (setCollection)="setCollection($event)"  ></app-pick>
+    <app-pick-buy   *ngSwitchCase="'pick&Buy'" [collection]="collection" (onChangeCollection)="onChangeCollection($event)" ></app-pick-buy>
+   </section>
+  
+  </ng-template>
 </div>
-</section>
 
 
-</ng-template>
+
+<div class="modal" id="pickMixStore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+		            <h4 class="modal-title" id="modalContinueLabel">Are you sure?</h4>
+              </div>
+              
+              <div class="modal-body" style="max-height: 276px;">
+                  <p>It looks like you've already started a Pick &amp; Mix. If you start a new one, your current selection will be lost.</p>
+             
+                  <div class="pm-modal-cta-conatiner margin-top-20">
+                      <button class="cta disable-btn"  data-dismiss="modal" >No, Go Back</button>
+                      <button class="cta"  (click)="onStartPickMix()" data-dismiss="modal">Yes, Start a new one</button>
+                  </div>
+              </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,75 @@
+
+    <div class="pickMix-selection-block clearfix pickmix-sticky-body">
+        <div class="pickMix-selection-title clearfix text-center">
+            <span>Your Selection</span>
+            <a (click)="onEditPick()">Edit</a>
+        </div>  
+      <div class="pickBuy-item-list">
+          <div class="pickBuy-item" *ngFor="let data of products;let k=index;">
+            <div class="pickBuy-item-img">
+              <picture >
+                  <source srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{data.code}}_uk_set?$pickAndMixImg$&amp;fmt=webp" type="image/webp">
+                  <source srcset="https://media.moltonbrown.co.uk/s/moltonbrown/{{data.code}}_uk_set?$pickAndMixImg$&amp;fmt=jpg" type="image/jpeg">
+                  <img src="https://media.moltonbrown.co.uk/s/moltonbrown/{{data.code}}_uk_set?$pickAndMixImg$&amp;fmt=jpg">
+               </picture>
+            </div>
+            <p class="text-center sample-quantity more-info">
+                <a class="sample-info-tooltip showsInlineBlock"
+                  [ngClass]="{'sample-info-tooltip':!data.selected, 'close-sample-info':data.selected}"
+                  (click)="showTooltip($event,data.code,k)"></a>
+              </p>
+              <div class="more-info-content" [ngClass]="{'left':data.left,'right':data.right}" *ngIf="data.selected" >
+                <p class="more-info-scroll" [innerHtml]="data.name"></p>
+              </div>
+          </div>
+        </div>
+    </div>      
+
+    <div class="review clearfix">
+        <h4 class="pack-heading" *ngIf="products.length==6">Add an optional travel bag.</h4>
+    </div>
+
+    <div class="pm-basket-container">
+      <div class="pm-basket-item-list"  >
+          <div class="pm-basket-item"  *ngIf="products.length==6">
+            <form #bagform>
+              <a class="pm-basket-item-block pm-bag-block">
+                  <div class="product-img" >                    
+                  <span class="pm-checkBox">
+                    <img src="https://media.moltonbrown.co.uk/i/moltonbrown/BAG564_uk_Travel-Pouch_image_01" (click)="onBagSelect(false)">
+                    <div class="product-description">
+                        <h3 class="product-title">No Bag</h3>
+                    </div>
+                  </span>
+                  
+                  </div>
+               
+                  <div class="pm-radio-block">
+                  <input type="radio" name="pack" [checked]="!bag" (change)="onBagSelect(false)">
+                  <span class="custom-radio"></span>
+                  </div>
+              </a>
+              <a class="pm-bag-block">                
+                  <div class="product-img" >                    
+                  <span class="pm-checkBox">
+                    <img src="https://media.moltonbrown.co.uk/i/moltonbrown/BAG564_uk_Travel-Pouch_image_01" (click)="onBagSelect(true)" >
+                    <div class="product-description">
+                        <h3 class="product-title">Travel Pouch <br>FREE</h3>
+                    </div>
+                  </span>
+                  
+                  </div>  
+                  <div class="pm-radio-block">
+                    <input type="radio" name="pack" [checked]="bag" class="pm-radio" (change)="onBagSelect(true)"> 
+                    <span class="custom-radio">
+                    </span>    
+                 </div>       
+              </a>
+            </form>
+        </div>
+      </div>
+        <div class="price-container clearfix">
+          <span class="price total-price pull-right">Price: <span [innerHtml]="totalPackPrice"></span></span>
+          <button class="cta  pull-right" (click)="onAddToBasket()">Add To Basket</button>
+       </div>
+    </div>
