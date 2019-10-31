@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    
+
     "moltonbrown": {
       "root": "",
       "sourceRoot": "src",
@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/moltonbrown",
+            "outputPath": "dist/MoltonBrown-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -48,7 +48,7 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./src/assets/js/utils.js",
-              "node_modules/slick-carousel/slick/slick.min.js",              
+              "node_modules/slick-carousel/slick/slick.min.js",
               "./src/assets/js/jqueryUICustom.js",
               "./src/assets/js/viewer.js",
               "./src/assets/js/scrollSmooth.js",
@@ -196,6 +196,6 @@
       }
     }
   },
-  
+
   "defaultProject": "moltonbrown"
 }
