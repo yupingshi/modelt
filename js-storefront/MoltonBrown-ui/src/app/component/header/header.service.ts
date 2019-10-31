@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient ,HttpHeaders,HttpErrorResponse} from '@angular/common/http';
-import { map,catchError, distinctUntilChanged } from 'rxjs/operators';
+import { map,catchError } from 'rxjs/operators';
 import { SERVER_PATHS, PATH } from '../../app.constant';
-
-import {environment} from '../../../environments/environment';
  import {InterPolateUrlService} from "../../services/commons/InterPolateUrl.service";
 import {of} from 'rxjs';
 @Injectable({ providedIn: 'root' })
@@ -17,7 +15,7 @@ export class HeaderComponentService  extends InterPolateUrlService{
         this.headers.append('Content-Type', 'application/json');
     }
     generateCartToken() {
-        const url =this.interpolateUrl(environment.AUTHRISATION_PATH +PATH.CART_TOKEN_PATH());
+        const url =PATH.CART_TOKEN_PATH;
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
@@ -27,21 +25,8 @@ export class HeaderComponentService  extends InterPolateUrlService{
             .post<any[]>(url, httpOptions)
             .pipe(map(data => data));
     }
-    retrieveCartDetails(token,email,cartcode){
-        const url=this.interpolateUrl( environment.API_PATH() +  PATH.USER_CARTDETAILS(),{cartID:cartcode,email:email})
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+token
-            })
-        };
-        return this.http
-            .get<any[]>(url,httpOptions).pipe(map(data => data,
-                catchError(err => of(err.message))
-            ));
-    }
-    getCatalogData() {        
-        const url = this.interpolateUrl(environment.API_PATH() +  PATH.catalog() );
+    getCatalogData(cVrsnId) {
+        const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnId + PATH.catalog );
         return this.http.get<any[]>(url).pipe(map(data => data));
     }
     getampcontent(slotId){
@@ -51,11 +36,15 @@ export class HeaderComponentService  extends InterPolateUrlService{
            const headers = new Headers({ 'Content-Type': 'application/json' });
            return this.http.get<any[]>(url).pipe(map(data => data));
     }
-
-
-
-    getCurrentUserRelevantCart(token,email){
-        const url = this.interpolateUrl(environment.API_PATH() +  PATH.REGISTER_CART(),{email:email});
+    getMBCartDetail(cVrsnId, cartCode) {
+        const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnId + PATH.GUEST_CART_DETAIL,{cartCode:cartCode})
+        return this.http
+            .get<any[]>(url).pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+    }
+    getCurrentUserCartDetail(cVrsnId,token,email, cartId) {
+        const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnId + PATH.USER_CARTDETAILS,{email:email,cartID:cartId} );
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -68,52 +57,28 @@ export class HeaderComponentService  extends InterPolateUrlService{
                 catchError(err => of(err.message))
             ));
     }
-    removeBundle(token,email,code,bundleNo){
-        const url =this.interpolateUrl(environment.API_PATH() +  PATH.REMOVE_BUNDLE_PATH(),{email:email,cartCode:code,bundleNo:bundleNo});
+
+    getCurrentUserRelevantCart(cVrsnId,token,email){
+        const url = this.interpolateUrl(SERVER_PATHS.DEV + cVrsnId + PATH.REGISTER_CART,{email:email});
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'bearer'+token
+                'Authorization':'bearer'+token
+                
             })
         };
-        return this.http.delete(url,httpOptions)
-        .pipe(map(data => data,
-            catchError(err => of(err.message))
-        ));
-        }
-    
-    getCategorySearchResults(searchValue){
-        const url =this.interpolateUrl(environment.API_PATH()  + PATH.CATEGORY_SEARCH_RESULTS(),{searchValue:searchValue});
         return this.http
-            .get<any[]>(url).pipe( distinctUntilChanged(),  map(data => data,
+            .get<any[]>(url,httpOptions).pipe(map(data => data,
                 catchError(err => of(err.message))
             ));
     }
-    getPolicyContent(lang: string) {
-        const langPath = `assets/contents/${lang || 'en'}.json`;
-      return this.http
-              .get<any[]>(langPath).pipe(map(data => data,
-                  catchError(err => of(err.message))
-              ));
-    }
-    getStaticContent(lang: string) {
-        const langPath = `assets/i18n/${lang || 'en'}.json`;
-      return this.http
-              .get<any[]>(langPath).pipe(map(data => data,
-                  catchError(err => of(err.message))
-              ));
-    }
-    getUserData(tokenId,email){
-        const url = this.interpolateUrl(environment.API_PATH() +  PATH.PROFILE(),{email:email});
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
-            })
-        };
-        return this.http
-            .get<any[]>(url,httpOptions)
-            .pipe(map(data => data));
-    }
+
     
+    getCategorySearchResults(baseSiteid,searchValue){
+        const url =this.interpolateUrl(SERVER_PATHS.DEV +baseSiteid + PATH.CATEGORY_SEARCH_RESULTS,{searchValue:searchValue});
+        return this.http
+            .get<any[]>(url).pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+    }
 }

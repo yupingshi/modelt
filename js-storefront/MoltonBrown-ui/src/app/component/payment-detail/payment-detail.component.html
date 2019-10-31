@@ -1,62 +1,19 @@
 <div class="my-account">
   <h2>Payment Details</h2>
-  <p>
-    Save time every time you place an order. Manage your credit card information
-    here, you can edit your payment or billing address information at any time.
-  </p>
-  <div class="col-sm-12 edit-profile">
+  <p>Save time every time you place an order. Manage your credit card information here, you can edit your payment or billing address information at any time.</p>
+  <div class="col-sm-12 edit-profile" *ngIf="payment">
     <h3>My Saved Cards</h3>
-
-    <p class="saved-cards-info">
-      We've had a spring clean and removed any expired or invalid card details
-      so don't worry if it looks like there's information missing, this has now
-      been securely deleted.
-    </p>
-    <div class="default-cntnt">
-    <p >
-      <b *ngIf="defaultCard">Default Card
-        <a
-        *ngIf="defaultCard"
-        class="contextual-help payment-helpicon"
-        show-delay="100" 
-        ngbTooltip="Your default payment details will be automatically added during checkout to make placing your next order quicker." 
-        placement="right" 
-        ></a>
-      </b>
-
-    </p>
-
+    
     <div class="row paymentAlign">
-      <div
-        class="col-sm-4 paymentCards"
-        *ngFor="let payt of cards; let i = index"
-      >
-        <div *ngIf="payt.cardType" class="paymentCards-type">
-          {{ payt.cardType }}
-        </div>
-        <div class="cc-accountnumber" *ngIf="payt.ccaccountnumber">{{replaceEncryptNumber(payt.ccaccountnumber)}}</div>
-        <div class="paymentCards-acc-name">
-          <span *ngIf="payt.firstName">{{ payt.firstName }} &nbsp;</span>
-          <span *ngIf="payt.lastName">{{ payt.lastName }}</span>
-        </div>
-        <div>
-          <span>Exp Date</span> : {{ payt.expirationmonth }}/{{
-            payt.expirationyear
-          }}
-        </div>
-        <p><a title="Edit  Card" (click)="onEditPayment(payt, i)">Edit</a></p>
-        <p><a title="Remove  Card" (click)="onRemoveCard(payt, i)">Remove</a></p>
-        <p [hidden]="payt.isDefault">
-          <a title="Make Default Card" (click)="onMakeDefaultCard(payt)">Make Default Card</a>
-        </p>
-      </div>
+      
+  <div class="col-sm-4" *ngFor="let payt of payment.payments">
+     <div>{{payt.cardType.name}}</div>
+    <div>{{payt.cardNumber}}</div>
+    <div>{{payt.billingAddress.firstName}} {{payt.billingAddress.lastName}}</div>
+ 
+    <div>{{payt.billingAddress.country.name}}</div>
+    <div><span>Exp Date</span> : {{payt.expiryMonth}}/{{payt.expiryYear}}</div>
+  </div>
     </div>
-  </div>
-  </div>
+    </div>
 </div>
-<app-payment-new-saved-card
-  (updateCard)="onUpdateCards()"
-  [addresses]="addressList"
-></app-payment-new-saved-card>
-
-<div class="backdrop"  [ngClass]="{'display-overlay':loadOverlay}"></div>

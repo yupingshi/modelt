@@ -1,52 +1,14 @@
-@import "../../../variable";
-.cred-error{
-    border:1px solid $mb-error-bg !important;
-}
-.credential-err-msg{
-    font-size:14px;
-    position: absolute;
-    bottom: 100%;
-    background-color: $mb-error-bg;
-    color: $mb-white;
-    padding: 10px;
-    left: 6%;
-    text-align: center;
-    width: 88%;
-    z-index: 9;
-    &::after{
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        border: 0;
-        left: 5%;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-        background: $mb-error-bg;
-        bottom: -7px;
-    }
-}
-// input[type="email"].reg-email{
-//  &:focus{
-//      ~{
-//      .credential-err-msg{
-//          display:none;
-//      }
-//     }
-//  }   
-// }
 .log_in {
     font-size: 28px;
     padding: 3% 0 0 0px;
-    @media screen and(max-width:$screen-sm){
+    @media screen and(max-width:768px){
         display: block;
         overflow: hidden;
         padding: 15px;
         margin: 0;
         font-size: 15px;
         font-weight: bold;
-        color: $mb-white;
+        color: #fff;
         background: #90d2c5;   
     }
 }
@@ -56,29 +18,9 @@
 }
 .loginAlign{
     justify-content: space-between;
-    .text:focus{
-        border-color: $mb-skyblue !important;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
-
-    }
-    .not-valid {
-        background-image: url(https://www.moltonbrown.co.uk/images/exclamation-symbol.png);
-        background-position: 95% 3px !important;
-        background-size: 4px;
-        border: 1px solid $mb-error-bg!important;
-        background-repeat: no-repeat;
-    }
-    &.valid {
-        background-image: url('https://www.moltonbrown.co.uk/images/tick-symbol.png') !important;
-        background-position: 95% 2px !important;
-        background-repeat: no-repeat;
-    }
-    .contextual-help ~ .not-valid, .contextual-help ~ .valid {
-        background-position: 91% 4px !important;
-    }
 }
-    @media screen and(max-width:$screen-sm){
-        .enable_password{
+    @media screen and(max-width:768px){
+        .forgotten{
             margin-bottom: 15px;
         }
 .loginAlign{
@@ -96,7 +38,9 @@ margin: 0px !important;
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
-
+    .requiredFieldText{
+        display: none;
+    }
     .new_customer-block, .returning_customer-log_in{
 width: 100% !important ;
 min-height: auto !important ;
@@ -105,7 +49,7 @@ padding-left: 0px ;
 }
 .new_customer-block{
     .buttonStyle{
-        margin-top:80px;
+        margin-top:20px;
     }
 }
 .returning_customer-log_in{
@@ -134,24 +78,25 @@ padding-left: 0px ;
     p {
           padding: 10px 0 5px 0;
             font-size: 12px;
-            line-height: 1;
+            line-height: 16px;
+            font-weight: 700;
             font-style: normal;
+    font-weight: bold!important;
     color: #484848!important;
     }
     form{
         .label_text{
-            font-size:15.6px;
-            font-weight: bold !important;
+            font-size:16px;
         }
         a {
             text-decoration: underline !important;
-            color: #484848 !important;
-            font-weight: normal !important;
+            color: #484848;
         }
         input{
             width: 250px!important;
             height: 25px!important;
             padding: 0 5px!important;
+            border: 1px solid #666;
         }
     }
 }
@@ -161,11 +106,10 @@ padding-left: 0px ;
     font-weight:100;
 }
 .return-login span {
-    color: $err-color;
+    color: #ae140d;
 }
 h2 {
     font-size: 24px;
-    color:$primary-color;
 }
 .new_customer-block {
     margin: 5% 0 7% 0;
@@ -176,9 +120,6 @@ h2 {
     h6{
      
     margin: 20px 0 18px 0;
-    font-size:13px;
-    font-weight: 900;
-    color: #260e03;
     }
 }
 .registerAlign{
@@ -187,55 +128,24 @@ h2 {
 .new-login {
     border: 1px solid #d6d6d6;
     float: left;
-    padding: 15px;
+    padding: 24px;
     ul{
-        padding:0 15px;
+        padding:15px;
     }
+}
+
+.contextual-help {
+    position: absolute;
+    top: 0px;
+    right: 39%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #c2c2c2;
+    background: #FFF url(https://www.moltonbrown.co.uk/images/help-black-icon.svg) no-repeat scroll center center;
+    text-indent: -9999px;
+    background-size: 7px;
 }
 .errr_msg{
     font-size: 12px;
-}
-.enable_password{
-    cursor: pointer;
-}
-.login-fileds{
-    position: relative;
-    width:250px;
- 
-   .contextual-help{
-       position: absolute;
-       width:25px;
-       height:25px;
-       right:-12px;
-       background-size: 7px;
-   }
-}
-
-input[type="password"]{
-    &.not-valid {
-        background-image: url("https://www.moltonbrown.co.uk/images/exclamation-symbol.png");
-        background-position: 93% 0px;
-        border: 1px solid $mb-error-bg !important;
-        background-repeat: no-repeat;
-        @media screen and(max-width:768px) {
-          background-position: calc(100% - 41px) 10px;
-        }
-        &:focus {
-          background-image: none !important;
-        }
-      }
-}
-
-input[type="text"].form-control,
-input[type="tel"].form-control {
-&.not-valid{
-    background-position:95% 2px !important;
-    background-size:4px !important;
-}
-}
-.login-filedss{
-    position: relative;
-    .contextual-help{
-   
-    }
 }

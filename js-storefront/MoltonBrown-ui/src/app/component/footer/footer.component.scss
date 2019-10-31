@@ -1,22 +1,13 @@
-@import "../../../variable";
-.nav-item{
-    padding: .5rem 1rem;
-  .nav-link {
-        padding: 0;
-        cursor: pointer;
-    }
-}
 .footer-bottom {
-    background-color: $primary-color;
+    background-color: #000;
     min-height: 33px;
    .nav-item{
         a {
-        color: $mb-white !important;
+        color: #fff !important;
         font-size: 14px;
         text-transform: uppercase;
         font-weight: 500;
         text-decoration:none;
-        font-family: $font-century-bold;
         &:hover{
             text-decoration:underline;
         }
@@ -39,93 +30,57 @@
     display: table;
     padding-top: 40px;
     padding-bottom: 10px;
-ul {
+}
+
+.largeCTAImages ul {
     padding: 0px;
     margin: 0px;
     list-style: none;
-        li {
-            float: left;
-            width: 238px;
-            text-align: center;
-            padding-bottom:10px;
-        }
- }
-p {
-    width: 162px;
-    margin: 0 auto;
-    padding-top: 3px;   
-    a {
-    font-size: 16px;
-    line-height: 21px;
-    text-transform: uppercase;
-    color: $primary-color;
-    font-family: $font-century-bold;
-   }
- }
 }
 
+.largeCTAImages ul li {
+    float: left;
+    // width: 238px;
+    text-align: center;
+}
+
+.largeCTAImages p a {
+    font-size: 17px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: #464646;
+}
 
 .sharingIcons.youtube {
-    background-position: -180px 0px;
-    @media screen and(max-width:768px)
-    {
-        
-    background-position: -183px 0px;
-    }
+    background-position: 93.5% -3px;
 }
 
 .sharingIcons.instagram {
-    background-position: -40px 0px;
-    @media screen and(max-width:768px)
-    {
-        
-    background-position: -60px 0px;
-    }
+    background-position: -60px -3px;
 }
 
 .sharingIcons.pinterest {
-    background-position: -138px 0px;
-    @media screen and(max-width:768px)
-    {
-        
-    background-position: -95px 0px;
-    }
+    background-position: 41% -3px;
 }
 
 .sharingIcons.facebook {
-    background-position: 10px 0;
-     @media screen and(max-width:768px)
-    {
-        
-    background-position: 5px 0px;
-    }
+    background-position: 0 -3px;
 }
 
 .sharingIcons.twitter {
-    background-position: -90px 0px; 
-     @media screen and(max-width:768px)
-    {
-        
-    background-position: -30px 0px;
-    }
+    background-position: 14% -3px;
 }
 .sharingIcon{
-    width:75px !important;
-   
+    width:65px !important;
 }
 .sharingIcons {
     display: inline-block;
     height: 24px;
     width: 26px;
-    background: url('../../../assets/imgs/home-social-icons.png') 0 -3px no-repeat;
+    background: url('https://www.moltonbrown.co.uk/images/social-icons.png') 0 -3px no-repeat;
     text-indent: -9990px;
     vertical-align: middle;
     margin-right: 10px;
-    padding: 0 0 10px 0;
-    @media screen and(max-width:768px) {
-        background: url('../../../assets/imgs/social-icons-mobile.png') 0 -3px no-repeat;
-     
-    }
 }
 
 .sharingIcons {
@@ -140,10 +95,30 @@ p {
     margin: 0 auto;
 }
 
-
+.largeCTAImages{ 
+    ul{ 
+        li {
+    float: left;
+    width: 238px;
+    text-align: center;
+    padding-bottom:10px;
+    }
+   }
+   p{
+    width: 162px;
+    margin: 0 auto;
+    padding-top: 3px;   
+    a {
+    font-size: 17px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: #000;
+}
+}
+}
 
 footer h3 a:hover{
-color: $primary-color;
+color: #000;
 }
 .largeCTABlock {
     margin: 0px auto;
@@ -154,23 +129,18 @@ color: $primary-color;
 
 .mb-footer-toggle-hide {
     display: none;
-    visibility: hidden;
-    max-height: 0px;
-    transition: all .3s linear;
 }
 
 .mb-footer-toggle-show {
     display: block;
-    visibility: visible;
     animation-duration: 1s;
      animation-delay: 1s;
-     max-height: 175px;
     ul{
         margin: 10px auto;
         padding: 20px 0;
         li{
             a{
-                color:$edition-color !important;
+                color:#464646 !important;
                 line-height: 21px;
               
             }
@@ -192,6 +162,9 @@ li{
     }
 }
 
+.nav-item {
+    cursor: pointer;
+}
 
 .ft-close {
     float:right;
@@ -204,7 +177,7 @@ li{
     cursor: pointer;
 }
 }
-@media(max-width:$screen-sm) {
+@media(max-width:768px) {
     .largeCTABlock {
         display: none !important;
     }
@@ -224,12 +197,9 @@ footer{
     display:none;
 }
 } 
-a.footerTag{
-    color: $primary-color !important;
-}
 @media(max-width:968px){
     footer h3 a{
-color: $primary-color ;
+color: #000;
     display: block;
     text-align: center;font-size: 20px!important;
     }
@@ -246,16 +216,5 @@ color: $primary-color ;
         vertical-align: middle;
         visibility: visible;
         margin-bottom: 5px;
-    }
-}
-.opacity{
-    opacity: 1;
-}
-.sub-footer{
-    background: #eee;
-    &-links {
-        text-align: center;
-        margin: 10px auto;
-        padding: 20px 0;
     }
 }

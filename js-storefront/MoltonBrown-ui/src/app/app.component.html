@@ -1,9 +1,1 @@
-<title>{{'titleBar'|translate}}</title>
-<app-cs-header></app-cs-header>
-<div  class="main" [ngClass]="{'mb-container-left-none  row-reverse':!toggleMainMenu,'mb-container-left row-reverse-none':toggleMainMenu}" >
-  <app-header *ngIf="checkoutStatus"></app-header>
-  <div [@routeAnimations]="prepareRoute(outlet)" >
-      <router-outlet #outlet="outlet"></router-outlet>
-    </div>
-  <app-footer *ngIf="checkoutStatus"></app-footer>
-</div>
+<router-outlet></router-outlet>

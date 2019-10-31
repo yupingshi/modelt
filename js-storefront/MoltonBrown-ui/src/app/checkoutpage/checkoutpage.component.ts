@@ -1,25 +1,18 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { TranslateServiceSubService } from '.././pipe/translate-service-sub.service';
-import {SingletonService} from '.././services/singleton.service';
 @Component({
   selector: 'app-checkoutpage',
   templateUrl: './checkoutpage.component.html',
   styleUrls: ['./checkoutpage.component.scss']
 })
-export class CheckoutpageComponent implements OnInit,AfterViewInit {
+export class CheckoutpageComponent implements OnInit {
   deviceInfo:any;
   mobileDevice:boolean;
-  desktopDevice:boolean;
   cuurent:boolean;
   basket:boolean;
   sample:boolean;
   confirmation:boolean;
-  constructor(private deviceService: DeviceDetectorService,
-    private translate: TranslateServiceSubService,public singletonServ:SingletonService) { }
-    setLang(lang: string) {
-      this.translate.use(lang);
-    }
+  constructor(private deviceService: DeviceDetectorService) { }
   ngOnInit() {
     const splitPath=window.location.pathname.split('/');
     let page= splitPath[splitPath.length-1];
@@ -40,13 +33,6 @@ export class CheckoutpageComponent implements OnInit,AfterViewInit {
       this.confirmation=true;
     }
     this.getDeviceInfo();
-    const baseSite=this.singletonServ.catalogVersion;
-    if(baseSite){
-      this.setLang(baseSite.lngCode);
-    }
-  }
-  ngAfterViewInit(){
-
   }
   getDeviceInfo() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
@@ -58,37 +44,8 @@ export class CheckoutpageComponent implements OnInit,AfterViewInit {
      }else{
        this.mobileDevice=false;
      }
-     if(isDesktopDevice){
-       this.desktopDevice =true;
-     }else{
-       this.desktopDevice =false;
-     }
 
  
   }
-  getBasketTabText(tabText:string){
-    if(this.mobileDevice && this.basket ||this.desktopDevice ){
-       
-          return tabText
-    } else{
-          return '1'
-    }
-    }
-  
-    getBasketTabTextSample(tabText:string){
-    if(this.mobileDevice && this.sample ||this.desktopDevice ){
-       
-          return tabText
-    } else{
-          return '2'
-    }
-    }
-    getBasketTabTextCheckout(tabText:string){
-    if(this.mobileDevice && this.confirmation ||this.desktopDevice){
-       
-          return tabText
-    } else{
-          return '3'
-    }
-    }
+
 }

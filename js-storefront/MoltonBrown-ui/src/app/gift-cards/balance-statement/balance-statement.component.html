@@ -16,73 +16,17 @@
           </div>
       </div>
 
-      <div class="sheet" *ngIf="balanceSheet">
+      <div class="sheet" >
           <h2>Your Recent Transactions</h2>
-          <div class="paginations divalign">
-            <div class="rowCompts">
-              <div class="col75">
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination" *ngIf="pager">
-                    <li class="page_viewAll">
-                      <a (click)="onviewAllProducts(pager)">View all</a>
-                    </li>
-                    <li
-                      class="page-item"
-                      [ngClass]="{ 'page-nav-btn-hide': pager.currentPage === 1 }"
-                    >
-                      <a
-                        class="page-link next"
-                        aria-label="Previous"
-                        (click)="setPage(pager.currentPage - 1)"
-                      >
-                        <img
-                          src="https://www.moltonbrown.co.uk/images/storefront/Left_Previous_Arrow.gif?version=16"
-                        />
-                      </a>
-                    </li>
-                    <li
-                      class="page-item"
-                      *ngFor="let pageItems of pager.pages; let k = index"
-                    >
-                      <a
-                        class="page-link"
-                        [ngClass]="{
-                          'page-active': pager.currentPage === pageItems
-                        }"
-                        (click)="setPage(pageItems)"
-                        >{{ pageItems }}</a
-                      >
-                    </li>
-                    <li
-                      class="page-item"
-                      [ngClass]="{
-                        'page-nav-btn-hide': pager.currentPage === pager.totalPages
-                      }"
-                    >
-                      <a
-                        class="page-link next"
-                        aria-label="Next"
-                        (click)="setPage(pager.currentPage + 1)"
-                      >
-                        <img
-                          src="https://www.moltonbrown.co.uk/images/storefront/Right_Next_Arrow.gif?version=16"
-                        />
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
           <div class="sheetHeader">
-              <div class="sheet-cell">Date</div>
-              <div class="sheet-cell">Transaction Id</div>
-              <div class="sheet-cell">Amount</div>
+              <div class="sheet-cell">Registered Name</div>
+              <div class="sheet-cell">Gift Card Number</div>
+              <div class="sheet-cell">Current Balance</div>
           </div>
-          <div class="sheetBody" *ngFor="let data of pagedItems">
-              <div class="sheet-cell">{{data.date}}</div>
-              <div class="sheet-cell">{{data.transId}}</div>
-              <div class="sheet-cell">{{data.amount}}</div>
+          <div class="sheetBody">
+              <div class="sheet-cell">Registered Name</div>
+              <div class="sheet-cell">Gift Card Number</div>
+              <div class="sheet-cell">Current Balance</div>
           </div>
       </div>
 

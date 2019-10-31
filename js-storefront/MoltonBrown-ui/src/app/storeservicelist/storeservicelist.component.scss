@@ -1,8 +1,9 @@
-@import '../../variable';
+@import '../variable.scss';
 .find-store {
+    background:$mb-overlay-bg;
     font-size: 13px;
     margin-top: 10px;
-    margin-bottom: 21px;
+    margin-bottom: 26px;
     p {
         margin: 20px 0;
         line-height: 20px;
@@ -14,7 +15,6 @@
         line-height: 26px;
         font-style: normal;
         color: $mb-header-color;
-        margin:0px 0 20px;
     }
     input{
             width: 75%;
@@ -24,274 +24,29 @@
             height: 32px;
             font-style: italic;
             padding: 7px 10px;
-            float: left;     
-            font-size: 14px;   
+            float: left;        
     }
-    button.findStore {
-        padding: 7px 13px;
+    button.findStore{
+        padding: 7px 10px; 
         height: 32px;
-        width: 93px;
-        background-color: #83756b;
-        color: $mb-white;
+        width: 25%;
+        background-color:$mb-store-btn-bg;
+        color:$mb-white;
         position: relative;
-        text-align: left;
-        font-size: 14px;
-           &::after {
-          content: "";
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 0;
-          border-left: solid 7px #ecebe5;
-          border-bottom: solid 5px transparent;
-          border-top: solid 5px transparent;
-          right: 14px;
-          top: 10px;
+        &::after{
+            content:'';
+            position: absolute;
+            width:0;
+            height: 0;
+            border-left: solid 8px #ecebe5;;
+            border-bottom: solid 8px transparent;
+            border-top: solid 8px transparent;
+            right:8px;
         }
-      }
+    }
  
     .find-store-search{        
-        padding:21px 0 0;
-        .form-inline {
-             justify-content: start; 
-        }
-   
-    }
-    &-filter-list{
-        height: 580px;
-        overflow: auto;
-        .store{
-            overflow: hidden;
-            h3 {
-                font-size: 14px;
-                font-weight: bold;
-                background: #cecece;
-                color: #4a4141;
-                padding: 10px 0 9px 10px;
-                text-transform: uppercase;
-            }
-        }
-
-    }
-}
-
-.mb-stores{
-    justify-content: space-between;
-    .col-sm-6{
-        padding:0 !important;
-        max-width: 49%;
-    }
-    &-locator{
-        app-store-locator{
-            height:500px;
-        }  
-    }
-    &-check-list{
-        background: #efefef;
-        overflow: hidden;
-        border-bottom: 1px solid #dfdfdf;
-        border-top: 1px solid #aaa;
-        padding: 9px 10px;
-        margin-bottom: 10px;
-        position: relative;
-         li {
-            float: left;
-            width: 100px;
-            line-height: 20px;
-            list-style: none;
-            input[type='checkbox'] {
-                float: left;
-                margin: 3px;
-            }
-            span {
-                float: left;
-                margin: 0 0 0 8px;
-                font-weight: normal;
-                font-size: 14px;
-            }
-        }
-    }
-    .img-con{
-        float:left;
-       img{ 
-            padding: 0 5px 10px 0;
-            width:35px;
-       }
-    }
-    &-list{
-        padding: 20px 0;
-        border-bottom: 1px solid #dadada;
-        overflow: hidden;
-    }
-    &-left-cntnt {
-        width: 243px;
-        float: left;
-        h4{
-            font-size: 14px;
-            font-weight: bold;
-            color: $primary-color;
-        }
-        p {
-            font-size: 12px;
-            line-height: 15px;
-            margin: 0;
-        }
-
-    }
-    &-right-cntnt {
-        float: right;
-        padding-right: 10px;
-    }
-    &-detail{
-        overflow: hidden;
-        margin-left: 42px;
-        h4{
-            cursor: pointer;
-            a{
-                color:$edition-color;
-                &:hover{
-                 color:$primary-color;
-                }
-            }
-        }
-    }
-    &-open-time {
-        margin-top: 10px;
-        width: 155px;
-        background: #f2f0ef;
-        border-radius: 3px;
-        p{
-            text-align: center;
-            padding: 5px 0 3px 0;
-        }
-    }
-    .showmore_one {
-        clear: both;
-        color: #333;
-        font-size: 13px;
-        line-height: 20px;
-        position: relative;
-    }
-    .showmore_content {
-        height: auto;
-        margin-bottom: 7px;
-        overflow: hidden;
-        position: relative;
-        width: 423px;
-        .opening-hours {
-            margin: 17px 12% 0 11%;
-            float: left;
-            width: 200px;
-            h4{
-                margin: 15px 0 0;
-                font-size: 14px!important;
-                font-weight: bold;
-                display: block;
-                overflow: hidden;
-            }
-            ul{
-                padding-top:5px;
-                li {
-                    line-height: 14px;
-                    color: #585858;
-                    font-size: 12px;
-                    overflow: hidden;
-                    .days {
-                        float: left;
-                    }
-                    .time {
-                        float: right;
-                    }
-                }
-            }
-        }
-    }
-}
-.telephone {
-    margin: 19px 0 0 0;
-    overflow: hidden;
-}
-
-.map-links {
-    margin: 20px 0 10px 11%;
-    float: left;
-    a {
-        cursor: pointer;
-        position: relative;
-        text-align: center;
-        margin-right: 6px;
-        padding: 4px 28px 4px 10px;
-        background-color:  #7d6f64;
-        color: $mb-white !important;
-        text-decoration: none;
-        &:after {
-            border-top: 5px solid transparent;
-            border-left: 5px solid;
-            border-bottom: 5px solid transparent;
-            content: "";
-            display: inline-block;
-            height: auto;
-            width: auto;
-            margin-left: 10px;
-            margin-top: 4px;
-            vertical-align: baseline;
-            visibility: visible;
-            position: absolute;
-            top:2px;
-        }
-
-    }
-}
-.showmore_trigger{
-    color: $primary-color;
-    cursor: pointer;
-    float: left;
-    font-size: 13px;
-    margin: 5px 0 0 20%!important;
-    span {
-        display: block;
-        color: #7d6f64;
-        padding-right: 15px;
-        position: relative;
-        &:after {
-            border-top: 5px solid transparent;
-            border-left: 5px solid;
-            border-bottom: 5px solid transparent;
-            content: "";
-            display: inline-block;
-            height: auto;
-            width: auto;
-            margin-left: 10px;
-            margin-top: 4px;
-            vertical-align: baseline;
-            visibility: visible;
-            position: absolute;
-            top:2px;
-        }
-    }
-    span.less{
-        &:after{
-            transform: rotate(90deg);
-        }
-    }
-}
-
-
-.mb-stores-locator{
-        app-store-locator{
-            height:500px;
-        }  
-    }
-    .store-view{
-        color: $primary-color;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    .mb-stores-locator{ 
-      .map-footer {
-        background: url("../../assets/imgs/mb_legend.png") no-repeat left bottom;
-        width: 100%;
-        height: 43px;
-        background-size: 100%;
+        padding:20px;
+        padding-top:28px;
     }
 }

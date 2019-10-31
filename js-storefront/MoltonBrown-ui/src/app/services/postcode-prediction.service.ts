@@ -5,13 +5,13 @@ import {of,bindCallback} from 'rxjs'
 declare const google: any;
 @Injectable()
 export class PlacePredictionService {
-  public autocompleteService;
+  private autocompleteService;
 
-  constructor(public mapsAPILoader: MapsAPILoader) {
+  constructor(private mapsAPILoader: MapsAPILoader) {
 
     this.mapsAPILoader.load().then(() => {
       this.autocompleteService = new 
-        google.maps.places.AutocompleteService();
+      google.maps.places.AutocompleteService();
     });
 
   }
@@ -29,6 +29,7 @@ export class PlacePredictionService {
       // Data validation
 
       if (data) {
+        console.log(data);
         previousData = data;
         observer.next(data);
         observer.complete();
@@ -37,6 +38,7 @@ export class PlacePredictionService {
       // If no data, emit previous data
 
       if (!data) {
+        console.log("PreviousData: ");
         observer.next(previousData);
         observer.complete();
 

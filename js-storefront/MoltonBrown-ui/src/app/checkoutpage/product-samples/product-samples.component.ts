@@ -1,478 +1,385 @@
-import { 
-  Component,
-  OnInit, 
-  AfterViewInit, 
-  OnDestroy,
-  ViewChild
- } from "@angular/core";
-import { SingletonService } from "../../services/singleton.service";
-import { Location } from "@angular/common";
-import { Router, ActivatedRoute } from "@angular/router";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { BasketPageComponentService } from "../basketpage/basketpage.service";
-import { Title } from '@angular/platform-browser';
-import { GuestForm } from "../../forms/guestForm.form";
-import {
-  FormBuilder,
-  FormGroup,
-  FormControl
-} from "@angular/forms";
-import { TranslateServiceSubService } from "../../pipe/translate-service-sub.service";
-import * as _ from "lodash";
-import { Subscription } from "rxjs";
-/*slideConfig = {
-   “slidesToShow”: 3,
-   “slidesToScroll”: 2,
-   “nextArrow”:”“, 
-   “prevArrow”:”“, 
-   “dots”:false, 
-   “infinite”: false, 
-   “responsive”: [
-      { 
-        “breakpoint”: 1920,
-        “settings”: { 
-        “slidesToShow”: 3, 
-        “slidesToScroll”: 3, 
-        “infinite”: true, 
-        “dots”: true 
-      } },
-      { “breakpoint”: 1024, “settings”: { “slidesToShow”: 2, “slidesToScroll”: 2, “infinite”: true,“dots”: true } },
-     { “breakpoint”: 600, “settings”: { “slidesToShow”: 1, “slidesToScroll”: 1 } }, 
-     { “breakpoint”: 480, “settings”: { “slidesToShow”: 1, “slidesToScroll”: 1 } } ] };*/ 
+import { Component, OnInit, AfterViewInit,OnDestroy } from '@angular/core';
+import {SingletonService} from '../../services/singleton.service';
+import { Location } from '@angular/common';
+import { Router,ActivatedRoute ,NavigationEnd} from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import {BasketPageComponentService} from '../basketpage/basketpage.service';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
 @Component({
-  selector: "app-product-samples",
-  templateUrl: "./product-samples.component.html",
-  styleUrls: ["./product-samples.component.scss"]
+  selector: 'app-product-samples',
+  templateUrl: './product-samples.component.html',
+  styleUrls: ['./product-samples.component.scss']
 })
-export class ProductSamplesComponent
-  implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild('slickModal') slickModal: any;
-  slides: Array<any>;
-  subscription:Subscription;
-  slideConfig: any;
-  deviceInfo: any;
-  totalAmount: string;
-  cartEntryObj: any;
-  showExpress: boolean;
-  cartCode: string;
-  samplesCopy: Array<any>;
-  giftMsg: boolean;
-  giftMessageForm: FormGroup;
-  giftText: string;
-  totalPriceValue: any;
-  isValidSubmit:boolean;
-  disableGiftBox:boolean;
-  constructor(
-    public singletonServ: SingletonService,
-    public deviceService: DeviceDetectorService,
-    public location: Location,
-    public _giftMessageDetails: GuestForm,
-    private title: Title,
-    public router: Router,
-    private fb: FormBuilder,
-    public route: ActivatedRoute,
-    public basketServ: BasketPageComponentService,
-    private translate: TranslateServiceSubService
-  ) {
-    const baseSite = this.singletonServ.catalogVersion;
-    this.totalAmount = singletonServ.totalAmount;
-    this.showExpress = false;
-    this.giftMessageForm = this.fb.group({
-      giftCard:this.fb.group(_giftMessageDetails.getGiftMessageForm())
-    });
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      const user=JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-      this.showExpress = user['isExpressCheckout'];
-    }
-  }
-  setLang(lang: string) {
-    this.translate.use(lang);
-  }
-  ngOnInit() {    
-    this.title.setTitle('Molton Brown - Samples & Gift Options');
-    this.slideConfig = {
-      slidesToShow: 4,
-      slidesToScroll: 4,
-      dots: false,
-      infinite: false,
-      initialSlide:0
-    };
-    const _cartObj=this.singletonServ.cartObj;
-    if (_cartObj) {
-        this.cartEntryObj= _cartObj;
-        this.totalPriceValue =_cartObj.totalItems != 0 ? true : false;
-        this.getSampleProducts();
-     }
+export class ProductSamplesComponent implements OnInit,AfterViewInit,OnDestroy {
+ tooltipMsg:boolean;
+ subscription:Subscription;
+ slides :Array<any>;
+ slideConfig :any;
+ deviceInfo:any;
+ mobileDevice:boolean;
+ totalAmount:string;
+ cart:any;
+ sampleEntries:Array<any>;
+ showExpress:boolean;
+ textlength:number;
+ cartCode:string;
+ samplesCopy:Array<any>;
+ giftBox:boolean;
+ giftMsg:boolean;
+ giftText:string;
+  constructor(public singletonServ:SingletonService,public deviceService: DeviceDetectorService,
+    public location: Location, public router: Router,public route :ActivatedRoute,public basketServ:BasketPageComponentService) {
+    this.tooltipMsg=false;
+    this.totalAmount=singletonServ.totalAmount;
+    this.showExpress=false;
+    this.textlength=250;
+    if(sessionStorage.getItem('customerToken')){
+      this.showExpress=true;
+   }
+
+   this.fetchCartInfo();
+   }
+   onChangeText(event){
+    let textLength=event.target.value.length;
+    this.textlength=250-textLength;
+
+   }
+  ngOnInit() {
     this.getDeviceInfo();
-    const baseSite = this.singletonServ.catalogVersion;
-    if (baseSite) {
-      this.setLang(baseSite.lngCode);
+
+}
+fetchCartInfo(){
+  const baseSiteid =this.singletonServ.catalogVersionId
+  if(sessionStorage.getItem('customerToken')){
+    const data =JSON.parse(sessionStorage.getItem('customerToken'));
+    this.singletonServ.loggedIn=true;
+    if(data.code){
+     this.fetchcurrentuserBasket(data);
     }
-    this.singletonServ.checkoutStatus = true;
-    // const obj = { checkoutStatus: true, store: true };
-    // this.singletonServ.sendMessage(obj);
-  }
+}else{
+  if (sessionStorage.getItem('cartGUID')){
+    const data = JSON.parse(sessionStorage.getItem('cartGUID'));
+    const cartId = '/' + data['guid'];
+    this.fetchBasket(baseSiteid, cartId);
+}
+}
+}
 
+fetchcurrentuserBasket(data){
+  const baseSiteid =this.singletonServ.catalogVersionId;
+  const that=this;
+  this.basketServ.getCurrentUserCartDetail(baseSiteid,data.token,data.email, data.code).subscribe((resp)=>{
+    that.cart=resp;
+    that.cartCode=resp['code'];
+    that.getSampleProducts();
+  },(err)=>{
+    
+  });
+}
+fetchBasket(baseSiteid, cartId){
+  const that=this;
+  this.basketServ.getMBCartDetail(baseSiteid, cartId).subscribe((resp)=>{
+    that.cart=resp;
+    that.getSampleProducts();
+  },(error)=>{
+
+  })
+}
   ngAfterViewInit() {
-    this.subscription=this.singletonServ.getMessage().subscribe(message => {
-      if (message.retreiveSamples) {
-        let _cartObj=message.cartObj;
-        if (_cartObj) {
-          this.cartEntryObj= _cartObj;
-          this.totalPriceValue =
-          _cartObj.totalPrice.value != 0 ? true : false;
-          this.getSampleProducts();
-        }
-      }
-    });
+    const that =this;
+    const cvsersionId=this.singletonServ.catalogVersionId;
   }
-
-
-  getSampleProducts() {
-    this.slides = undefined;
-    let _sampleEntry;
-    this.basketServ.getSampleProducts().subscribe(
-      resp => {
-        this.slides = resp["products"];
-        this.samplesCopy = resp["products"];
-
-        _.map(this.slides, obj => {
-          if (this.singletonServ.cartObj["entries"]) {
-            _sampleEntry = _.find(
-              this.singletonServ.cartObj["entries"],
-              item => {
-                return obj.code == item.product.code;
-              }
-            );
+  getSampleProducts(){
+    const that=this;
+    this.slides=undefined;
+    const cvsersionId=this.singletonServ.catalogVersionId;
+    this.basketServ.getSampleProducts(cvsersionId).subscribe((resp)=>{
+      this.slides=resp['products'];
+      console.log(resp);
+      this.samplesCopy=resp['products'];
+      let _sampleEntry;
+      _.map(that.slides,(obj)=>{
+         _sampleEntry=_.find(that.cart.entries,(item)=>{
+                  return obj.code==item.product.code
+         })
+      if(_sampleEntry){
+        that.slides.map((obj)=>{
+          if(_sampleEntry.product.code == obj.code){
+            obj['status']="added";            
+            obj['disabled'] = true; 
+          }else{
+            obj['status']="pending";            
+            obj['disabled'] = false; 
           }
-          if (_sampleEntry) {
-            this.slides.map(obj => {
-              if (_sampleEntry.product.code == obj.code) {
-                obj["status"] = "added";
-                obj["disabled"] = true;
-              } else {
-                obj["status"] = "pending";
-                obj["disabled"] = false;
-              }
-            });
-          }
-        });
-
-        
-        const _sampleEntryId = _.findIndex(
-          this.slides,
-            item => {
-              return item.status ==  "added";
-            }
-          );
-          if(_sampleEntryId !=-1){
-            this.slickModal.unslick(); 
-            this.slickModal.config['arrows']=false;
-            this.slickModal.config['draggable']=false;
-            this.slickModal.initSlick();
-            this.slickModal.init;
-          }
-      },
-      err => {}
-    );
-
-    if(_sampleEntry){
-      let  _sampleIndex = _.find(
-         this.slides,
-         item => {
-           return _sampleEntry.product.code == item.code;
-         }
-       );
-       if(_sampleIndex !== -1){
-           this.slickModal.unslick(); 
-           this.slickModal.config['arrows']=false;
-           this.slickModal.config['draggable']=false;
-           this.slickModal.initSlick();
-           this.slickModal.init;
+          
+       });
+       
       }
-     }
+    }); 
+    },(err)=>{
+
+    })
   }
   getDeviceInfo() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isMobile = this.deviceService.isMobile();
     const isTablet = this.deviceService.isTablet();
-    if (isMobile || isTablet) {
+    const isDesktopDevice = this.deviceService.isDesktop();
+    if(isMobile || isTablet){
+     this.mobileDevice=true;
+     this.slideConfig= {
+       "slidesToShow": 2, 
+       "slidesToScroll": 2,
+       "dots":false,
+       "infinite": false
+    };
+    }else{
+      this.mobileDevice=false;
       this.slideConfig = {
-        dots: false,
-        infinite: false
-      };
-    } else {
-      this.slideConfig = {
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        dots: false,
-        infinite: false
-      };
+         "slidesToShow": 4,
+         "slidesToScroll": 4,
+         "dots":false,
+         "infinite": false
+        };
     }
-  }
-
-  onContinueShoppingEvent() {
-    this.router.navigate(["store"]);
-  }
-
-  onExpressCheckout() {
-    this.router.navigate(["checkout", "shipping"], {
-      queryParams: { expressCheckout: true, express: true },
-      queryParamsHandling: "merge"
-    });
   }
   
-  onSecureCheckout(bol) {
-    const baseSite = this.singletonServ.catalogVersion;
-    const _val= this.giftMessageForm.value;
-    let _giftForm=this.giftMessageForm.controls["giftCard"];
-     if(_giftForm.valid){
-      let _giftBox=_giftForm["controls"]["giftBox"]["value"];
-    if (_giftBox || _val.giftCard.giftMsg) {                   
-          const body = {
-            isGiftBox: (_giftBox)?true:false,
-            isGiftBoxMessage: false,
-            giftBoxMessage: ''
-          };
+  onContinueShoppingEvent(){
+    this.router.navigate(['store','home']);
+  }
+  onSecureCheckout(){
+    const that=this;
+    const baseSiteid = this.singletonServ.catalogVersionId;
+    // that.basketServ.generateCartToken().subscribe((token)=>{
+    //   const tokenId = token['access_token'];
+    //   const body={
+    //     "isGiftBox":this.giftBox,
+    //     "isGiftBoxMessage":this.giftMsg,
+    //     "giftBoxMessage":this.giftText
+    // }
+        if(sessionStorage.getItem('customerToken')){   
+    //       const user =JSON.parse(sessionStorage.getItem('customerToken'));
+    //       that.basketServ.giftMessage(baseSiteid,tokenId,body,user.email,user.code).subscribe((response)=>{
 
-          if (_val.giftCard.giftMsg) {
-                if(this.giftMessageForm.valid){
-                  body['isGiftBoxMessage']=true;
-                  body['giftBoxMessage']=_val.giftCard.giftMessage;
-                  this.setShipping(body,bol);
-                }else{
-                  this.isValidSubmit=true;
-                  this.validateAllFormFields(this.giftMessageForm);
-                }
-          }else{  
-            this.setShipping(body,bol);
-          }
-    } else {
       
-      this.singletonServ.checkoutStatus = true;
-      const obj = { checkoutStatus: true };
-      this.singletonServ.sendMessage(obj);
-      if (this.singletonServ.getStoreData(baseSite.reg)) {
-        if(bol){
-          this.router.navigate(["checkout", "shipping"], {
-            queryParams: { expressCheckout: true, express: true },
-            queryParamsHandling: "merge"
-          });
-        }else{
-          this.router.navigate(["/checkout", "shipping"]);
-        }
-        
-      } else {
-        this.router.navigate(["/checkout"]);
-      }
-    }
-  }else{
-    this.isValidSubmit=true;
-    this.validateAllFormFields(this.giftMessageForm);
-  }
-   
-    
-  }
-  setShipping(body,bol){
-    const baseSite = this.singletonServ.catalogVersion;
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      let isExpressObj={status:bol}
-      const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-      this.basketServ
-      .giftMessage(user.token, body, user.email, user.code)
-      .subscribe(
-        response => {
-          this.setShippingPage(isExpressObj);
-        },
-        err => {
-          this.setShippingPage(isExpressObj);
-        }
-      );
-    } else {
-      if (this.singletonServ.getStoreData(baseSite.guest)) {
-        const user = JSON.parse(this.singletonServ.getStoreData(baseSite.guest));
-        this.basketServ
-        .giftMessage(user.token, body, 'anonymous', user.guid)
-        .subscribe(
-          response => {
-            this.setShippingPage(false);
-          },
-          err => {
-            this.setShippingPage(false);
-          }
-        );
-      }
-    }
-  }
-
- 
-  setShippingPage(data){
-    const baseSite = this.singletonServ.catalogVersion;      
-    this.singletonServ.checkoutStatus = true;
-    const obj = { checkoutStatus: true, store: false };
-    this.singletonServ.sendMessage(obj);
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      if(data.status){
-        this.router.navigate(["checkout", "shipping"], {
-          queryParams: { expressCheckout: true, express: true },
-          queryParamsHandling: "merge"
-        });
+          that.singletonServ.checkoutStatus=true;
+        const obj={checkoutStatus:true};
+        that.singletonServ.sendMessage(obj);
+        that.router.navigate(['/checkout','shipping']);
+      // },(err)=>{
+            
+      // })
       }else{
-        this.router.navigate(["/checkout", "shipping"]);
+        that.singletonServ.checkoutStatus=true;
+        const obj={checkoutStatus:true};
+        that.singletonServ.sendMessage(obj);
+        that.router.navigate(['/checkout']);
       }
 
+  // },(err)=>{});
+ }
+  showTooltip(event,index){
+    this.slides.map((obj,k)=>{
+      if(index == k){
+        obj['action']=!obj['action'];
+      }else{
+        obj['action']=false;;
+      }
+    })
+  }
+  onGiftBoxSChecked(event){
+    if(this.giftBox){
+      
     }else{
-      this.router.navigate(["/checkout"]);
+      this.giftMsg=false;
+      this.tooltipMsg=false;
     }
   }
-  showTooltip(event, index) {
-    this.slides.map((obj, k) => {
-      if (index == k) {
-        if(obj.status){
-        if(obj.status != 'pending'){
-         obj["action"] = !obj["action"];
-        }
+  showTextarea(event){
+    this.tooltipMsg=!this.tooltipMsg;
+  }
+  onExpressCheckout(){
+    this.router.navigate(['checkout','shipping'],{ queryParams: { expressCheckout: true,express:true}, queryParamsHandling: 'merge' });
+  }
+  onAddItem(data,k){
+    const that=this;
+    const baseSiteid =this.singletonServ.catalogVersionId;
+    if(sessionStorage.getItem('customerToken')){
+      const user =JSON.parse(sessionStorage.getItem('customerToken'));
+      const logged=true;
+        if(!user.code){
+          const tokenId =user['token']
+          // that.createCart(data,baseSiteid, tokenId,logged);
         }else{
-          obj["action"] = !obj["action"];
+          const tokenId =user['token'];
+         this.storeCurrentUserBasket(baseSiteid,data,tokenId,user.code,user.email,k);
         }
-      } else {
-        obj["action"] = false;
-      }
+
+    }else
+      if (sessionStorage.getItem('cartGUID')) {
+        this.addItemToBasket(data,k);     
+    }
+  }
+  addItemToBasket(data,k){
+    const that =this;
+    const cartDetail = JSON.parse(sessionStorage.getItem('cartGUID'));
+    const cartId = '/'+cartDetail['guid'];
+
+
+    const productObj = {
+        "product": { "code": data['code'] },
+        "quantity": 1
+    };
+    const baseSiteid = this.singletonServ.catalogVersionId;
+    that.basketServ.generateCartToken().subscribe(res=>{
+      const tokenId = res['access_token'];
+      that.UpdateBasket(baseSiteid, cartId, productObj, tokenId,k);
+
+    },error=>{
+
+    });
+
+  
+  }
+  UpdateBasket(baseSiteid, cartId, prodObj, tokenId,k){
+  
+    this.basketServ.storeProductsToCart(baseSiteid, cartId, prodObj, tokenId).subscribe((cart) => {
+      this.slides[k]['entryNumber']=cart['entry']['entryNumber'];
+      const obj={
+        sample:this.slides[k]
+      };
+      this.slides.map((obj)=>{
+
+        if(prodObj.product.code == obj.code){
+
+          obj['status']="added";
+          obj['disabled'] = true; 
+        }else{
+          obj['status']="pending";
+          obj['disabled'] = false; 
+        }
+     });
+      this.fetchCartInfo();
+  }, error => {
+
+  })
+  }
+  storeCurrentUserBasket(baseSiteid,item,tokenId,code,_email,k){
+    const entry =item['entryNumber'];
+    const productObj = {
+      "product": { "code": item['code'] },
+        "quantity":1
+    };
+    this.basketServ.storesampleProducts(baseSiteid,productObj,tokenId,code,_email).subscribe((resp)=>{   
+      this.slides[k]['email']=_email;
+      this.slides[k]['code']=item['code'];
+      this.slides[k]['entryCode']=code;
+      this.slides[k]['entryNumber']=resp['entry']['entryNumber']; 
+
+      this.slides.map((obj)=>{
+        if(item['code'] == obj.code){
+
+          obj['status']="added";
+          obj['disabled'] = true; 
+        }else{
+          obj['status']="pending";
+          obj['disabled'] = false; 
+        }
+     });
+
+
+     this.fetchCartInfo();
+    },(error)=>{
+      const data =JSON.parse(sessionStorage.getItem('customerToken'));
     });
   }
 
 
-  onAddItem(event,data, k) {
-    event.preventDefault();
-    const baseSite = this.singletonServ.catalogVersion; 
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-      if (!user.code) {
-      } else {
-        const tokenId = user["token"];
-        this.storeCurrentUserBasket(
-          data,
-          tokenId,
-          user.code,
-          user.email,
-          k
-        );
-      }
-    } else{
-       if (this.singletonServ.getStoreData(baseSite.guest)) {
-      const user = JSON.parse(this.singletonServ.getStoreData(baseSite.guest));
-      this.storeCurrentUserBasket(
-        data,
-        user.token,
-        user.guid,
-        'anonymous',
-        k
-      );
+  onRemoveItem(data,k){
+      if(sessionStorage.getItem('customerToken')){
+           this.onRemoveSampleEntry(data,k);
+      }else  if (sessionStorage.getItem('cartGUID')) {
+          this.onSpliceItem(data,k);
     }
-  }
-  }
 
-  storeCurrentUserBasket(item, tokenId, code, _email, k) {
-    const baseSite = this.singletonServ.catalogVersion;
-    const productObj = {
-      product: { code: item["code"] },
-      quantity: 1
-    };
-    this.basketServ
-      .storesampleProducts(productObj, tokenId, code, _email)
-      .subscribe(
-       ( resp:any )=> {
-          let _entry=resp.entry;
-          _entry['product']['isSample']=true;
-          this.singletonServ.cartObj.entries.push(_entry);
-          this.slides[k]["email"] = _email;
-          this.slides[k]["code"] = item["code"];
-          this.slides[k]["entryCode"] = code;
-          this.slides[k]["entryNumber"] = resp["entry"]["entryNumber"];
+  }
+  onRemoveSampleEntry(data,k){
+    const that=this;
+   const user = JSON.parse(sessionStorage.getItem('customerToken'));
+    let cartEntry =  _.find(this.cart["entries"],(obj,k)=>{
+      return obj.product.code == data.code ;
+    }); 
+    if(cartEntry){
+    const entry = cartEntry['entryNumber'];
+    const code=this.singletonServ.cartObj["code"];
+    const baseSiteid = this.singletonServ.catalogVersionId;
+    this.basketServ.removeEntry(baseSiteid,user.token,code,user.email,entry).subscribe(res => {
 
-          this.slickModal.unslick(); 
-          this.slickModal.config['arrows']=false;
-          this.slickModal.config['draggable']=false;
-          console.log(k )
-          if(k >= 4){
-           this.slickModal.config['initialSlide']=k;
-          }else{
-            this.slickModal.config['initialSlide']=0;
-          }
-          this.slides.map(obj => {
-            if (item["code"] == obj.code) {
-              obj["status"] = "added";
-              obj["disabled"] = true;
-            } else {
-              obj["status"] = "pending";
-              obj["disabled"] = false;
-            }
-          });
-          this.slickModal.initSlick();
-          this.slickModal.init;
-         
-          // this.singletonServ.sendMessage({updateCart:true});
-        },
-        error => {
-          const data = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-        }
-      );
-  }
+       that.slides.map((obj)=>{
+        obj['status']='';            
+        obj['disabled'] = false; 
+       })
+       this.fetchCartInfo();
+   }, error => {
 
-  onRemoveItem(data, k) {
-     const baseSite = this.singletonServ.catalogVersion;
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      const _usr = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-      this.onRemoveSampleEntry(_usr.token, data, _usr.email, _usr.code,k);
-    } else {
-      if (this.singletonServ.getStoreData(baseSite.guest)) {
-      const _usr = JSON.parse(this.singletonServ.getStoreData(baseSite.guest));
-      this.onRemoveSampleEntry(_usr.token, data, "anonymous", _usr.guid,k);
-    }
+   });
+  }else{
+    that.slides.map((obj)=>{
+      obj['status']='';            
+      obj['disabled'] = false; 
+     });
+     this.fetchCartInfo();
   }
+}
+  onSpliceItem(data,k){
+    const that=this;
+    const baseSiteid = this.singletonServ.catalogVersionId;
+ 
+    if (sessionStorage.getItem('cartGUID')) {
+      const guidData = JSON.parse(sessionStorage.getItem('cartGUID'));
+      const cartId = '/' + guidData['guid'];  
+      const tokenId = guidData['tokenId'];
+      that.basketCount(baseSiteid, cartId,data,tokenId,k);
+  }else{    
+    that.basketServ.generateCartToken().subscribe(res => {
+      const tokenId = res['access_token'];
+      const cartId = '/' + res['guid'];
+      sessionStorage.removeItem('')
+      that.basketCount(baseSiteid, cartId,data,tokenId,k);
+    }, error => {
+    });
   }
-  onRemoveSampleEntry(token, data, email, code,k) {
-    let sampleId;
-    if (this.singletonServ.cartObj["entries"]) {
-      sampleId = _.findIndex(this.singletonServ.cartObj["entries"], (obj, k) => {
-        return obj.product.isSample
-      });
-    if (sampleId !=-1) {
-      const entry = this.singletonServ.cartObj["entries"][sampleId]["entryNumber"];
-      this.basketServ.removeEntry(token, email, code, entry).subscribe(
-        res => {
-          this.slickModal.unslick(); 
-          this.slickModal.config['arrows']=true;
-          this.slickModal.config['draggable']=true;
-          this.slickModal.config['initialSlide']=0;
-          this.slides.map(obj => {
-            obj["status"] = "";
-            obj["disabled"] = false;
-          });
-          this.singletonServ.cartObj["entries"].splice(sampleId,1);
-          this.slickModal.initSlick();
-          this.slickModal.init;
-         },
-        error => {}
-      );
-    } 
     
   }
-  }
-  validateAllFormFields(formGroup: FormGroup) {       
-    Object.keys(formGroup.controls).forEach(field => {  
-      const control = formGroup.get(field);             
-      if (control instanceof FormControl) {             
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {      
-        this.validateAllFormFields(control);            
-      }
+  basketCount(baseSiteid, cartId,data, tokenId,index){
+    
+    const that = this;
+    const entries=this.cart["entries"];
+    let cartEntry =  _.find(entries,(obj,k)=>{
+      return obj.product.code == data.code ;
+    }); 
+    if(cartEntry){
+    const entrynumber = '/' + cartEntry['entryNumber'];
+    that.basketServ.removePrdct(baseSiteid, cartId, entrynumber, tokenId).subscribe(res => {
+      
+      that.slides.map((obj)=>{
+        obj['status']='';            
+        obj['disabled'] = false; 
+       })
+       this.fetchCartInfo();
+    }, error => {
+
     });
-    }
-   
-  ngOnDestroy() {
-    if(this.subscription){
-     this.subscription.unsubscribe();
-    }
+  }else{
+    that.slides.map((obj)=>{
+      obj['status']='';            
+      obj['disabled'] = false; 
+     });
+      this.fetchCartInfo();
+  }
+  }
+
+  ngOnDestroy(){
   }
 }

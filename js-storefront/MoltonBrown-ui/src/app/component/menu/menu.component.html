@@ -1,335 +1,168 @@
-<div class="nav-bar no-margin tab-hide">
-        <div class="mainmenu">
-            <ul class="nav justify-content-center mainmenu-container ">
-                <li class="sub-dropdown  dropbtn mb-productCategory" (mouseleave)="onmouseLeave()"
-                    [ngClass]="{'dropbtn-bg':item.bg,'dropbtn-bg-none':!item.bg,'hide-menu-cntnt':!item.name}"
-                    *ngFor="let item of catalogmenu; let i = index" 
-                    (mouseenter)="onHoverCategory(item,i)" [hidden]="item.order ==100 ">
-                    <a 
-                        style="text-decoration:none;"    
-                        routerLink="{{getRouterPath(item)}}" 
-                        routerLinkActive="active"  
-                        (click)="onShowMbCategoryProduct($event,item)"
-                        >
-                        {{(item.categoryDisplayName)?item.categoryDisplayName:item.name}}
-                    </a>
-                    <div class="sub-menu edi-block"
-                     [ngClass]="{'submenu-ds-block':item.bg,'submenu-ds-none':!item.bg}" 
-                      (mouseleave)="onmouseLeave()">
-                    <div  *ngIf="item.categoryDisplayName !='Editorial';else editorialblock">
-                        <div *ngIf="item.subcategories" >
-                          <div 
-                            *ngFor="let section of item.subcategories;let sectionId=index" 
-                            [ngClass]="{'sm-section-block-two':sectionId !=0 ,'sm-section-block':section.length,'sm-dynamic-block':!section.length}">
-                            <div *ngIf="section.length;else dynamicBlock">
-                              <div *ngFor="let cntnt of section;let ji=index;" 
-                                 [ngClass]="{
-                                     'menu-lvl-three':cntnt.isL3 ,
-                                     'menu-lvl-two':!cntnt.isL3,
-                                     'menu-lvl-two-active':!cntnt.parent&&cntnt.isL3
-                                    }">                         
-                                <h3 *ngIf="!cntnt.isL3">{{cntnt.categoryDisplayName}}</h3>    
-                                 <a 
-                                    *ngIf="cntnt.isL3" 
-                                    routerLink="{{getRouterPath(cntnt)}}" 
-                                    routerLinkActive="active" 
-                                    (click)="onClickSubCategory($event,cntnt)" 
-                                    >
-                                    <span>
-                                        {{cntnt.categoryDisplayName}}  
-                                    </span>
-                                </a>
-                              
-                                </div>
-                            </div>
-                            <ng-template #dynamicBlock>
-                                    <div *ngFor="let content of section.content" class="highlight" style="padding: 15px 0 0 15px;">
-                                            <span [innerHtml]="content.templatename| safe: 'html'"></span>
-                                        </div>
-                            </ng-template>
-                          </div>                       
-                        </div>
-                        </div>
-                        <ng-template #editorialblock>
-                            <div class="editorial_block">
-                                <div class="editorial-links">
-                                    <ul>
-                                        <li>
-                                            <a href="/store/features#newsroom">News Room</a></li>
-                                        <li><a href="/store/features#know">In the Know</a></li>
-                                        <li><a href="/store/features#collections">Collections</a></li>
-                                        <li><a href="/store/features#films">Films</a></li>
-                                    </ul>
-                                </div>
-                                <div class="rowComponents justify-content-center">
-                                    <div class="highlight">
-                                        <a> <img height="208" alt="2019-valentines-orange-bergamot-mm"
-                                                src="https://www.moltonbrown.co.uk/MBPromoImages/MegaMenu/Generic/2019-mothersday-suede-btf-editorial-mm.jpg"></a>
-                                        <div class="bottom-text text-center">
-                                            <h3 class="">Orange &amp; Bergamot</h3>
-                                            <p class="">Awaken the Senses...<span class="dynamic-cta"><a
-                                                        href="/store/collections/orange-bergamot/catUKFNaranJi/"
-                                                        class="black-color">Read More</a></span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="highlight">
-                                        <a> <img height="208" alt="2019-valentines-orange-bergamot-mm"
-                                                src="https://www.moltonbrown.co.uk/MBPromoImages/MegaMenu/Generic/2019-valentines-bathing-editorial-mm.jpg"></a>
-                                        <div class="bottom-text text-center">
-                                            <h3 class=" ">Orange &amp; Bergamot</h3>
-                                            <p class="">Awaken the Senses ...
-                                                <span class="dynamic-cta"><a
-                                                        href="/store/collections/orange-bergamot/catUKFNaranJi/"
-                                                        class="black-color">Read More</a></span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!-- sidenav starts -->
-    
-    
-    
-    
-    
-    
-    <div #mySidenav id="mySidenav" class="sidenav tab-block"
-        [ngClass]="{'mb-menu-block':sidemenuStatus,'mb-menu-none':!sidemenuStatus}">
-        <div class=" searchbox searchBar ">
-            <form >
-                <div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c ui-mini">
-                    <input  class="search-submit-button pull-right" type="submit" >
-                    <input 
-                    #searchMobInput
-                        class="searchText"
-                        type="text"
-                        title="Search" 
-                        autocomplete="off"
-                        placeholder="I'm looking for..."
-                        (input)="onSearchChange($event.target.value)"
-                        (keyup)="onEnterSearcKeyUp($event)"  
-                        >
-                </div>
-                   <button class="search-close-icon"  (click)="onSearcKeyUp($event)"   type="reset" [ngClass]="{'searchBlock-block':searchBlock,'searchBlock-none':!searchBlock}"></button>
-             
-            </form>
-                <div class="auto-completeBlock" *ngIf="searchResults.length>0"  (mouseleave)="onLeaveSearchBox()" (mouseenter)="showSearchBox()"  [ngClass]="{'searchBlock-block':searchBlock,'searchBlock-none':!searchBlock}"     >
-                <ul>
-                        <li *ngFor="let searchItem of searchResults;"  (click)="onMenuSearchProduct($event,searchItem)">
-                            <a >
-                                 <picture>
-                                    <source srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{searchItem.code}}_uk_set?$thImg$&amp;fmt=webp" type="image/webp">
-                                    <source srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{searchItem.code}}_uk_set?$thImg$&amp;fmt=jpg" type="image/jpeg">
-                                    <img src="//media.moltonbrown.co.uk/s/moltonbrown/{{searchItem.code}}_uk_set?$thImg$&amp;fmt=jpg">
-                                 </picture>
-                                <div *ngIf="searchItem.categoryDisplayName" [innerHtml]="searchItem.categoryDisplayName"></div>
-                                <div *ngIf="searchItem.productDisplayName" [innerHtml]="searchItem.productDisplayName"></div>
-                          </a>
-                        </li>
-                    </ul>
-                    <button class="search_more1" (click)="onSearchMoreResults()">
-                        more results
-                    </button>
-                </div>
-     
-        </div>
-        <a class="store_tab side-menu-tab" (click)="onFindStoreClick()">
-            FIND A STORE<span class="findstore">&nbsp;</span>
-        </a>
-        <div id="accordion1" class="country" >
-            <div class="sidemenu-header collapsed  sidemenu-cntnt-box " href="#collapseCatalog" 
-             data-toggle="collapse"> 
-                <a class="sidemenu-title no-margin side-menu-tab">  CHANGE COUNTRY</a>
-            </div>
-            <div id="collapseCatalog" class="collapse country-menu " data-parent="#accordion1">
-                 
-                            <div class="policiesSub-title" *ngFor="let data of baseSiteCountries"    [hidden]="data.current">
-                                <div class="collapsed" data-toggle="collapse" href="#collapseSub">
-                <a class=" country-list" [ngClass]="{
-                    store_eu: data.isoCode == 'EU',
-                    store_uk: data.isoCode == 'GB',
-                    store_de: data.isoCode == 'DE',
-                    store_us: data.isoCode == 'US',
-                    store_jp: data.isoCode == 'JP'
-                  }"
-                  
-                  data-toggle="modal"
-                  data-target="#popupmobilecountryChange"
-                  (click)="onmbCountryChange (data)"
-                   >
-                    &nbsp;{{data.countryName}}
-                </a>
-                </div>
-                </div>
-    
-            </div>
-        </div>
-    
-        <div class=" sidemenu-cntnt-box">
-            <div class="sidemenu-title no-margin side-menu-tab side-home" (click)="gotoHome()">
-                Home 
-            </div>
-            </div>
-        <div id="accordion" *ngFor="let sidemenu of catalogTree; let menuId= index" [hidden]="sidemenu.order ==100">
-            <div class="sidemenu-header collapsed  sidemenu-cntnt-box" data-toggle="collapse"
-                [attr.href]="'#collapseOne'+sidemenu.id" [ngClass]="{'subCat-none':!sidemenu.subcategories}"
-                *ngIf="sidemenu.categoryDisplayName !='Editorial';else editorialBlock ">
-              
-                <a class="sidemenu-title no-margin side-menu-tab">
-                    {{sidemenu.categoryDisplayName}}
-                </a>
-            </div>
-            <ng-template #editorialBlock>
-        <div class=" sidemenu-cntnt-box">
-                <div class="sidemenu-title no-margin side-menu-tab editorialFont" (click)="onShowEditorialPage($event,sidemenu)">
-                    {{sidemenu.categoryDisplayName}}
-                </div>
-                </div>
-            </ng-template>
-            <div [attr.id]="'collapseOne'+sidemenu.id " class="collapse submenuSide" data-parent="#accordion">
-                <div [attr.id]="'accordion'+sidemenu.id ">
-                    <div *ngFor="let subMenus of sidemenu.subcategories; let subId= index">
-                        <div class="side-menu-tab sidemenu-header collapsed sidemenu-dropdown-layer-two list-group-sub-item dropdown"
-                            data-toggle="collapse" [attr.href]="'#collapseSub'+subMenus.id"
-                            (click)="onShowcategory($event,subMenus)" [ngClass]="{'subCat-none':subMenus.titleName}">
-                            <span class="sidemenu-title no-margin">
-                                {{subMenus.categoryDisplayName}}
-                            </span>
-                        </div>
-                        <div [attr.id]="'collapseSub'+subMenus.id" class=" collapse "
-                            [attr.data-parent]="'#accordion'+menuId">
-                            <div *ngFor="let trackMenu of subMenus.subcategories; let trackId index">
-                                <div class="trackmenuList ede" (click)="onShowMbSubCategoryProduct($event,trackMenu)">
-                                    <span>{{trackMenu.categoryDisplayName}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-            </div>    
-        </div>
-    
-      <div *ngIf="!signIn;else loggedBlock">
-        <div class=" sidemenu-cntnt-box">
-            <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapLogin()">Sign In </a>
-        </div>
-        <div class=" sidemenu-cntnt-box">
-            <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapRegister()">Register</a>
-        </div>
-    </div>
-    <ng-template #loggedBlock>
-        <div class=" sidemenu-cntnt-box">
-            <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapAccount()">My Account </a>
-        </div>
-        <div class=" sidemenu-cntnt-box">
-            <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapLogut()">Sign out</a>
-        </div>
-    </ng-template>
-        <div class=" sidemenu-cntnt-box">
-            <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapNewsLetter()"> Newsletter</a>
-        </div>
-    
-    
-    
-        <div id="accordion" *ngFor="let policies of footerData; let polcyID= index">
-            <div class="sidemenu-header collapsed  sidemenu-cntnt-box " data-toggle="collapse"
-                [attr.href]="'#collapseOne'+polcyID" (click)="onPolicesCntntClick($event,policies)">
-                <a class="sidemenu-title no-margin side-menu-tab policies-title"
-                    [ngClass]="{'sub-block-none':!policies.data}" >
-                    {{policies.name}}
-                </a>
-            </div>
-            <div [attr.id]="'collapseOne'+polcyID" class=" collapse" data-parent="#accordion">
-                <div [attr.id]="'accordion'+polcyID">
-                    <div class="policiesSub-title" *ngFor="let policiesSub of policies.data; let subId= index">
-                        <div class="collapsed" data-toggle="collapse" [attr.href]="'#collapseSub'+subId">
-                            <a class="sidemenu-title no-margin" (click)="onFooterCntntClick($event,policiesSub)">
-                                {{policiesSub.name}}
-                            </a>
-                        </div>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-    </div>
-    <!-- sidenav ends -->
-    <div class="backdrop catalog-backdrop" (swipe)="swipMenu($event)" (mouseenter)="onhidesubmenu()" (click)="toggleMenu($event)"
-        [ngClass]="{'display':mouseEnter,'responsive-overlay':sidemenuStatus}"></div>
-    
-        
-    <div
-    class="modal"
-    id="popupmobilecountryChange"
-    tabindex="-1"
-    role="dialog"
-    aria-hidden="true"
-    >
-    <div class="modal-dialog modal-full" role="document">
-      <div class="modal-content">
-        <div class="modal-body modal-country-height">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <img
-              src="https://www.moltonbrown.co.uk/images/close_black.png?version=16"
-            /></button
-          ><br />
-    
-          <div class="text-center cg-country">CHANGING COUNTRY?</div>
-          <p class="cg-country-sub text-center">
-            You're about to travel away from the {{ currentCountryCode }} site.
-          </p>
-          <p class="text-center">
-            On the site you're about to visit you'll find the different prices,<br />delivery
-            times and delivery costs for your country so you can<br />
-            shop without doing any tricky maths.
-          </p>
-          <p class="text-center">
-            Please be aware that when you move to another site<br />
-            your shopping basket will be emptied.
-          </p>
-          <p class="text-center">
-            Love,<br />
-            Molton Brown
-          </p>
-          <div class="form-inline text-center">
-            <button
-              class=" countryPop countryPopCancel"
-              (click)="onCancelModal(false)"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button
-              class=" countryPop countryPopConfirm"
-              (click)="onCancelModal(true)"
-              data-dismiss="modal"
-            >
-              Confirm
-            </button>
+
+<div class="nav-bar no-margin tab-hide" >
+  <div class="mainmenu">
+      <ul class="nav justify-content-center ">
+          <li class="sub-dropdown  dropbtn mb-productCategory"    (mouseleave)="onmouseLeave()"
+          [ngClass]="{'dropbtn-bg':item.bg,'dropbtn-bg-none':!item.bg,'hide-menu-cntnt':!item.name}"  
+                  *ngFor="let item of menuData; let i = index" (click)="onShowMbCategoryProduct($event,item)" (mouseenter)="onHoverCategory(item,i)" [hidden]="item.order ==100 ">
+                  <a  style="text-decoration:none;"  >{{(item.categoryDisplayName)?item.categoryDisplayName:item.name}}</a>
+                  <div class="sub-menu edi-block"  [ngClass]="{'submenu-ds-block':item.bg,'submenu-ds-none':!item.bg}" >
+
+           <div *ngIf="item.categoryDisplayName !='Editorial';else editorialblock" class="innerDivSubMenu column-height-h">
+                      <div class="menu-block  column-height"*ngFor="let subData of item.subcategories;let kSub =index;" >
+                            <h3 class="data "  (click)="onShowcategory($event,subData)"  [ngClass]="{'active-header':subData.titleName}">{{item.subcategories[kSub].categoryDisplayName}}</h3>  
+                            <h3  class="data menu-lvl-3" *ngFor="let subMiniData of subData.subcategories" (click)="onShowMbSubCategoryProduct($event,subMiniData)">
+                                 <a  >{{subMiniData.categoryDisplayName}}</a>
+                            </h3> 
+                  </div>
+              </div>
+
+                  <div class="dynamicContent " *ngIf="item.bannerId ">
+                             <div class="highlight" *ngFor="let cntnt of item.content">
+                                  <span [innerHtml]="cntnt.templatename"></span>
+                              </div>
+                  </div>
+                       <ng-template #editorialblock>
+                      <div class="editorial_block">
+                              <div class="editorial-links">
+                                      <ul>
+                                          <li>
+                                              <a href="/store/features#newsroom">News Room</a></li>
+                                                  <li><a href="/store/features#know">In the Know</a></li>
+                                                  <li><a href="/store/features#collections">Collections</a></li>
+                                                  <li><a href="/store/features#films">Films</a></li>
+                                                  </ul>
+                                  </div>
+                                  <div class="rowComponents justify-content-center">
+                                          <div class="highlight">
+                                                      <a> <img  height="208" alt="2019-valentines-orange-bergamot-mm" src="https://www.moltonbrown.co.uk/MBPromoImages/MegaMenu/Generic/2019-mothersday-suede-btf-editorial-mm.jpg"></a>
+                                                      <div class="bottom-text text-center">
+                                                          <h3 class="">Orange &amp; Bergamot</h3>
+                                                          <p class="">Awaken the Senses...<span class="dynamic-cta"><a href="/store/collections/orange-bergamot/catUKFNaranJi/" class="black-color">Read More</a></span>
+                                                  </p>
+                                                              </div>
+                                                  </div>
+                                                  <div class="highlight">
+                                                          <a> <img  height="208" alt="2019-valentines-orange-bergamot-mm" src="https://www.moltonbrown.co.uk/MBPromoImages/MegaMenu/Generic/2019-valentines-bathing-editorial-mm.jpg"></a>
+                                                          <div class="bottom-text text-center">
+                                                              <h3 class=" ">Orange &amp; Bergamot</h3>
+                                                              <p class="">Awaken the Senses ...
+                                                              <span class="dynamic-cta"><a href="/store/collections/orange-bergamot/catUKFNaranJi/" class="black-color">Read More</a></span></p>
+                                                                                                                            </div>                                                            </div>                                            </div>                      
+                      </div>
+                  </ng-template>
+                  </div>                   
+              </li>                
+      </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- sidenav starts -->
+
+
+
+
+
+
+<div #mySidenav id="mySidenav" class="sidenav tab-block" [ngClass]="{'mb-menu-block':sidemenuStatus,'mb-menu-none':!sidemenuStatus}">
+  <div class=" searchbox searchBar">
+      <form>
+          <div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c ui-mini">
+              <input value="" class="search-submit-button pull-right" type="submit"  disabled="">
+              <input class="searchText" name="Ntt" type="text" id="searchText" title="Search" autocomplete="off" value=""
+                  placeholder="I'm looking for...">
+              <button class="search-close-icon" type="reset"></button>
           </div>
-        </div>
+      </form>
+  </div>
+  <a  class="store_tab side-menu-tab">
+      FIND A STORE<span class="findstore">&nbsp;</span>
+  </a>
+  <div class="country side-menu-tab">
+      change coutry
+          <div id="collapseCatalog" class="collapse country-menu " data-parent="#accordion">
+              <a class="store_us country-list" *ngFor="let data of catalog" >
+               &nbsp;{{data.countryName}}
+              </a>
+          </div>
       </div>
-    </div>
-    </div>
-    
+
+      <div id="accordion" *ngFor="let sidemenu of menuData; let menuId= index">
+              <div class="sidemenu-header collapsed  sidemenu-cntnt-box" data-toggle="collapse" 
+              [attr.href]="'#collapseOne'+sidemenu.id " [hidden]="sidemenu.order ==100"  [ngClass]="{'subCat-none':!sidemenu.subcategories}" *ngIf="sidemenu.categoryDisplayName">
+                  <a class="sidemenu-title no-margin side-menu-tab" >
+                          {{sidemenu.categoryDisplayName}}
+                      </a>
+              </div>
+              <div [attr.id]="'collapseOne'+sidemenu.id " class=" collapse" data-parent="#accordion">
+                  <div [attr.id]="'accordion'+sidemenu.id ">
+                      <div *ngFor="let subMenus of sidemenu.subcategories; let subId= index">
+                          <div class="side-menu-tab sidemenu-header collapsed sidemenu-dropdown-layer-two list-group-sub-item dropdown" 
+                          data-toggle="collapse" [attr.href]="'#collapseSub'+subMenus.id"   [ngClass]="{'subCat-none':subMenus.titleName}" >
+                              <span class="sidemenu-title no-margin"   >
+                                  {{subMenus.categoryDisplayName}}
+                               </span>
+                          </div>
+                          <div [attr.id]="'collapseSub'+subMenus.id" class=" collapse " [attr.data-parent]="'#accordion'+menuId">
+                              <div *ngFor="let trackMenu of subMenus.subcategories; let trackId index">
+                                  <div class="trackmenuList"  (click)="onShowMbSubCategoryProduct($event,trackMenu)" >
+                                      <span>{{trackMenu.categoryDisplayName}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="trackmenuList" (click)="onTapViewAllCat($event,sidemenu)">
+                            View All   {{sidemenu.categoryDisplayName}}
+                        </div>
+                  </div>
+                  
+              </div>
+          
+          </div>
+
+
+      <div class=" sidemenu-cntnt-box">
+          <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapLogin()">Sign In </a>
+      </div>
+      <div class=" sidemenu-cntnt-box">
+          <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapRegister()">Register</a>
+      </div>
+      <div class=" sidemenu-cntnt-box">
+          <a class="sidemenu-title no-margin side-menu-tab" (click)="onTapNewsLetter()"> Newsletter</a>
+      </div>
+
+
+
+      <div id="accordion" *ngFor="let policies of footerData; let polcyID= index">
+              <div class="sidemenu-header collapsed  sidemenu-cntnt-box " data-toggle="collapse" 
+              [attr.href]="'#collapseOne'+polcyID" >
+                  <a class="sidemenu-title no-margin side-menu-tab policies-title" [ngClass]="{'sub-block-none':!policies.data}" >
+                          {{policies.name}}
+                      </a>
+              </div>
+              <div [attr.id]="'collapseOne'+polcyID" class=" collapse" data-parent="#accordion">
+                  <div [attr.id]="'accordion'+polcyID">
+                      <div class="policiesSub-title" *ngFor="let policiesSub of policies.data; let subId= index">
+                          <div  class="collapsed" 
+                          data-toggle="collapse" [attr.href]="'#collapseSub'+subId" >
+                              <a class="sidemenu-title no-margin" (click)="onFooterCntntClick(policiesSub)" >
+                                  {{policiesSub.name}}
+                               </a>
+                          </div>
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+</div>
+<!-- sidenav ends -->
+<div class="backdrop" (swipe)="swipMenu($event)" (mouseenter)="onhidesubmenu()" (click)="toggleMenu($event)"  [ngClass]="{'display':mouseEnter,'responsive-overlay':sidemenuStatus}"></div>

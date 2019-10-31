@@ -22,6 +22,7 @@
             padding:15px !important;
         }
         }
+.rightColumn .amp-dc-homepage.aboutus {}
 .staticAside{
     width:194px;
     height:441px;
@@ -29,13 +30,6 @@
 .staticAside ul .list-group-item{
     border:none  !important;
 padding: 0px;
-}
-.leftColumn {
-    .medium-aside-menu{
-        li ul.search-menu-sub-cntnt li{
-            line-height: 16px;
-        }
-    }
 }
 @media(max-width:768px){
     .leftColumn {
@@ -96,11 +90,11 @@ margin-top: 10px;
    position: relative;
    .amp-dc-card-text-wrap
    {    width: 268px!important;background-color: #2c2d2d;
-        height:370px;
        position: absolute;
        opacity: 0.7;text-align: left !important;
        top:34px;padding:10px;
        @media screen and (max-width:768px){
+        width: 268px !important;
         background-color: #2c2d2d;
         position: absolute;
         opacity: 0.7;
@@ -114,7 +108,7 @@ margin-top: 10px;
            font-size: 13px;    font-family: arial;
        } .amp-dc-card-name{line-height: 1em;
            color:#fff !important;font-size: 23px !important;
-           font-family: Molengo;    margin-bottom: 0px;
+           font-family: Molengo;    margin-bottom: 10px;
            padding-bottom: 14px;
            @media screen and(max-width:768px){
               font-size: 18px !important; 
@@ -228,7 +222,7 @@ margin-left:0px !important;
         padding: 20px;
         width: auto;
         float: left;
-        margin: 23px 0 0 0;
+        margin: 18px 0 0 0;
         @media screen and(max-width:768px) {
             border:0px;background-color:#fff;
             padding: 20px 0;
@@ -290,12 +284,6 @@ padding-bottom: 7px;
         // margin: 10px 0 0;
     }
     }
-    .rightColumn .faqsandhelp h1{
-        margin-top:0;
-    }
-    .rightColumn .placingorderfaqs h1{
-        margin-top:0;
-    }
     .rightColumn .deliveryfaqs  .staticHeader h1 {
         padding: 0 !important;
         @media screen and(max-width:768px) {
@@ -349,12 +337,9 @@ padding-bottom: 7px;
         }
     }
     /*terms& conditions */
-    .terms-conditions .staticHeader .static_para{
-        margin-top: 0px;
-        p{
+    .terms-conditions .staticHeader .static_para p{
         padding: 10px 0px;
     }
-    } 
     /* Promotional Terms & Conditions */
     .promotionalterms-conditions .staticHeader .mb_contentblock_landing div p{
     padding-bottom: 17px;     
@@ -388,22 +373,6 @@ a:link, a{
             width:964px;
             
           height:372px;margin-bottom: 30px;
-          position: relative;
-          .amp-dc-banner-info-wrap{
-            height: 210px;
-            width: 427px;
-            background-color: rgba(255,255,255,0.8);
-            top: 20%;
-            .amp-dc-banner-info{
-                display: inline-block;
-    /* vertical-align: middle; */
-    width: 75%;
-    margin: 24px 55px;
-    text-align: center;
-            }
-          }
-    
-
 @media screen and(max-width:768px){
     width:100%;
 }
@@ -477,7 +446,7 @@ a:link, a{
                 }
                 ul {
                     li{
-                        font-size: 12px;
+                        font-size: 14px;
                         color: #000;margin-left:15px;
                     }
                     li:first-child{
@@ -487,26 +456,23 @@ a:link, a{
                 }
             }
             .affiliate-enquiry-rectangle-02 {
-                    background: #f9f9f9;  
+                    background: #f9f9f9;
+                    padding: 32px 10px 32px 81px;    
                     @media screen and (max-width:768px) {
                         width:100%;margin: 15px 0 0;height: auto;
                     }
                 
                     width:365px;
                     height: 237px;   
-                    padding: 32px 10px 28px 60px; float: left;
+                    padding: 28px 10px 28px 60px; float: left;
                     h2 i{
                         font-family: Georgia, 'Times New Roman', Times, serif !important;
                         font-size: 28px;color: #1c1c1c;
                     }
                     ul {
                         li{
-                            font-size: 12px;
-                            color: #000;
-                            margin-left:15px;
-                            &:first-child{
-                                margin-top:15px;
-                            }
+                            font-size: 14px;
+                            color: #000;margin-left:15px;
                         }
                 
                     }
@@ -520,8 +486,6 @@ a:link, a{
  
 .affiliate-enquiry-applynow-section-1,.affiliate-enquiry-applynow-section-2 {
     margin-top: 30px !important;
-   h2{
-       margin-bottom: 15px;}
     @media screen and (max-width:768px){
         margin-left:0 !important;
         margin-right:0 !important;
@@ -780,16 +744,18 @@ margin-bottom: 10px;
     }
     }
     .Hotel-aminities-rightsection{
-
+        .amp-dc-block-wrap{
+            width: 292px;
+            margin: auto;
+        }
         .amp-dc-block-wrap:first-child{
             margin-top: 20px;
             .amp-dc-card-img-wrap{
-                // width:292px;
-                // height:161px; 
-                 margin:auto;
-                 @media screen and(max-width:768px) {
-                    width:100%
-                }
+                width:292px;
+                height:161px;  margin:auto;
+                //  @media screen and(max-width:768px) {
+                //     width:100%
+                // }
             }
     }
     .bespoke-right-card-02{
@@ -799,10 +765,6 @@ margin-bottom: 10px;
             .amp-dc-image img{
                  width:292px;
         height: 218px;   margin:auto;
-        @media screen and(max-width:768px){
-            width:100%;
-            height:auto;
-        }
             }
       
         }
@@ -815,7 +777,7 @@ margin-bottom: 10px;
     width:100%;
         .amp-dc-card-link{
     // padding-top: 0px;
-    color: #fff !important;
+    color: #fff;
     &:after{
         border-top: 5px solid transparent;
         border-left: 5px solid;
@@ -832,39 +794,14 @@ margin-bottom: 10px;
           
     }
     }
-    .amp-dc-block-wrap{
-        .amp-dc-prod-3-rows .amp-dc-card-list-wrap{
-
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0 0 0;
-    @media screen and(max-width:768px) {
-        flex-direction:column;
-    }
-    .amp-dc-card {
-width:220px;
-height:202px;
-
-@media screen and(max-width:480px) {
-margin: 10px auto;
-width: 100%;
-height: auto;
-}
-
-.amp-dc-card-wrap{
+.amp-dc-prod-3-rows .amp-dc-card-list-wrap .amp-dc-card-wrap{
     position: relative;
-    margin: 0;
-    .amp-dc-card-img-wrap{
-        margin: 0px;
-    }
-    }
-    
 
     .amp-dc-card-text-wrap{
         position: absolute;    bottom:0px;background-color: #777674d4;color:#fff !important;width:100%;
         .amp-dc-card-link{
     // padding-top: 0px;
-    color: #fff !important;
+    color: #fff;
     &:after{
         border-top: 5px solid transparent;
         border-left: 5px solid;
@@ -887,47 +824,31 @@ height: auto;
         }
         }
 }
+
+
 }
 
+.hotel-collections .amp-dc-splitBlock{
+    padding: 10px;
+    border: 1px solid #d6d6d6;margin-top: 20px;
+    .amp-dc-size-10{
+        width:125px;
+        height: 125px;padding:2px;border:1px solid #d6d6d6;margin:auto;
+        .amp-dc-image  {
+    height: 120px;width: 120px;
+        }
     }
-
-
-
-}
-
-.hotel-collections {
-width:770px;
-padding-left:18px;
-@media screen and (max-width:768px){
-    width:100%;
-    padding-left:0px;
-}
-    .amp-dc-splitBlock{
-        padding: 10px;
-        border: 1px solid #d6d6d6;margin-top: 20px;
-        .amp-dc-size-10{
-            width:125px;
-            height: 125px;padding:2px;border:1px solid #d6d6d6;margin:auto;
-            .amp-dc-image  {
-        height: 120px;width: 120px;
+     .amp-dc-size-90{
+        .description{
+                
+            margin-top: 10px;
+            padding-bottom: 7px;
+            p {
+                margin-top:20px;
+            }
             }
         }
-         .amp-dc-size-90{
-            .description{
-                    
-                margin-top: 10px;
-                padding-bottom: 7px;
-              p.title {
-                    margin-top:10px;
-                    font-size: 14.1px;padding-bottom: 7px;
-                }
-                p{
-                    margin-top:10px;
-                }
-                }
-            }
-         }
-}
+     }
 .hotel-collections.collections1973{
     .hotelproducts .staticHeader{
         p{
@@ -962,12 +883,12 @@ aside {
     width: 194px;
     border: 0;
     text-align: left;
-    padding:4px 6px 20px 15px;
+    padding:4px 10px 20px 10px;
      h3.facet_header {
         font-size: 14px;
         line-height: 30px;
         color: #666;
-        font-family: 'Century Gothic Bold';
+        font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
         text-align: left!important;
@@ -1001,9 +922,6 @@ aside {
             .amp-dc-image img{
                  width:292px;
         height: 218px;   margin:auto;
-        @media screen and(max-width:768px){
-            width:100%
-        }
             }
       
         }
@@ -1054,12 +972,7 @@ aside {
     position: absolute;
         }
         .amp-dc-banner-header{
-            color: #ffffff;
-            font-family: Arial, Helvetica, sans-serif;
             font-size: 85px;
-            line-height: 90px;
-            font-weight: normal;
-            // margin-top: 50px;
         }
         .amp-dc-banner-subheader{
             font-size: 20px;
@@ -1073,11 +986,8 @@ aside {
 } }
     }
     .careers{
-        h1{
-            padding-left: 18px;
-        }
         .spaHotelsCareers3900026{
-            margin-top:40px;
+            margin-top:20px;
             p{
                 margin-top:20px;
                 padding-bottom:7px;
@@ -1125,12 +1035,9 @@ aside {
                     width:100% !important;
                 }
                 .main-title{
-                    font-size: 25px;
-                    margin: 30px 0 3px;
+                    font-size: 25px;    margin: 30px 0 3px;
                     padding: 0;
                     font-weight: 100;
-                    font-family: Georgia;
-                    text-transform: uppercase;
                 }
                 .sub-title{
                     font-size: 22px;
@@ -1147,7 +1054,6 @@ aside {
                     border: 1px solid #000000;
                     padding-top: 3px;
                     margin: auto;
-                    font-family: Georgia;
                     line-height: 15px;
                         font-style: italic;
                         font-size: 14px;
@@ -1156,15 +1062,10 @@ aside {
                         font-size: 14px;
                     }
                 }
-           
+                p{
+                    width:425px !important;
+
                 }
-                .font14{
-                    width:425px ;
-                    font-family: Georgia !important;
-                    font-size: 14px;    margin: auto;
-                    @media screen and(max-width:425px) {
-                        width:100% !important;
-                    }
                 }
             }
         }
@@ -1175,7 +1076,6 @@ aside {
             justify-content: space-between;
             @media screen and(max-width:768px) {
                 flex-direction:column;
-                margin-top:0px;
             }
             .heritagepage-image-01{
                 width:422px;
@@ -1187,7 +1087,6 @@ aside {
             }
             .Ourheritage-text{
                 color:#000;
-                padding-bottom: 30px;
                 h3{
                     font-style: italic; font-size: 22px;
                     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -1229,24 +1128,16 @@ aside {
     padding: 0 75px 0 75px;
     position: relative;
     border: none;
-    // font-size: 150%;
+    font-size: 150%;
     line-height: 100%;
     font-style: italic;
     text-align: left;
     margin-top: 40px;line-height:1.2;
-    
-    @media screen and (max-width:425px){
-        padding: 0 15px;
-    }
-  
     .amp-dc-card-name{
         font-size: 40px;
         font-family: Georgia, 'Times New Roman', Times, serif;
         font-style: italic;
-    padding-bottom: 12px; 
-     @media screen and (max-width:425px){
-        font-size: 23px !important;
-    }
+    padding-bottom: 12px;
        
             } .amp-dc-card-description{
                 width: 185px;color: #000;
@@ -1446,32 +1337,7 @@ h3{
     padding-right: 8px;
    } 
 }
-.container-bcc{   .table-bcc thead{
-        vertical-align: top;height: 30px;
-     th{
-        color: #000 !important;
-        
-    }   
-    } 
-  .staticsubheader{
-    font-weight:700;
- 
-
-}  
-p{
-    
-    font-family: Arial, Helvetica, sans-serif;
-  
 }
-.table-bcc {
-    border: 0 transparent;
-    margin: 5px 0 13px 34px;
-    width: 100%;
-    border-collapse: collapse;
-}
-} 
-}
-
 .download-brochure{
 padding-left: 18px;
 .staticHeader{
@@ -1511,132 +1377,4 @@ height:100%;
         display: block;
     }
 }
-}
-.brochureblock{
-    padding: 0 !important;
-}
-.mb_contentblock_landing.singleBlock td {
-    border-top: 0 solid #d6d6d6;
-    padding: 5px 5px 5px 0;
-    vertical-align: top;
-
-}
-.impressum {
-h1{
-    font-size: 28px;
-}
-    .staticHeader{
-    margin:auto;
-}
-}
-.corporate-gifting {
-    text-align: center;
-    padding-top: 40px;
- }
- .corporate-gifting p {
-    padding-top: 20px;
-    font-size: 16px;
-    width: 80%;
-    margin: 0 auto;
-    line-height: 18px;
- }
- .corporate-gifting a {
-    color: #000 !important ;
-    
- }
- .corporate-gifting a.download-brochure-link{
-    background: #4d3938;
-    font-style: italic;
-    font-family: georgia;
-    color: #fff !important;
-    padding: 10px 30px 10px 30px;
-    display: inline-block;
-    margin: 30px 0 33px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: normal;
- }
- .corporate-gifting .logo-image {
-    width: 34%;
-    margin: 22px 0 8px;
-    display: inline-block
- }
- @media screen and (max-width: 768px) {
-    .corporate-gifting .logo-image {
-    width: 100%;
- }
- } 
- .trebuchet{
-     span{
-         color: #000;
-         font-size: 16px;
-         font-weight:700;
-     }
- }
- .termsconditions{
-    color: #000 !important;
-    font-size: 16px;
-    font-weight:700;
- }
- .onlyText {
-margin:0 !important;
- }
- .delivery-returns .static_para p{
-     padding-bottom:7px;
-     margin:0 0 10px;
- }
- .delivery-returns .static_para p a {
-    font-family: 'Century Gothic Bold' !important;
-    color: #000 !important;
-    font-weight: normal;
-}
- .delivery-returns .static_para strong a {
-    font-family: 'Century Gothic Bold' !important;
-    color: #464646 !important;
-    font-weight: normal;
-}
-.delivery-returns .static_para p b, .delivery-returns .static_para p strong  {
-    font-family: 'Century Gothic Bold' !important;
-    color: #260e03!important;
-    font-weight: normal;
-}
-.delivery-returns .static_para  b {
-    font-family: 'Century Gothic Bold' !important;
-    color: #260e03!important;
-    font-weight: normal;
-}
-.delivery-returns .static_para p strong a{
-    font-family: 'Century Gothic Bold' !important;
-    color: #000000!important;
-    font-weight: normal;
-    text-decoration: underline;
-}
-.delivery-returns .static_para strong a:link {
-    color: #464646!important;
-    font-weight: normal;
-}
-
-.delivery-returns .static_para p {
-    font-family: 'Century Gothic Regular' !important;
-}
-    .delivery-returns .static_para p a:link {
-        font-family: 'Century Gothic Regular' !important;
-    color: #666666!important;
-    font-weight: normal;
-}
-.mb_contentblock_landing.singleBlock span strong{
-    font-family: 'Century Gothic Bold' !important;
-    color:#000 !important;
-    font-weight:normal;
-
-}
-.mb_contentblock_landing.singleBlock span {
-    color:#000 !important;
-
-}
-.staticsubheader p strong a{
-    color:#000 !important;
-}
-.mb_contentblock_landing.singleBlock static_para{
-    color: #260e03!important;
 }
