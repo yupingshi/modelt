@@ -1,61 +1,36 @@
-<div class="clickcollect-wrap" >
-  <section class="find-box cc-postcode" *ngIf="loadGMscript">
-     <h4>{{'clickCollect.title'|translate}}</h4>
-     <form [formGroup]="storePointForm"  custom-focus>
-      <div class="form-group clearfix store-code-container">
+<div class="clickcollect-wrap" *ngIf="!loader;else loadOverlay">
+  <section class="find-box cc-postcode">
+     <h4><b>Choose a location to collect from</b></h4>
 
-        <div class="store-code-input-container">
-          <div class="store-code-fx-1" >
-           <label class="sr-only">Post code</label>
-               <input
-                 #search 
-                 googlePlaces
-                 (onSelect)="setAddress($event)"
-                 type="text"
-                 (change)="onChangePostcode($event)"
-                 (keyup)="onSearchKeyUp($event)"
-                 formControlName="zipcode"   
-                 placeholder="Enter a store name, postcode or town*"
-                 class="text form-control pull-left cc-postcode-input"
-                 [ngClass]="{
-                    'has-error  not-valid':!storePointForm.controls['zipcode'].valid && storePointForm.get('zipcode').touched }" />
-              
-                    <div *ngIf="storePointForm.controls['zipcode'].valid&&storePointForm.get('zipcode').touched">
-                    <span class="no-strores-error-msg" 
-                    *ngIf="emptyStores" >
-                     Sorry,no stores found near &nbsp;  &quot; {{storePointForm.controls['zipcode'].value}} &quot; 
-                    </span>
-                  </div>
-                 <div *ngIf="!storePointForm.controls['zipcode'].valid &&  storePointForm.get('zipcode').touched"
-                 class="not-valid-error-msg ">
-                 <span [hidden]="!storePointForm.controls['zipcode'].errors.required">{{'store.search'|translate}}</span>
-               </div>  
-                
-         </div>
-            <button  (click)="onPostCodeClick($event)"class=" btn btn-default btn-find-address" >FIND</button>
-          </div>
-       </div>
-      </form>
+        <div class="form-group clearfix">
+             <label class="sr-only">Post code</label>
+             <input #search maxlength="12" appGooglePlaces  (onSelect)="setAddress($event)" type="text" value="" (keydown)="onSearchKeyUp($event)" [(ngModel)]="postCode"  placeholder="Enter a store name, postcode or town*" type="text" class="text form-control pull-left cc-postcode-input" >
+             <!-- {{!-- <span class="not-valid-error-msg">Please enter a store name, postcode or town</span> --}} -->
+             <span class=" btn btn-default pull-right btn-find-address" (click)="onPostCodeClick()" style="margin-top:5px;">FIND</span>
+        </div>
   </section>
   <section class="cc-stores-list" *ngIf="showStores">
-     <div class="cc-results-count cc-results-left" *ngIf="storesList">
-         <span class="cc-results-size">{{storesList.length}}</span> locations found
+     <div class="cc-results-count cc-results-left">
+         <span class="cc-results-size">23</span> locations found
      </div>
-<div *ngIf="!emptyStores">
-     <div class="form-group" *ngFor="let point of storeTypeList;let k=index;">
-         <div class="checkbox storepoint">
-             <input 
-               type="checkbox"  
-               [checked]="point.checked" 
-               (change)="checkMBStores($event,point,k)"  >
-             <label >
-               <img [src]="point.img" alt="logo">
-                <span [innerHtml]="point.name">                   
-                 </span>  
+     <div class="form-group">
+         <div class="checkbox">
+             <input type="checkbox" [checked]="mbpointService" (change)="checkStores($event,'stores')"  >
+             <label for="mbpoints">
+               <img src="https://www.moltonbrown.co.uk/MBExternalBinary/DeliveryServiceimages/mb-cc.png" alt="logo">
+               Molton Brown Stores - <b> FREE </b>(1-4 working days)
              </label>
          </div>    
      </div>
-  </div>
+     <div class="form-group">
+          <div class="checkbox">
+              <input type="checkbox"  [checked]="pointService" (change)="checkStores($event,'points')">
+              <label for="mbpoints">
+                <img src="https://www.moltonbrown.co.uk/MBExternalBinary/DeliveryServiceimages/DPD-cc.png" alt="logo">
+                Local collection points - £3.95 or FREE over £49 (2-3 working days)
+               </label>
+             </div>
+    </div>
      <header class="cc-stores-list-header clearfix">
          <nav class="cc-stores-view-nav">
              <a  class="list-view "  [ngClass]="{'selected':listView}" (click)="onShowStoreList(true)">LIST</a>
@@ -63,14 +38,13 @@
          </nav>
      </header>
      <div class="toggle-store-view" *ngIf="listView; else mapView">
-       <app-collection-list (showMapsOpenHour)="onShowMapsOpenHour($event)" [storeList]="storesList" (emitselectedStore)="emitselectedStore($event)" ></app-collection-list>
+       <app-collection-list [storeList]="storesList" (emitselectedStore)="emitselectedStore($event)" ></app-collection-list>
      </div>
      <ng-template #mapView>
-      <app-store-locator *ngIf="loadGMscript" [openHourWindow]="openHourWindow" [storePoints]="storesList"></app-store-locator>
+      <app-store-locator [storePoints]="storesList"></app-store-locator>
     </ng-template>
   </section>
-  <div   [ngClass]="{'overlay-bg-show':storeLoad,'overlay-bg-hide':!storeLoad}" >
-      <app-loading></app-loading>
-   </div>
  </div>
-
+ <ng-template #loadOverlay>
+   <app-loader></app-loader>
+</ng-template>

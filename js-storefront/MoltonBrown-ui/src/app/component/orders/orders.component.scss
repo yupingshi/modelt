@@ -1,16 +1,13 @@
-@import"../../../variable";
-.order-dtls{
-    margin-top:8px;
-    h3 {
+.favourite h3 {
     font-size: 18px;
+    // border-bottom: 1px solid #b0b9bf;
     padding: 5px 0;
+    margin: 10px 0!important;
     font-weight: normal;
-    &.customer {
-        color: #260e03;
-        padding: 0 0 4px 1px;
 }
-
-}
+.favourite h3.customer {
+    color: #260e03;
+    padding: 0 0 4px 1px;
 }
 .buttonStyles{
     padding: 5px 10px;
@@ -22,8 +19,8 @@
     font-size: 28px;
     margin-bottom: 0;
     padding: 0 0 14px 0;
-    color: $primary-color;
-    @media screen and(max-width:$screen-sm) {
+    color: #000;
+    @media screen and(max-width:768px) {
         width:100%;  
         //   min-height: 190px;
     }
@@ -37,7 +34,7 @@
     h3 {
         font-weight: bold;
         font-size: 1.2em;
-        color: $primary-color!important;
+        color: #000!important;
         padding-left: 0!important;
     }
     .label{
@@ -81,41 +78,11 @@ width:20%
 width:20%
     }
 }
-.order-head{
+.emptyMyOrderHistory{
     display: flex;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 10px;  
-    justify-content: space-between;
-    position: relative;
-    .rowCompts{
-        top:-5px;
-    }
-    .page_viewAll{
-        a{
-            line-height: 10px;
-        }
-    }
+    margin-bottom: 10px;    justify-content: space-between;
 }
-.emptyMyOrderHistory{
-    display: block;
-    h3{
-    margin-bottom: 10px;  
-    font-size: 18px;
-    border-bottom: 1px solid #b0b9bf;
-    padding: 5px 0;
-    margin: 20px 0!important;
-    font-weight: normal;
-  }
-  p.no-order-content{
-    color: #260e03!important;
-    line-height: 20px;
-    font-size: 13px!important;
-  }
-  .buttonStyle{
-      text-transform: capitalize;
-  }
-}
-
 .page_viewAll{
     display: inline-block;
     width: auto;
@@ -123,25 +90,14 @@ width:20%
     float: left;
     padding-top: 3px;
     a{
+        line-height: 14px;
         margin: 0;
         text-decoration: underline !important;
         font-style: normal;
         font-weight: 400;
         font-size: 13px;
         cursor: pointer;
-        color: $edition-color;
+        color: #464646;
         vertical-align: bottom;
-    }
-}
-.page-nav-btn-hide{
-    display: none;
-}
-.page-active{
-    font-weight:bold;
-    color:$primary-color !important;
-}
-.page-item{
-    .page-link{
-        cursor: pointer;
     }
 }

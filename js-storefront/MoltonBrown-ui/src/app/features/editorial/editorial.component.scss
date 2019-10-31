@@ -1,22 +1,22 @@
-@import "../../../variable";
+
 .editorial-container{
         width: 100%;
         padding: 0;
         margin: 0;
-        font-family: $font-century-bold;
+        font-family: "Trebuchet", Trebuchet MS;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        background-color: $mb-white;
+        background-color: #fff;
         *{
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
         }
         .editorial-banner-slot-1 .amp-dc-banner-info-wrap .amp-dc-banner-info, .editorial-banner-slot-2 .amp-dc-banner-info-wrap .amp-dc-banner-info {
-            color:$mb-white !important;
+            color:#fff !important;
         }
  
 
@@ -24,7 +24,7 @@
             .container{
                 padding:0;
                 .align-center.col-8{
-                    @media screen and (max-width:$screen-sm){
+                    @media screen and (max-width:768px){
                         display:none !important;
                     }
                 }
@@ -49,7 +49,7 @@
                 }
             }
             a{
-                color: $primary-color !important;
+                color: #000 !important;
                 cursor: pointer;
                 font-size: 15px;
                 font-style:italic;
@@ -88,7 +88,7 @@
                     display: inline-block;
                     font-size: 15px;
                     font-style: italic;
-                    color: $primary-color;
+                    color: #000;
                  
               
                 }
@@ -146,7 +146,7 @@
     .amp-dc-banner-description{
         margin: 30px auto 0;
         width: 100%;
-        border: 1px solid $primary-color;
+        border: 1px solid #000;
         padding: 25px 50px;
         font-size: 14px;
         @media(max-width:480px){
@@ -161,7 +161,7 @@
 }
 .editorial-banner-slot-1{
     .amp-dc-banner-info-wrap{
-        @media(max-width:$screen-sm){
+        @media(max-width:768px){
             //top:-98% !important;
             width:100%;
             left:31% !important;
@@ -229,7 +229,7 @@
             width: 55px;
             height: 55px;
             border-radius: 50px;
-            border: 2px solid $mb-white;
+            border: 2px solid #fff;
             margin: 0 auto;
             line-height: 65px;
             overflow: hidden;
@@ -255,7 +255,7 @@
             position: absolute;
             left: 47.5%;
             top: 72.5%;
-            @media(max-width:$screen-sm){
+            @media(max-width:768px){
                 left: 46.5%;
             }
         }
@@ -275,7 +275,7 @@
 }
 }
 .editorial-banner-slot-2{
-    @media(max-width:$screen-sm){
+    @media(max-width:768px){
         
         .amp-dc-banner-pic-wrap .amp-dc-image{
             width: 100%;
@@ -317,7 +317,7 @@
                 width: 65px;
                 height: 65px;
                 border-radius: 50px;
-                border: 4px solid $mb-white;
+                border: 4px solid #fff;
                 margin: 0 auto;
                 line-height: 65px;
                 overflow: hidden;
@@ -392,7 +392,7 @@ video {pointer-events: none}
       .amp-dc-block-wrap{
         //   &:nth-child(4){
         //       height: 500px;
-        //       background:$mb-white;
+        //       background:#fff;
         //       .amp-dc-homepage{
         //       width:878px;
         //       height: inherit;
@@ -414,18 +414,18 @@ video::-webkit-media-controls {
     display:none !important;
   }
   .editorial-staticMenu-text {
-    color: $mb-white;
+    color: #fff;
     font-size:15px;
     font-weight: 600;
     text-decoration: none;
     line-height: 60px;
-    color: $mb-white !important;
+    color: #fff !important;
     text-transform: uppercase;
 
 }
 .amp-dc-banner-info{
-    @media(max-width:$screen-sm){
-        // color:$primary-color !important;
+    @media(max-width:768px){
+        // color:#000 !important;
     }
 }
 #navbar {
@@ -506,7 +506,7 @@ video::-webkit-media-controls {
     width:878px;
     margin:0 auto;
     height: 595px;
-    @media(max-width:$screen-sm) {
+    @media(max-width:768px) {
         width:100%;
         height:100%;
     }
@@ -589,7 +589,7 @@ video::-webkit-media-controls {
     }
 }
 .amp-dc-banner .amp-dc-banner-info-wrap.amp-dc-info-bottom {
-    @media(max-width:$screen-sm){
+    @media(max-width:768px){
         position: absolute;
         top: -90% !important;
       } 
@@ -597,7 +597,7 @@ video::-webkit-media-controls {
 }
 .editorial-banner-slot-5,.editorial-banner-slot-6{
 .amp-dc-banner-info-wrap{
-    @media(max-width:$screen-sm){
+    @media(max-width:768px){
         top: -15% !important;
         width:65%;
       } 
@@ -639,7 +639,7 @@ display:none;
             display: table-cell;
                 a{
                     margin: auto 10px;
-                    @media screen and(max-width:$screen-sm) {
+                    @media screen and(max-width:768px) {
                         margin:0px;
                     }
                 }
@@ -647,7 +647,7 @@ display:none;
                 a{
                     padding: 0;
                     display: inline;
-                    border-bottom: 1px solid $mb-white;
+                    border-bottom: 1px solid #fff;
             }
         }
         }
@@ -695,14 +695,14 @@ display:none;
     justify-content: center;
     min-width: 110px;
     text-decoration: none;
-    color: $mb-white;
+    color: #fff;
     height: 37px;
     position: relative;
     border-radius: 25px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     margin: 0 12px;
-    @media screen and (max-width:$screen-sm){
+    @media screen and (max-width:768px){
         min-width: 85px !important;
     }
 }
@@ -739,7 +739,7 @@ display:none;
 .js_dc_blog.editorial-banner-2{
     .amp-dc-blog-title{
         padding: 37px 0 65px;
-        color:$mb-white;
+        color:#fff;
     }
     strong{
         font-size: 14px;
@@ -778,7 +778,7 @@ display:none;
         position: relative;
         line-height: 1.2;
         font-size: 21px;
-        color:$mb-white;
+        color:#fff;
         span{
             font-size:13px;
         }
@@ -797,16 +797,16 @@ display:none;
 }
 .amp-dc-card .amp-dc-card-text-wrap{
     background: transparent;
-    color:$mb-white;
+    color:#fff;
     .amp-dc-card-name{
-        color:$mb-white;
+        color:#fff;
         font-size: 13px;  
         font-weight: 600;
         margin:0;
         padding: 0;
     }
     .amp-dc-card-description{
-        color:$mb-white;
+        color:#fff;
         font-size: 13px;  
         font-weight: 100;
         margin:0;
@@ -814,7 +814,7 @@ display:none;
     }
 }
 
-@media(max-width:$screen-sm){
+@media(max-width:768px){
     .amp-dc-splitBlock{
         width:90% !important;
          .amp-dc-split-part{

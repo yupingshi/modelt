@@ -1,15 +1,16 @@
-import { Injectable } from "@angular/core";
-import { User } from "../models/user.model";
+import {Injectable} from '@angular/core';
+import { User } from '../models/user.model';
 @Injectable()
 export class Session {
+
   private static lastVisitedUrl: string;
 
   static create(user: User, token: string) {
-    this.put("user", user);
-    this.put("token", token);
+    this.put('user', user);
+    this.put('token', token);
   }
   static hasSession() {
-    if (localStorage.getItem("user") && localStorage.getItem("token")) {
+    if (localStorage.getItem('user') && localStorage.getItem('token')) {
       return true;
     }
     return false;
@@ -19,27 +20,28 @@ export class Session {
     if (this.lastVisitedUrl) {
       return this.lastVisitedUrl;
     }
-    return "";
+    return '';
   }
 
   static setLastVisitedUrl(url) {
     this.lastVisitedUrl = url;
   }
 
+
   static getToken(): string {
-    return localStorage.getItem("token");
+    return localStorage.getItem('token');
   }
 
   static setToken(token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token);
   }
 
   static removeToken() {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
   }
 
   static put(key, value) {
-    if (key === "token") {
+    if (key === 'token') {
       localStorage.setItem(key, value);
     } else {
       localStorage.setItem(key, JSON.stringify(value));
@@ -47,9 +49,7 @@ export class Session {
   }
 
   static getKey(key): any {
-    return localStorage.getItem(key)
-      ? localStorage.getItem(key).replace(/"/g, "")
-      : null;
+    return localStorage.getItem(key) ? localStorage.getItem(key).replace(/"/g, '') : null;
   }
 
   static deleteKey(key) {
@@ -68,4 +68,5 @@ export class Session {
     localStorage.clear();
     sessionStorage.clear();
   }
+
 }

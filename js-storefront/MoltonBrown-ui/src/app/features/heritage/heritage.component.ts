@@ -1,5 +1,8 @@
 import { Component, OnInit,ElementRef,ViewChild } from '@angular/core';
-import {SingletonService} from '../../services/singleton.service';
+import { Title } from '@angular/platform-browser';
+import { Location } from '@angular/common';
+import { Router,ActivatedRoute,NavigationEnd } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import * as _ from 'lodash';
 declare var $: any;
 declare var AmpCa :any
@@ -11,14 +14,13 @@ declare var AmpCa :any
 export class HeritageComponent implements OnInit {
 
   @ViewChild('heritageEl') heritageEl:ElementRef;
-  constructor(public singletonServ:SingletonService) { }
+  constructor() { }
 
   ngOnInit() {
     this.renderTemplate();
   }
   renderTemplate(){
     const that =this;
-    const baseSite=this.singletonServ.catalogVersion;
     AmpCa.utils = new AmpCa.Utils();
     AmpCa.utils.getHtmlServiceData({
         auth: {
@@ -26,7 +28,7 @@ export class HeritageComponent implements OnInit {
             id:'1836243f-e358-41c5-b2b7-fc43e3f0d1f4',
             store: 'moltonbrown',
             templateName: 'acc-template-homepage',
-            locale:baseSite.locale
+            locale:'en-GB'
         },
         callback: function (htm) {
             that.heritageEl.nativeElement.innerHTML=htm;                              

@@ -1,10 +1,9 @@
-@import "../../../variable";
 .registration_form{
     width: 100%;
-    padding: 20px 10px;
-    margin: 12px 0 15px;
-    border: 1px solid #aaaaaa;
-    @media screen and(max-width:$screen-sm){
+    padding: 10px 10px;
+    margin: 12px 0 15 25px;
+    border: 1px solid #d7d7d7;
+    @media screen and(max-width:768px){
         width:100%;
     }
     .required_text{
@@ -19,19 +18,16 @@
         margin-bottom: 5px;
         padding: 10px 0 0 0;
     }
-    label{
-        font-size: 12px;
-    }
 }
 .redcolor {
-    color: $err-color;
+    color: #ae140d;
 }
 .register_label{
     float:right;
     padding-top: 5px;
     color: #535353;
     font-weight:normal;
-    @media screen and(max-width:$screen-sm){
+    @media screen and(max-width:768px){
        float: left;
     }
 }
@@ -39,21 +35,29 @@
     padding:0;
 }
 
-.login_fields .contextual-help ~.not-valid, .login_fields .contextual-help ~.valid {
-    background-position: 92% 4px !important;
+.contextual-help {
+    position: absolute;
+    top: 0;
+    left: 235px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #c2c2c2;
+    background: #FFF url('https://www.moltonbrown.co.uk/images/help-black-icon.svg') no-repeat scroll center center;
+    text-indent: -9999px;
+    background-size: 7px;
 }
 .register-in {
     padding: 3% 0 0 0;
-    margin: 10px 0px;
-    font-size: 28px ;
-    @media screen and(max-width:$screen-sm){
+    margin: 10px 0;
+    @media screen and(max-width:768px){
         display: block;
         overflow: hidden;
         padding: 15px;
         margin: 0;
         font-size: 15px;
         font-weight: bold;
-        color: $mb-white;
+        color: #fff;
         background: #90d2c5;
     }
 }
@@ -67,14 +71,19 @@ select {
     width: 250px!important;
     height: 25px!important;
     padding: 0 5px!important;
+    border: 1px solid #666;
 }
 }
 .defualt_shipping_label{
    font-size:12px; 
 }
+
+.registration_form{
+
+}
 .update_btn{
     position: absolute;
-    bottom: 5px;
+    bottom: 12px;
 }
 
 input[type="text"].form-control,
@@ -84,44 +93,3 @@ input[type="tel"].form-control {
     background-size:4px !important;
 }
 }
-.customer_profile-form{
-   .update_btn{
-    padding: 15px;
-    position: relative;
-    top: -98px;
-    width: 67%;
-    z-index: 111;
-    float: left;
- }
-}
-
-.not-valid-postcode{
-        border: 1px solid  $mb-error-bg !important;
-        background-image: url(https://www.moltonbrown.co.uk/images/exclamation-symbol.png);
-        background-position: 93% 0px;
-        background-repeat: no-repeat;
-}
-.postcode-status{
-    position: absolute;
-    bottom: 100%;
-    background-color: $mb-error-bg;
-    color: $header-color-white;
-    padding: 10px;
-    left: 6%;
-    text-align: center;
-    width: 88%;
-    z-index: 9;
-    &::after{
-        content: "";
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        border: 0;
-        left: 5%;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-        background: $mb-error-bg;
-        bottom: -7px;
-    }
-  }

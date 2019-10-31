@@ -1,226 +1,145 @@
-@import "../../../../variable";
-
 .panel-heading {
-  background-color: $edition-color;
-  border-radius: 0;
-  transition: all 0.5s linear;
-  position: relative;
-  z-index: 1;
-  padding: 10px 15px;
-  border-bottom: 1px solid transparent;
-
-  h4 {
-    font-size: 14px;
-    color: $mb-white;
-  }
-}
-.store-code-container {
-  margin-top: 10px;
-  .store-code-input-container {
-    display: flex;
-    justify-content: space-between;
-    @media screen and (max-width: $screen-sm) {
-      flex-direction: column;
+    background-color: #464646;
+    border-radius: 0;
+    transition: all .5s linear;
+    position: relative;
+    z-index: 1;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    h4 {
+        font-size: 1.5em;
+        color: #fff;
     }
-
-    .btn-find-addres {
-      font-size: 15px !important;
-    }
-    .store-code-fx-1 {
-      position: relative;
-      width: 65%;
-
-      @media screen and (max-width: $screen-sm) {
-        width: 100%;
-        input {
-          width: 100%;
-          margin: 0 0 20px;
-        }
-      }
-      input {
-        width: 100%;
-      }
-    }
-  }
-  .not-valid-error-msg {
-    position: absolute;
-    left: 0;
-    bottom: 100%;
-    background-color: $mb-error-bg;
-    color: $mb-white;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-    width: 95%;
-    margin-left: 10px;
-    z-index: 9;
-    span{
-      font-size: small !important;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border: 0;
-      left: 4%;
-      -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      transform: rotate(45deg);
-      margin-top: -25px;
-      background: $mb-error-bg;
-      bottom: -10px;
-    }
-  }
 }
 .panel-body {
-  position: relative;
-  border-left: 1px solid $light-grey;
-  border-right: 1px solid $light-grey;
-  border-bottom: 1px solid $light-grey;
-  // padding: 15px 14px;
-  transition: all 0.5s linear;
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
-  section {
-    margin-bottom: 10px;
-  }
-  .section-heading {
-    h2 {
-      font-size: 1.35em;
-      margin: 0 0 12px 0;
+    position: relative;
+    border-left: 1px solid #c2c2c2;
+    border-right: 1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+    padding: 15px 14px;
+    transition: all .5s linear;
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
     }
-  }
+    section {
+        margin-bottom: 10px;
+    }
+    .section-heading {
+        h2 {
+            font-size: 1.35em;
+            margin: 0 0 12px 0;
+        }
+    }
 }
-
+    
 section.find-address {
-  .form-inline {
-    .form-group {
-      width: 25%;
-      input[type="text"].form-control {
-        width: 99%;
-      }
+    .form-inline {
+        .form-group {
+            width: 25%;
+            input[type=text].form-control {
+                width: 99%;
+            }
+        }
     }
-  }
-  .form-inline .btn {
-    margin-right: 10px;
-  }
-  a.btn-find-addressFromPostCode {
-    color: $mb-white;
-  }
+    .form-inline .btn {
+        margin-right: 10px;
+    }
+    a.btn-find-addressFromPostCode {
+        color: #fff;
+    }
 }
-.btn-find-address {
-  font-size: 15px !important;
-  &:hover {
-    color: $mb-white !important;
-  }
+.btn-find-address{
+    &:hover{
+        color:#fff !important;
+    }
 }
 .btn-default {
-  background-color: $edition-color;
-  color: $mb-white;
+    background-color: #464646;
+    color: #fff;
 }
 
 a.btn,
 span.btn {
-  text-decoration: none;
-  padding-top: 14px;
+    text-decoration: none;
+    padding-top: 14px;
 }
 
 .btn {
-  border-radius: 0em !important;
-  height: 48px;
-  text-transform: uppercase;
-  font-size: 14px;
-  transition: background 0.3s ease-in-out;
-  position: relative;
-  line-height: 1 !important;
+    border-radius: 0em !important;
+    width: 165px;
+    height: 48px;
+    text-transform: uppercase;
+    font-size: 1em;
+    transition: background .3s ease-in-out;
+    position: relative;
+    line-height: 1 !important;
 }
 
 .clickcollect-wrap {
-  .cc-stores-list {
-    .checkbox label {
-      display: flex;
-      padding-left: 42px;
-      position: relative;
+    .cc-stores-list {
+        .cc-results-left {
+            float: none;
+        }
+        .cc-results-count {
+            // float: right;
+            font-size: 1.28em;
+            color: #a6a5a5;
+            margin-top: 10px;
+        }
+        img {
+            margin-top: -9px;
+            vertical-align: top;
+            height: 35px;
+            padding-right: 5px;
+        }
     }
-    .cc-results-left {
-      float: none;
+    .cc-stores-view-nav {
+        float: left;
+        margin-top:20px;
+        a {
+            float: left;
+            text-decoration: none;
+            font-size: 1em;
+            color: #fff !important;
+            padding: 15px 30px 15px;
+            margin-right: 5px;
+            border-left: 1px solid #b1b1b1;
+            background-color: #c2c2c2;
+            border-radius: 0 25px 0 0;
+            cursor: pointer;
+            &.selected {
+                background-color: #464646;
+            }
+        }
     }
-    .cc-results-count {
-      font-size: 18px;
-      color: #a6a5a5;
-      margin-top: 10px;
-      span {
-        font-size: 18px;
-      }
+    .cc-postcode-input,.btn-find-address{
+      
+        @media(max-width:768px){
+        width:100% !important;
     }
-    img {
-      height: 35px;
-      padding-right: 5px;
+    .cc-postcode-input{
+        text-transform: uppercase;
+          &::-webkit-input-placeholder { 
+            text-transform: capitalize;
+          }
+          &:-ms-input-placeholder {
+            text-transform: capitalize;
+          }
+          &::placeholder {
+            text-transform: capitalize;
+          }
+      
     }
-    .checkbox input[type="checkbox"] {
-      width: 32px;
-      height: 32px;
-    }
-  }
-  .cc-stores-view-nav {
-    float: left;
-    margin-top: 20px;
-    a {
-      float: left;
-      text-decoration: none;
-      font-size: 1.2857142857em;
-      color: $primary-color !important;
-      padding: 11px 25px 10px;
-      margin-right: 5px;
-      background-color: #e5e5e5;
-      border-radius: 0 25px 0 0;
-      cursor: pointer;
-      width: 94px;
-      height: 33px;
-      line-height: 1;
-      &.selected {
-        background-color: #6c6c6c;
-        color: $mb-white !important;
-      }
-    }
-  }
-  .cc-postcode {
-    h4 {
-      font-size: 16px;
-      color: $primary-color;
-      font-weight: bolder;
-      @media (max-width: $screen-sm) {
-        font-size: 15px;
-      }
-    }
-  }
-  .cc-postcode-input,
-  .btn-find-address {
-    @media (max-width: $screen-sm) {
-      width: 100% !important;
-    }
-    .cc-postcode-input {
-      text-transform: uppercase;
-      &::-webkit-input-placeholder {
-        text-transform: capitalize;
-      }
-      &:-ms-input-placeholder {
-        text-transform: capitalize;
-      }
-      &::placeholder {
-        text-transform: capitalize;
-      }
-    }
-  }
+  
+}
 }
 
-.h5,
-h5 {
-  font-size: 14px;
+.h5,h5{
+    font-size: 14px;
 }
 
 .delivery-panel a,
@@ -228,93 +147,30 @@ h5 {
 a.os-gift-msg-edit,
 a.change-address-btn,
 .cc-stores-view-nav a {
-  text-decoration: underline;
+    text-decoration: underline;
 }
-.cc-results-size {
-  font-size: 14px;
-  color: #a6a5a5;
-  margin-top: 10px;
+.cc-results-size{
+    font-size: 1.2857142857em;
+    color: #a6a5a5;
+    margin-top: 10px;
 }
 
-.overlay-body {
-  padding: 15px 14px;
-  -webkit-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-  min-height: auto;
-  .loading-backdrop {
-    background-color: $overlay-bg;
+.overlay-body{
+    padding: 15px 14px;
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+    min-height: auto;
+.loading-backdrop{
+    background-color: #d9d9d9;
     left: 0;
     width: 100%;
+    height: 100vh;
     position: absolute;
     z-index: 555;
     width: 100%;
     margin: 0 auto;
     top: 0;
     height: 100%;
-  }
 }
-.cc-stores-list .form-group span {
-  position: relative;
-  font-size: 14px;
-  line-height: 1.4;
-  // padding-left:10px;
-  @media screen and(max-width:768px) {
-  }
-}
-.checkbox {
-  &.storepoint {
-    label {
-      &:after {
-        top: 5px;
-      }
-    }
-  }
-}
-.no-strores-error-msg {
-  position: absolute;
-  bottom: 100%;
-  background-color: $mb-error-bg;
-  color: $mb-white;
-  padding: 10px;
-  left: 6%;
-  text-align: center;
-  span {
-    font-size: 14px !important;
-  }
-
-  width: 88%;
-  z-index: 9;
-  &::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border: 0;
-    left: 5%;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    background: $mb-error-bg;
-    bottom: -7px;
-  }
-}
-.cc-postcode-input {
-  background-position: 92% 13px !important;
-  &:focus {
-    ~ {
-      .no-strores-error-msg {
-        display: none;
-      }
-    }
-  }
-}
-.btn-find-address {
-  &:focus {
-    box-shadow: none;
-    outline: none;
-  }
-}
-.btn.btnChooseStore{
-  cursor: pointer;
 }

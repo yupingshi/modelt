@@ -10,7 +10,7 @@
               <ul class="medium-aside-menu" [ngClass]="{'show-menu-block':orgMenu,'hide-menu-block':!orgMenu}">
                   <li *ngFor="let data of searchByData;let k=index" (click)="onMenuContentClick(data,k)">
                       <a>{{data.name}}</a>
-                      <ul class="search-menu-sub-cntnt"  *ngIf="data.children" [ngClass]="{'show-submenu-block':data.show,'hide-submenu-block':!data.show}" >
+                      <ul class="search-menu-sub-cntnt" [ngClass]="{'show-submenu-block':data.show,'hide-submenu-block':!data.show}" >
                           <li *ngFor="let subData of data.children;" (click)="onSubMenuContentClick($event,data,subData)">
                                 <a>{{subData.name}}</a>
                           </li>

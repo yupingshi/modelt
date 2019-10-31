@@ -2,190 +2,96 @@ import { Component, OnInit } from '@angular/core';
 import {profileComponentService} from '../profile-form/profile.service';
 import * as _ from 'lodash';
 import {SingletonService} from '../../services/singleton.service';
-import { Router } from '@angular/router';
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.scss']
 })
 export class FavouritesComponent implements OnInit {
-  favouriteList: Array<any>;
-  user: any;
-  constructor(
-    public profileServ: profileComponentService,
-    public singletonServ: SingletonService,
-    public router: Router
-  ) {}
+  favouriteList:Array<any>;
+  user:any;
+  constructor(public profileServ:profileComponentService,public singletonServ:SingletonService) {
+
+  }
   ngOnInit() {
-    const baseSite = this.singletonServ.catalogVersion;
-    if (this.singletonServ.getStoreData(baseSite.reg)) {
-      const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-      this.user = user;
-      if ( user.token ) {
-      this.fetchFavourites(user.token, user.email);
-    } else {
-      this.profileServ.generateToken().subscribe((response) => {
-         const token = response['access_token'];
-         user.token = token;
-         this.singletonServ.setStoreData(baseSite.reg, JSON.stringify(user));
-         this.fetchFavourites(user.token, user.email);
-      });
-    }}
-  }
-  fetchFavourites(tokenId, email) {
-    this.profileServ.getFavourites(tokenId, email).subscribe(
-      response => {
-        if ( response ) {
-        this.favouriteList = response['products'];
-        this.singletonServ.favourites = response['products'];
-      }
-      },
-      err => {
-        if(err.errors){
-          const _baseSite = this.singletonServ.catalogVersion;
-          if(err.errors[0]['type']== "InvalidTokenError"){
-            if(this.singletonServ.getStoreData(_baseSite.guest)){
-              this.singletonServ.removeItem(_baseSite.guest);
-             } else if(this.singletonServ.getStoreData(_baseSite.reg)){
-              this.singletonServ.removeItem(_baseSite.reg);
-              }
-             this.router.navigate(['store','global',"sessionExpired"]);
-          }
-        }
-      }
-    );
-  }
-  addToBasket(product) {
-    const baseSite = this.singletonServ.catalogVersion;
-    const baseSiteid = baseSite.catalogversionId;
-        const productObj = {
-          product: { code: product['code'] },
-          quantity: 1
-        };
-        if (this.singletonServ.getStoreData(baseSite.reg)) {
-          const _user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-          if (_user.code) {
-            this.storeProductTocart(
-              productObj,
-              _user.token,
-              _user.code,
-              _user.email
-            );
-          } else {
-            this.registerToCart(baseSiteid, productObj, _user.token, _user.email);
-          }
-        }
-  }
-  storeProductTocart( body, token, code, email) {
-    this.profileServ
-      .storeCurrentUserProducts(body, token, code, email)
-      .subscribe(
-        response => {
-          const obj = {
-            code: body['product']['code'],
-            showCartPopUp: true
-          };
-          this.singletonServ.sendMessage(obj);
-          window.scrollTo(0, 0);
-        },
-        err => {
-          if(err.errors){
-            const _baseSite = this.singletonServ.catalogVersion;
-            if(err.errors[0]['type']== "InvalidTokenError"){
-              if(this.singletonServ.getStoreData(_baseSite.guest)){
-                this.singletonServ.removeItem(_baseSite.guest);
-               } else if(this.singletonServ.getStoreData(_baseSite.reg)){
-                this.singletonServ.removeItem(_baseSite.reg);
-                }
-               this.router.navigate(['store','global',"sessionExpired"]);
-            }
-          }
-        }
-      );
-  }
-  registerToCart(baseSiteid, body, token, email) {
-    const baseSite = this.singletonServ.catalogVersion;
-    this.profileServ.createRegisterCart(baseSiteid, token, email).subscribe(
-      response => {
-        if (this.singletonServ.getStoreData(baseSite.reg)) {
-          const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-          user['code'] = response['code'];
-          this.singletonServ.setStoreData(baseSite.reg, JSON.stringify(user));
-        }
-        this.storeProductTocart(
-          body,
-          token,
-          response['code'],
-          email
-        );
-      },
-      err => {
-        if(err.errors){
-          const _baseSite = this.singletonServ.catalogVersion;
-          if(err.errors[0]['type']== "InvalidTokenError"){
-            if(this.singletonServ.getStoreData(_baseSite.guest)){
-              this.singletonServ.removeItem(_baseSite.guest);
-             } else if(this.singletonServ.getStoreData(_baseSite.reg)){
-              this.singletonServ.removeItem(_baseSite.reg);
-              }
-             this.router.navigate(['store','global',"sessionExpired"]);
-          }
-        }
-      }
-    );
-  }
-  removeFromWhislist(product) {
-    const baseSite = this.singletonServ.catalogVersion;
-    const baseSiteid = baseSite.catalogversionId;
-        if (this.singletonServ.getStoreData(baseSite.reg)) {
-          const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
-          this.profileServ
-            .removeFavorite(baseSiteid, user.token, user.email, product.code)
-            .subscribe(
-              response => {
-                this.fetchFavourites(user.token, user.email);
-              },
-              err => {
-                if(err.errors){
-                  const _baseSite = this.singletonServ.catalogVersion;
-                  if(err.errors[0]['type']== "InvalidTokenError"){
-                    if(this.singletonServ.getStoreData(_baseSite.guest)){
-                      this.singletonServ.removeItem(_baseSite.guest);
-                     } else if(this.singletonServ.getStoreData(_baseSite.reg)){
-                      this.singletonServ.removeItem(_baseSite.reg);
-                      }
-                     this.router.navigate(['store','global',"sessionExpired"]);
-                  }
-                }
-              }
-            );
-        }
-  }
-  onShowProduct(event, data) {
-    event.preventDefault();
-    if (data.url.indexOf('/c/') !== -1) {
-        const url = '/store' + data.url.replace('/c/', '/');
-        if(event.ctrlKey && event.which === 1){
-          window.open(url); 
-       } else {
-         this.router.navigate([url]);
-       }
-    } else {
-      const url = '/store' + data.url.replace('/p/', '/');
-      if(event.ctrlKey && event.which === 1){
-        window.open(url); 
-     } else {
-       this.router.navigate([url]);
-     }
+     const that=this;
+     const cVrsnid = this.singletonServ.catalogVersionId;      
+     if(sessionStorage.getItem('customerToken')){
+           const user= JSON.parse(sessionStorage.getItem('customerToken'));
+           this.user=user;
+           that.profileServ.generateToken().subscribe((token)=>{
+            const tokenId = token['access_token'];
+           that.fetchFavourites(cVrsnid,tokenId,user.email);
+          },(err)=>{
+
+          });
     }
+   
   }
-  getRouterPath(data) {
-    if (data.url.indexOf('/c/') !== -1) {
-      const url = '/store' + data.url.replace('/c/', '/');
-      return url;
-  } else {
-      const url = '/store' + data.url.replace('/p/', '/');
-       return url;
+  fetchFavourites(cVrsnid,tokenId,email){
+    const that=this;
+    that.profileServ.getFavourites(cVrsnid,tokenId,email).subscribe((response)=>{
+      that.favouriteList=response['products'];
+      that.singletonServ.favourites=response['products'];
+  },(err)=>{
+
+  });
   }
+  addToBasket(product){
+    const that =this;
+    const cVrsnid = this.singletonServ.catalogVersionId;
+    this.profileServ.generateToken().subscribe((token)=>{
+      const tokenId = token['access_token'];
+      const productObj = {
+        "product": { "code": product['code'] },
+          "quantity": 1
+      };
+      if(that.user.code){
+        that.storeProductTocart(cVrsnid,productObj,tokenId,that.user.code,that.user.email);
+    
+    }else{
+      that.registerToCart(cVrsnid,productObj,tokenId,that.user.email);
+    }
+    },(err)=>{
+
+    });
+  }
+  storeProductTocart(cVrsnid,body,token,code,email){
+    this.profileServ.storeCurrentUserProducts(cVrsnid,body,token,code,email).subscribe((response)=>{
+      const obj = { updateCart: true,showCartPopUp:true };
+      this.singletonServ.sendMessage(obj);
+    },(err)=>{
+
+    });
+  }
+  registerToCart(baseSiteid,body,token,email){
+    const that=this;
+    this.profileServ.createRegisterCart(baseSiteid,token,email).subscribe((response)=>{
+      if(sessionStorage.getItem('customerToken')){
+          const user= JSON.parse(sessionStorage.getItem('customerToken'));
+          user['code']=response['code'];
+          sessionStorage.setItem('customerToken',JSON.stringify(user));
+      }
+      that.storeProductTocart(baseSiteid,body,token,response['code'],email);
+    },(error)=>{
+
+    });
+  }
+  removeFromWhislist(product){
+    const that =this;
+    const cVrsnid = this.singletonServ.catalogVersionId;
+    this.profileServ.generateToken().subscribe((token)=>{
+      const tokenId = token['access_token'];
+      if(sessionStorage.getItem('customerToken')){
+        const user= JSON.parse(sessionStorage.getItem('customerToken'));
+        that.profileServ.removeFavorite(cVrsnid,tokenId,user.email,product.code).subscribe((response)=>{
+          that.fetchFavourites(cVrsnid,tokenId,user.email);
+        },(error)=>{
+
+        });
+    }
+    },(err)=>{
+
+    })
   }
 }
