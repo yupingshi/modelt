@@ -1,0 +1,63 @@
+@import"../../variable";
+#landingpage-conatiner .main__inner-wrapper{
+
+margin-right: auto;
+margin-left: auto;
+text-rendering: optimizeLegibility;
+@media screen and (max-width:$screen-sm) {
+width: 100%;
+}
+}
+
+ul.amp-dc-nav-wrap{
+    width:964px;
+    .navigation-link{
+        font-size:14px;
+    }
+    
+@media screen and (max-width:$screen-sm) {
+    display: none !important;
+}
+}
+.amp-dc-banner .amp-dc-banner-info-wrap{
+    width:445px;
+}
+.amp-dc-card-list-wrap{
+    width:1530px;    
+    @media screen and (max-width:1440px){
+        width:990px;
+    }  
+    @media screen and (max-width:1024px){
+    
+            width: 92%;
+        
+    }
+
+}
+#card-list-slot1 .amp-dc-card-list-wrap{
+    margin:auto !important;
+
+}
+.amp-dc-card.image-431x291{
+    margin:27px 29px 0;
+
+    @media screen and (max-width:1024px){
+    
+        margin:27px 0 0 !important;
+    
+}
+
+}
+#heritageSlot{
+    width:880px;
+    margin:35px auto 0;
+        @media screen and (max-width:768px){
+        width:100%;
+        padding:0 25px;
+    }
+
+    @media screen and (max-width:425px){
+        padding:0 25px !important;
+    }
+
+}

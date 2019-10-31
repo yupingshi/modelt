@@ -1,110 +1,325 @@
-<div class="rowComponents product_detail"   *ngIf="productInfo">
-        <div class="product_image_div">
-            <div class="productImage" *ngIf="pdpImage">
-            <img class=" prod-img-src zoom"  [src]="pdpImage">
-               
-            <!-- <ngx-slick-carousel class="carousel" *ngIf="productInfo&&showDetail"
-            #slickModal="slick-carousel" 
-            [config]="slideConfig" >
-        <div ngxSlickItem *ngFor="let relevantpic of productInfo.thumbnails" class="slide">
-                <img class=" prod-img-src zoom" src="{{relevantpic.src}}?$LargeImageTemplate1$">
-        </div>
-            </ngx-slick-carousel> -->
-
-
-
-            </div>
-             <div class="thumbnails-block alternate-carousel text-center  slick-initialized slick-slider "
-                style="margin:25px 0px; " *ngIf="productInfo&&showDetail">
-             <div class="rowComponents track_block">
-                <div class="treat-items  slick-active  " data-slick-index="0 " aria-hidden="false " *ngFor="let relevantpic of productInfo.thumbnails"
-                    style="width: 143px;margin:0; ">
-                    <img height="100 " width="100 " (click)="onThumbnailClick($event,relevantpic)" src="{{relevantpic.src}}">
-                </div>
-            </div>
-            </div> 
-        </div>
-             <div class="pdp-productDtls-container">
-                <div class="productDetail header-position">
-                    <h2  *ngIf="productInfo" [innerHtml]="productInfo.productDisplayName" ></h2>
-                </div>
-                <div>
-                <div class="form-inline">
-                    <ngx-stars  [readonly]="true" [initialStars]="productInfo.productAverageRating" [color]="'#484848'" [size]="1"></ngx-stars>                  
-                     <div *ngIf="showDetail"  id="BVRRSummaryContainer"></div>
-                </div>
-                <p class="pricePoint" *ngIf="productInfo">
-                   <b class="price-format">{{ (productInfo.price)?productInfo.price.formattedValue:'Comming Soon'}}</b>
-                </p>
-                </div>
-                <li  class="addToBasket" style="list-style: none; ">
-                    <div  style="cursor: pointer; ">
-                        <button class="addToCartBtn" (click)="addToBasket(productInfo)"> Add to Basket <span></span>
-                        </button>
-                        <span class="mb-quantityInput ">
-                            <span > Quantity:&nbsp; </span>
-                            <input [(ngModel)]="prodQuantity" type="text" (keypress)="numberOnly($event)" maxlength="2" pattern="[0-9]+" class="plpBasketQuantity">
-                        </span>
-                    </div>
-                    <div class="productDetail header-position">
-                        <h3  *ngIf="productInfo"  [innerHtml]="productInfo.productDisplayName" ></h3>
-                    </div>
-                </li>
-                <div class="clearboth paddingTop10px "></div>
-                <ul class="productDetailTabs"  *ngIf="productInfo&&showDetail">
-                    <li class="collapsible" *ngIf="productInfo.description">
-                        <h3 (click)="onCollapseDetail($event,'fragrance')" >THE FRAGRANCE<span [ngClass]="{'transform-caret':showFragrance,'transform-caret-90':!showFragrance}"></span></h3>
-                        <div class="collapsibleContent" style="height:auto;" [ngClass]="{'showfragrance':showFragrance,'hideFragrance':!showFragrance}" [innerHtml]="productInfo.description">
-                           
-                        </div>
-                    </li>
-                    <li class="collapsible" *ngIf="productInfo.explore">
-                        <h3 (click)="onCollapseDetail($event,'explore')">Explore<span [ngClass]="{'transform-caret':showExplore,'transform-caret-90':!showExplore}"></span></h3>
-                        <div class="collapsibleContent" style="height:auto;" [ngClass]="{'showfragrance':showExplore,'hideFragrance':!showExplore}">
-                                  {{productInfo.explore}}
-                         </div>
-                    </li>
-                    <li class="collapsible" *ngIf="productInfo.benefits">
-                        <h3 (click)="onCollapseDetail($event,'benefits')">benefits<span  [ngClass]="{'transform-caret':showBenifits,'transform-caret-90':!showBenifits}"></span></h3>
-                        <div class="collapsibleContent" style="height:auto;" [ngClass]="{'showfragrance':showBenifits,'hideFragrance':!showBenifits}">
-                         {{productInfo.benefits}}
-                        </div>
-                    </li>
-                    <li class="collapsible" *ngIf="productInfo.delivery">
-                        <h3 (click)="onCollapseDetail($event,'delivery')">delivery<span  [ngClass]="{'transform-caret':showDelivery,'transform-caret-90':!showDelivery}"></span></h3>
-                        <div class="collapsibleContent" style="height:auto;" [ngClass]="{'showfragrance':showDelivery,'hideFragrance':!showDelivery}">
-                         {{productInfo.delivery}}
-                        </div>
-                    </li>
-                    <li class="share-tab-conatainer">
-                        <h3>SHARE THIS</h3>
-                        <div class="sharetab"> 
-                        <a href="#" class="sharingIcons facebook">Share on facebook</a>
-                            <a  href="#" class="sharingIcons instagram">Share on Instagram+</a>
-                        <a target="_blank" href="#" class="sharingIcons twitter">Share on twitter</a>
-                        <a href="#" class="sharingIcons pinterest">Share on Pinterest</a>
-                        <a href="#" class="sharingIcons youtube">Share on Pinterest</a>
-                        </div>
-                    </li>
-                </ul>
-                <p class="SKUCode code-position ">
-                    Product code:<span class="nb " id="picker_item " none="None " style="padding-left:5px; " *ngIf="productInfo">{{productInfo.code}}</span>
-                </p>
-                <p style="margin:0;font-size: 14px;" *ngIf="productInfo"><span *ngIf="productInfo.size">Size:&nbsp;{{productInfo.size}}</span></p>
-                <p *ngIf="!showDetail" style="margin-top:10px;" (click)="onShowProductDetails(productInfo) "><span class="fullDetails">Full Details</span><span><i class="fa fa-caret-right "></i></span></p>
-                 <div *ngIf="showDetail&&regUser" class="add-favourites">
-                    <div class="add-favourites-image">
-                     <img src="../../../assets/imgs/btn_addToFavourites.gif" alt="add to favourites" (click)="addToFavourite($event,productInfo)">
-                     <span *ngIf="favourite; else favouriteBlock">
-                         <a (click)="addToFavourite($event,productInfo)" >Add to Favourites</a>
-                     </span>
-                         <ng-template #favouriteBlock>
-                           <span>
-                             Good choice! We've popped this product into your <u (click)="onClickFavourite()">Favourites</u> .
-                           </span>  
-                         </ng-template>
-                    
-                    </div>  
-                 </div>
-            </div>
+<div class="rowComponents product_detail">
+  <h2
+    class="header-position-top"
+    *ngIf="productInfo"
+    [innerHtml]="productInfo.productDisplayName | safe: 'html'"
+  ></h2>
+  <div class="mb-product-code-size">
+    <p class="code-position ">
+      Product code:<span
+        class="nb "
+        id="picker_item "
+        none="None "
+        style="padding-left:5px; "
+        *ngIf="productInfo"
+        >{{ productInfo.code }} &nbsp;|</span
+      >
+    </p>
+    <p *ngIf="productInfo" class="code-position">
+      &nbsp;Size:&nbsp;<span *ngIf="productInfo.size">{{
+        productInfo.size
+      }}</span>
+    </p>
+  </div>
+  <div class="product_image_div" style="position: relative;">
+    <div class="productImage">
+      <div
+        class="viewer-kit-target"
+        id="amp-container"
+        style="min-width:300px;"
+      ></div>
     </div>
+    <picture *ngIf="!showDetail" style="position: absolute;top:0;">
+      <source
+        srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{productInfo.code}}_uk_set?$quickViewImg$&amp;fmt=webp"
+        type="image/webp"
+      />
+      <source
+        srcset="//media.moltonbrown.co.uk/s/moltonbrown/{{productInfo.code}}_uk_set?$quickViewImg$&amp;fmt=jpg"
+        type="image/jpeg"
+      />
+      <img
+        src="//media.moltonbrown.co.uk/s/moltonbrown/{{
+          productInfo.code
+        }}_uk_set?$quickViewImg$&amp;fmt=jpg"
+      />
+    </picture>
+  </div>
+  <div class="pdp-productDtls-container" *ngIf="productInfo">
+    <div class="productDetail header-position">
+      <h2 *ngIf="productInfo" [innerHtml]="productInfo.productDisplayName | safe: 'html'"></h2>
+    </div>
+    <div>
+      <div
+        *ngIf="!showDetail && productInfo.productAverageRating"
+        class="justify-right"
+      >
+        <ngx-stars
+          *ngIf="siteSpecific && productInfo.productAverageRating"
+          [readonly]="true"
+          [initialStars]="productInfo.productAverageRating"
+          [color]="'#484848'"
+          [size]="1"
+        ></ngx-stars>
+      </div>
+      <div
+        class="form-inline"
+        *ngIf="siteSpecific"
+        style="justify-content: flex-start;"
+      >
+        <div
+          data-bv-show="rating_summary"
+          *ngIf="showDetail"
+          [attr.data-bv-product-id]="productInfo.code"
+        ></div>
+      </div>
+      <div class="pricePoint">
+        <span class="pricePoint-price" *ngIf="!productInfo.originalPrice">{{
+          productInfo.price ? productInfo.price.formattedValue : "loading"
+        }}</span>
+        <span class="pricePoint-discount" *ngIf="productInfo.originalPrice">
+          <del class="pricePoint-old-price">{{
+            productInfo.originalPrice
+          }}</del>
+          &nbsp;
+          <span class="ds-price">{{
+            productInfo.price ? productInfo.price.formattedValue : "loading"
+          }}</span>
+        </span>
+      </div>
+
+      <div class="product-base-price" *ngIf="!siteSpecific">
+        <span *ngIf="productInfo.basePrice">
+          {{ productInfo.basePrice ? productInfo.basePrice : "" }}</span
+        >
+        <span class="product-vat-text">
+          inkl. MwSt., zzgl.&nbsp;
+          <a style="text-decoration:underline;" href="/store/german-delivery">
+            Versand</a
+          >
+        </span>
+      </div>
+    </div>
+    <div *ngIf="showDetail && productInfo">
+      <div *ngIf="productInfo.baseOptions">
+        <div *ngIf="productInfo.baseOptions.length != 0">
+          <div
+            class="prod_size"
+            *ngFor="let data of productInfo.baseOptions[0].options"
+            (click)="onVariantClick(data)"
+            [ngClass]="{ 'active-product': data.code == productInfo.code }"
+          >
+            <a>{{ data.variantOptionQualifiers[0]["value"] }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <li
+      class="addToBasket mt-10"
+      style="list-style: none;"
+      *ngIf="productInfo.stock"
+    >
+      <div
+        *ngIf="
+          productInfo.stock.stockLevelStatus != 'outOfStock';
+          else outOfStock
+        "
+      >
+        <span *ngIf="productInfo.price" class="mb-flex">
+          <button
+            class="addToCartBtn"
+            (click)="addToBasket($event, productInfo)"
+          >
+            Add to Basket <span></span>
+          </button>
+          <span class="mb-quantityInput ">
+            <span> Quantity:&nbsp; </span>
+            <input
+              [(ngModel)]="prodQuantity"
+              type="text"
+              (keypress)="numberOnly($event)"
+              maxlength="2"
+              pattern="[0-9]+"
+              class="plpBasketQuantity"
+            />
+
+            <select class="plpBasketQuantity1" [(ngModel)]="prodQuantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </span>
+        </span>
+      </div>
+      <ng-template #outOfStock>
+        <div class="product_avial">
+          <span>
+            Out of stock
+          </span>
+        </div>
+      </ng-template>
+    </li>
+
+    <div class="productDetail header-position mt-10">
+      <h3 *ngIf="productInfo" [innerHtml]="productInfo.productDisplayName| safe: 'html'"></h3>
+    </div>
+    <div class="clearboth paddingTop10px "></div>
+    <ul
+      class="productDetailTabs accordion"
+      id="accordion"
+      *ngIf="productInfo && showDetail"
+    >
+
+
+
+
+
+    <li class="accordion-group"  *ngFor="let tabs of productInfo.contentTabs;let k =index;">
+      <div 
+           class="accordion-heading" 
+           [ngClass]="{'pdp-tab-show':tabs.show,'pdp-tab-hide':!tabs.show }"
+           (click)="onClickTabs($event,k)">
+          <a class="accordion-toggle pdp-content-tabs">
+            <h3>{{tabs.header}}<span class="tab-caret"></span></h3>
+          </a>
+      </div>
+      <div    id="collapseDelivery"
+              class="accordion-body pdp-tabs-body dl-description" >
+        <div
+          class="accordion-inner"
+          [innerHtml]="tabs.htmlData| safe: 'html'"
+        ></div>
+
+        <div *ngIf="tabs.dlInstruction">
+          <span *ngIf="!productInfo.isHazardous" class="del-restrictions"
+            >No delivery/shipping restrictions apply to this product</span
+          >
+          <span class="hazardous-cntnt" *ngIf="productInfo.isHazardous">
+            There are delivery restrictions that apply to this product.
+            <a (click)="onFindDRtcn()">
+              Find out more
+            </a>
+          </span>
+        </div>
+      </div>
+    </li>
+      <li class="share-tab-conatainer">
+        <h3>SHARE THIS</h3>
+        <div class="sharetab">
+          <button
+            ceiboShare
+            class="sharingIcons facebook"
+            [facebook]="{ u: repoUrl }"
+          >
+            Facebook
+          </button>
+          <button
+            ceiboShare
+            class="sharingIcons twitter"
+            [twitter]="{
+              text: 'I Love' + ' ' + productInfo.productDisplayName,
+              url: repoUrl,
+              via: 'MoltonBrownUK'
+            }"
+          >
+            Twitter
+          </button>
+          <button
+            ceiboShare
+            class="sharingIcons pinterest"
+            [pinterest]="{
+              url: repoUrl,
+              media: imageUrl,
+              description: productInfo.productDisplayName,
+              hashtags: moltonbrown
+            }"
+          >
+            Pinterest
+          </button>
+          <a
+            class="sharingIcons emailIcon"
+            [href]="emailstring"
+            target="_top"
+          ></a>
+        </div>
+      </li>
+    </ul>
+    <p class="SKUCode code-position ">
+      Product code:<span
+        class="nb "
+        id="picker_item "
+        none="None "
+        style="padding-left:5px; "
+        *ngIf="productInfo"
+        >{{ productInfo.code }}</span
+      >
+    </p>
+    <p  style="margin:0;font-size: 14px;" *ngIf="productInfo">
+      <span class="sizeml" *ngIf="productInfo.size">Size:&nbsp;{{ productInfo.size }}</span>
+    </p>
+    <p
+      *ngIf="!showDetail"
+      class="mt-10"
+      (click)="onShowProductDetails(productInfo)"
+    >
+      <span class="fullDetails">Full Details</span
+      ><span><i class="fa fa-caret-right "></i></span>
+    </p>
+    <div *ngIf="showDetail && regUser" class="add-favourites">
+      <div class="add-favourites-image">
+        <img
+          src="assets/imgs/btn_addToFavourites.gif"
+          alt="add to favourites"
+          (click)="addToFavourite($event, productInfo)"
+        />
+        <span *ngIf="favourite; else favouriteBlock">
+          <a  (click)="addToFavourite($event, productInfo)">Add to Favourites</a>
+        </span>
+        <ng-template #favouriteBlock>
+          <span>
+            Good choice! We've popped this product into your
+            <u (click)="onClickFavourite()">Favourites</u>
+            .
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div style="clear:both;"></div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="chck-modal-dialog modal-dialog modal-full container modal-dialog-scrollable"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="chck-modal-header modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+        <h4 class="modal-title text-center">Delivery & Returns</h4>
+      </div>
+      <div *ngIf="productInfo">
+        <div
+          class="modal-body chck-modal-body"
+          #deliveryReturns
+          [innerHtml]="productInfo['deliveryServiceReturns']| safe: 'html'"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

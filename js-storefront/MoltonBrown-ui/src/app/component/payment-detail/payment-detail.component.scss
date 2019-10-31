@@ -1,23 +1,32 @@
 
-
+@import "../../../variable";
 .my-account {
     width: 764px;
     padding: 5px 0;
-    min-height: 460px;
-    @media screen and(max-width:768px) {
+    min-height: 100px;
+    @media screen and(max-width:$screen-sm) {
         width:100%;    min-height: 190px;
     }
     .paymentAlign{
         margin: 15px 0;
+        .cc-accountnumber{
+            text-transform: uppercase;
+            font-size:14px;
+        }
         .col-sm-4{
             padding: 15px !important;
+        }
+        p a{
+            text-decoration: underline;
+            color: #484848;
+            font-size: 12px;
         }
     }
     h2 {
         font-size: 28px;
         margin-bottom: 0;
         padding: 0 0 14px 0;
-        color: #000;
+        color: $primary-color;
     }
     p {
         color: #260e03!important;
@@ -29,34 +38,67 @@
         padding: 20px 10px;
         padding: 20px 10px;
         margin: 15px 0;
+        overflow-wrap: break-word;
         float: left;
         h3{
             font-weight: bold;
             font-size: 14px;
-            color: #000!important;
+            color: $primary-color!important;
             padding-left: 0!important;
+            padding-bottom: 10px;
         }
     }
 }
+.saved-cards-info {
+    padding: 10px 0 20px 0!important;
+}
 .relativeness {
     position: relative;
+    padding-bottom: 10px;
+    .contextual-help{
+        left:80px;
+    }
 }
 .makeDefault {
     padding-bottom: 14px;
     padding: 20px 0 15px 0;
     b{
-        font-size:12px;
+        font-size:14px ;
     }
-    .contextual-help {
-        position: absolute;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        border: 1px solid #c2c2c2;
-        background: #FFF url('https://www.moltonbrown.co.uk/images/help-black-icon.svg') no-repeat scroll center center;
-        text-indent: -9999px;
-        background-size: 7px;
-        left: 155px;
-        top: 20px;
+
+}
+.paymentCards{
+    font-size: 14px;
+    font-weight: 400;
+    a{
+        cursor: pointer;
     }
 }
+.my-account{
+    b{
+        font-size:14px ;
+    }   
+}
+.paymentCards-acc-name{
+    span{
+        font-size:14px;
+    }
+}
+.paymentCards-type{
+    text-transform: capitalize;
+}
+.default-cntnt{
+    position: relative;
+    .contextual-help {
+        width:25px;
+        height:25px;
+        left:12.5%;
+        background-size: 7px !important;
+    }
+}
+.display-overlay {
+    display: block;
+    top: 0;
+    z-index: 99999;
+    background-color: transparent;
+  }

@@ -1,6 +1,6 @@
-import { Component, OnInit,ViewEncapsulation,SecurityContext,HostListener,ElementRef,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation,HostListener,ElementRef,ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import {SingletonService} from '../../services/singleton.service';
 import * as _ from 'lodash';
 declare var $: any;
 declare var AmpCa :any
@@ -15,7 +15,7 @@ export class EditorialComponent implements OnInit {
   @ViewChild('editorialTemplatewrapper') editorialTemplatewrapper:ElementRef;
     htmlStr: string ;
     safeUrl:  SafeResourceUrl;
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer,public singletonServ:SingletonService) { }
   name:string;
   @HostListener("window:scroll", ['$event'])
   windowScroll(event) {
@@ -38,6 +38,8 @@ export class EditorialComponent implements OnInit {
 }
   getcardFromRenderingServ(){
     const that=this;
+    
+    const baseSite=this.singletonServ.catalogVersion;
     AmpCa.utils = new AmpCa.Utils();
     AmpCa.utils.getHtmlServiceData({
         auth: {
@@ -45,7 +47,7 @@ export class EditorialComponent implements OnInit {
             id: '4cb5ab83-7900-4641-a59c-f0996ae1bcd4',
             store: 'moltonbrown',
             templateName: 'acc-template-homepage',
-            locale:'en-GB'
+            locale:baseSite.locale
         },
         callback: function (htm) {
           //  document.querySelectorAll("#editorial_template-wrappper")[0].innerHTML = data;

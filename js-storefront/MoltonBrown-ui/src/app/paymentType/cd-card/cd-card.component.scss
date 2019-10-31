@@ -1,0 +1,170 @@
+@import "../../../variable";
+.ml-5{
+    margin-left:5px;
+}
+.backdrop{
+    height:100% !important;
+    top:0;
+}
+
+
+input.form-control.short-field{
+    width: 110px !important;  
+}
+.btn-find-address{
+    width:180px;
+    @media(max-width:$screen-sm){
+        width:100% ;
+    }  
+}
+.btn-default {
+    background-color: $edition-color;
+    color: $mb-white;
+}
+.form-inline  .form-group, .form-inline .radio-inline {
+    margin-right: 10px;
+}
+
+.securityCode{
+    position: relative;
+    width: 160px !important;
+    input{
+        width: 160px !important;
+    }
+    @media(max-width:$screen-xs-min){
+        // width: 100% !important;
+        input{
+            width: 100% !important;
+        }
+    }
+
+.contextual-help{
+    left:140px;
+    top:3px;
+}
+}
+.card_field{
+select.form-control {
+    display: block;
+    height: 48px;
+    border: 1px solid $light-grey;
+    border-radius: 0;
+    margin: 5px 0 15px;
+}
+input[type="text"].form-control.not-valid, input[type="tel"].form-control.not-valid {
+    background-position: 93% 9px !important;
+    background-size: 7px !important;
+}
+}
+.postcodesearchreset a{
+  text-decoration: underline !important;
+}
+.card-entry-form{
+    input,select{
+        &.form-control{
+            width:335px;
+            @media screen and(max-width:768px){
+                width:100%;
+            }
+        }
+        
+          }
+          .not-valid-error-msg{
+            width:305px;
+            @media screen and(max-width:768px){
+                width:90%;
+            }
+        } 
+        .card_field{
+            position: relative;
+           
+        }
+}
+.bl_checkbox{
+    height:40px;
+    margin-top:15px;
+    input[type="checkbox"]{
+    &:checked{
+        ~{
+            .check-error-msg-bottom{
+                display:none;
+            }
+        }
+    }
+    ~{
+        .check-error-msg-bottom{
+            display:block;
+        }
+    }
+    }
+}
+
+
+.login_fields{
+    input[type="text"].form-control,
+    input[type="email"],input[type="password"],
+    input[type="email"].form-control,
+    input[type="password"].form-control,
+    input[type="tel"].form-control {
+       ~{
+           .not-valid-error-msg{
+               display:none  ;
+           
+           }
+       }
+    &.not-valid{    
+       &:focus{
+        box-shadow: none;
+       ~{
+        .not-valid-error-msg{
+           display:block ;
+         }
+        }
+       }
+     }
+    }
+}
+
+// .card-form-section{
+//     select{
+//         width:
+//     }
+// }
+.card-entry-form {
+    form{
+        .monthYearAlign {
+            display: flex;
+            justify-content: space-between;
+            width:65%;
+            select{
+            min-width: 165px;
+            }
+        }
+        input{
+            width:65%;
+        }
+        select{
+            width:45%;
+        }
+        .securityCode{
+            position: relative;
+            input {
+                width: 160px;
+              }
+              .contextual-help{
+                  left:25%;
+                  top:3px;
+              }
+        }
+    }
+}
+
+.card_field .contextual-help ~.form-control.not-valid, .card_field .contextual-help ~.form-control.valid {
+    background-position: 87% 8px !important;
+}
+legend.card-expire{
+    font-size: 15px !important ;
+}
+select.selectDropdowncard{
+    width: 240px !important;
+}

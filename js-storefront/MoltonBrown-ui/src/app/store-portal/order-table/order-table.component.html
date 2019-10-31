@@ -1,0 +1,53 @@
+<section class="order-tbl clearfix" *ngIf="orderData">
+<table class="table-striped">
+    <thead>
+        <th class="od-sn" *ngIf="orderData.serialNo">{{orderData.serialNo}}</th>
+        <th class="od-slct" *ngIf="orderData.select" style="padding-left: 12px;">Select</th>
+        <th class="od-number" *ngIf="orderData.orderNumber">{{orderData.orderNumber}}</th>
+        <th class="od-cs-name" *ngIf="orderData.customerName">{{orderData.customerName}}</th>
+        <th class="od-date" *ngIf="orderData.orderDate">{{orderData.orderDate}}</th>
+        <th class="od-val" *ngIf="orderData.amount">{{orderData.amount}}</th>
+        <th class="od-action" *ngIf="orderData.action">{{orderData.action}}</th>
+    </thead>
+    <tbody *ngIf="stores">
+        <tr *ngFor="let data of stores;let ndx=index" [ngClass]="{'od-td-color':data.switchStatus =='COMPLETELYPROCESSED'}">
+            <td class="od-sn">
+              {{ndx+1}}
+            </td>
+            <td class="od-slct" *ngIf="data.switchStatus =='COMPLETELYPROCESSED'" style="padding: 15px 18px;">
+              <input  type="checkbox"  class="od-slct-checkbox" (change)="onCheckOrder($event,data,ndx)"/>
+              <span class="od-slct-lbl"></span>
+            </td>
+            <td class="od-number">
+              {{data.code}}
+            </td>
+            <td class="od-cs-name">
+              {{(data.deliveryAddress.firstName) ?data.deliveryAddress.firstName+ '' +data.deliveryAddress.lastName:data.paymentInfo.accountHolderName }}
+            </td>
+            <td class="od-date">
+             {{data.created |date:'dd/M/y'}}
+            </td>
+            <td class="od-val">
+              {{data.totalPriceWithTax.formattedValue}}
+            </td>
+            <td class="od-action" *ngIf="data.switchStatus =='cancelledList'">
+              Cancelled 
+            </td>
+            <td class="od-action" *ngIf="data.switchStatus =='COMPLETELYPROCESSED'">
+              <button class="od-check-in" (click)="onDispactchOrder($event,data)">
+                Check in
+              </button>
+            </td>
+            <td class="od-action" *ngIf="data.switchStatus =='collected'">
+                <button class="od-collect" (click)="onDispactchOrder($event,data)" [ngClass]="{'action-bg':data.status=='READYTOCOLLECT'}">
+                 Collect
+                </button>
+              </td>
+          </tr>
+    </tbody>
+</table>
+
+<div class="margin-top-10" *ngIf="orderData.switchStatus==='dispatch'&&stores.length!=0">
+    <button class="btn-sbmt" (click)="onBulkCheck($event)">Bulk check in</button>
+</div>
+</section>

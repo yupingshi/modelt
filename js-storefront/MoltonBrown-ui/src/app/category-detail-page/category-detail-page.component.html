@@ -1,18 +1,34 @@
 <div class="pdp-container">
-<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
-<app-productview [productInfo]="productInfo" [showDetail]="true"></app-productview>
+  <app-mb-bread-crumb
+    *ngIf="breadcrumb"
+    [breadcrumb]="breadcrumb"
+    [menuData]="menuData"
+  ></app-mb-bread-crumb>
+  <app-productview
+    [showDetail]="true"
+    [productInfo]="productInfo"
+    (showDlRstrn)="showDlRstrn()"
+  >
 
-   <div class="smartContent twoColumn rowComponents">
-               <div class="item">
-                    <div class="tmspslot" data-k="qa5buoy"  data-slid="uk-hybris-prod-feed-product-page-you-may-also-like" data-p="1" ></div>
-
-               </div>
-               <div class="item" >
-                    <div class="tmspslot"  data-k="qa5buoy" data-slid="uk-hybris-prod-feed-product-page-works-well-with" data-p="1" ></div>
-               </div>
-               <!-- <div class="item"><app-related-product [slides]="slides" [slideConfig]="slideConfig" [cartTitle]='cartTitle'></app-related-product></div>
-               <div class="item"><app-related-product [slides]="workwell" [slideConfig]="workWellSlideConfig" [cartTitle]='cartTitle'></app-related-product></div> -->
-   </div>
-
- <app-review></app-review>
+</app-productview>
+  <div class="smartContent twoColumn rowComponents">
+    <div class="item" #youMayLike>
+    </div>
+    <div class="item" #worksWellWith>
+    </div>
+  </div>
+  <div *ngIf="productInfo">
+    <div *ngIf="productInfo.isHazardous" id="deliveryRstnBlock">
+      <app-delivery-instructions
+        [deliveryResctrictions]="deliveryResctrictions"
+        [dlInstructionShowUp]="dlInstructionShowUp"
+      ></app-delivery-instructions>
+    </div>
+  </div>
+  <div id="BVRRContainer">
+    <app-review
+      [showUpReview]="showUpReview"
+      [productInfo]="productInfo"
+    ></app-review>
+  </div>
 </div>

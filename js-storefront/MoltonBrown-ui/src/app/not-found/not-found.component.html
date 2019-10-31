@@ -1,7 +1,51 @@
-<div class="loading-backdrop"  >
-    <div class="b2c-title">
-         Molton Brown
-        <h4 style="font-size:14px;">Page Not Found</h4>
-    </div>
-
-</div>
+<section class="page-unavailable">
+        <div class="container">
+          <div class="rowComponents">
+          <aside class="col-sm-3 hidden-xs account"> 
+          <h3 class="facet_header">Search By</h3>
+         <ul>
+           <li><a routerLink="/store/about-us"   routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')" >About Us</a></li>
+           <li><a routerLink="/store/company/stores" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Molton Brown Stores</a></li>
+           <li><a routerLink="/store/contact-us" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Contact us</a></li>	
+             
+           <li> <a routerLink="/store/store/delivery" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Delivery</a></li>
+           <li><a routerLink="/store/privacy-policy" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Privacy Policy</a></li>
+           <li><a routerLink="/store/terms-conditions" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Terms &amp; Conditions</a></li>
+           <li><a routerLink="/store/faqs" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">FAQs</a></li>
+           <li><a routerLink="/store/sitemap" routerLinkActive="active" (click)="onRouteTo($event,'/store/about-us')">Site Map</a></li>		
+         </ul>
+         </aside>
+            <div class=" col-sm-9 rightColumn" >
+                <div>
+         <div style="float:right"></div><br>
+         <div><b>OH DEARIE ME! THERE SEEMS TO HAVE BEEN A LITTLE HICCUP...</b></div><br>
+         <div>
+                <p>We can't find the page you were looking for - this might be because the page no longer exists or you may have typed the link incorrectly.</p>
+              <p>Please check the address and spelling or go back to the beginning, at the 
+                  <u>
+                    <a  
+                      routerLink="/store/index"  
+                      routerLinkActive="active" 
+                      (click)="onRouteTo($event,'/store/index')"
+                      >
+                      Molton Brown homepage
+                    </a>
+                 </u>
+                </p>
+                <p>
+                    If you're still having trouble, contact Customer Services via 
+                    <u><a href="mailto:customerservice@moltonbrown.com?subject=UK error page - please help">
+                        email
+                    </a>
+                </u> 
+                or give us a call on Freephone&nbsp;+44 (0) 808 178 1188
+            </p>
+         </div>
+     <br>
+    
+       </div>
+          </div>
+          </div>
+        </div>
+      </section>
+      

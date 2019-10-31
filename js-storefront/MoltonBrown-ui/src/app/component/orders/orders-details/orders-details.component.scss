@@ -2,7 +2,8 @@
     padding: 10px;
     border:1px solid #ccc;
     span{
-        font-weight: normal;    line-height: 22px;
+        font-weight: normal; 
+        line-height: 22px;
         padding-left: 5px;
     }
     &::after{
@@ -14,14 +15,26 @@
         font-weight: 700;
     }
     .OrderSubtotal{
-        display: flex;align-items: flex-end;
-            flex-direction: column;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
         .innerOrdTotal{
-            width: 25%;
+            width: 20%;
+            display:flex;
+            justify-content: flex-start;
+            span.finalBlock-lt{
+                width: 72px;
+            }
+
         }
         margin-top: 20px;
     }
  }
+ .image, .product{
+    a{
+cursor: pointer;
+ } 
+ } 
  .orderDetailsServiceNumber{
  display: flex;
  justify-content:flex-end;
@@ -36,8 +49,9 @@
     .tr.header{
 
         .td{
-           font-weight:bold !important;
-        padding:10px 0; font-size: 14px;
+        font-weight:bold !important;
+        padding:10px 0; 
+        font-size: 14px;
         &.image, &.quantity{
             width:25%;
                     } &.quantity{
@@ -82,3 +96,15 @@ width:35%;
         width: 0;
      }
  }
+.orderShipTrackInfo{
+    .td{
+        &.trackNumber{
+            text-align: left !important;
+        }
+
+        &-left-cell{
+            text-align: left !important;
+        }
+  
+    }
+}

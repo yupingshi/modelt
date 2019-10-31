@@ -1,24 +1,40 @@
-import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
-declare var $BV;
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  SimpleChange,
+  Input
+} from "@angular/core";
 @Component({
-  selector: 'app-review',
-  templateUrl: './review.component.html',
-  styleUrls: ['./review.component.scss'],  
+  selector: "app-review",
+  templateUrl: "./review.component.html",
+  styleUrls: ["./review.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class ReviewComponent implements OnInit {
-  reviewBoxStatus:boolean;
-  constructor() { 
-    this.reviewBoxStatus=false;
+  reviewBoxStatus: boolean;
+  @Input() showUpReview: boolean;
+  @Input() productInfo: any;
+  code: string;
+  constructor() {
+    this.reviewBoxStatus = false;
   }
-
-  ngOnInit() {
-    $BV.ui( 'rr', 'show_reviews', {
-      doShowContent : function () {
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    const that = this;
+    if (changes["showUpReview"]) {
+      if (changes["showUpReview"]["currentValue"] != undefined) {
+        that.reviewBoxStatus = changes["showUpReview"]["currentValue"];
       }
-   });
+    }
+    if (changes["productInfo"]) {
+      if (changes["productInfo"]["currentValue"] != undefined) {
+        let _dt = changes["productInfo"]["currentValue"];
+        that.code = _dt.code;
+      }
+    }
   }
-  onReviewClick(){
+  ngOnInit() {}
+  onReviewClick() {
     this.reviewBoxStatus = !this.reviewBoxStatus;
   }
 }

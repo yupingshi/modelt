@@ -1,0 +1,198 @@
+
+{
+  "titleBar":"Molton Brown® Europe | Luxuriöse Geschenke | Offizieller Online-Shop",
+  "form":{
+    "label":{
+      "state":"Country/State/Region"
+    }
+  },
+  "changeCountry":"LAND ÄNDERN",
+  "NEWSLETTER" : "NEWSLETTER",
+  "FINDASTORE":"WO SIE UNS FINDEN",
+  "quickView":"Schnellansicht",
+ "yourBasketEmpty": "Ihr Warenkorb ... ist leer.",
+ "startShopping":"EINKAUF BEGINNEN",
+ "yourShoppingBasket" : "Ihr Warenkorb",
+ "continueShopping":"WEITER EINKAUFEN",
+ "secureCheckout":"SICHER BEZAHLEN",
+"basketBC":"WARENKORB",
+"sampleAndGiftBox" :"Proben und Geschenkbox",
+"checkout": "ZUR KASSE",
+"remove":"Entfernen",
+"product":"PRODUKT",
+"qty":"MENGE",
+ "price":"PREIS",
+ "total":"SUMME",
+ "enterPromoCode":"Aktionscode eingeben",
+"apply": "ÜBERNEHMEN",
+"subTotal":"Zwischensumme",
+"securityGauranteed":"SICHERHEIT GARANTIERT",
+"wouldLikeFreeGiftBox":"Möchten Sie auch eine KOSTENLOSE Geschenkbox und eine Geschenkbotschaft?",
+"yesIWouldLGiftBox":"Ja, ich hätte gerne eine kostenlose Geschenkbox.",
+"yesAlreadyGiftBoxed":"Your products are already gift boxed.",
+"YIWouldPGiftMsg":"Ja, ich würde gerne eine Botschaft mit dem Geschenk überbringen.",
+"requiredInfo" :"Pflichtfelder",
+"signOrContinueAsGuest": "Anmelden oder als Gast fortfahren",
+"whtYrsEmailAdd":  "Wie lautet Ihre E-Mail-Adresse?",
+"weWillSndUOrdConfToThisAdd":"(Wir schicken Ihre Bestellbestätigung an diese Adresse)",
+"doYouHaveAnAccount":"Haben Sie ein Konto?",
+"noYouCanSaveYourDetailsLater":"Nein (Sie können die Angaben zu einem späteren Zeitpunkt speichern)",
+"yesMyPwdIs":"Ja, mein Passwort lautet:",
+"IHaveForgotPassword":"Ich habe mein Passwort vergessen",
+"continue":"Weiter",
+"needHelp":"Do you need help ?",
+"groupSecurityCode":"This is the last three digits on the back of your credit card, or for AMEX this is the 4 digits on the front of your card.",
+"login":{
+  "emailInputFocus":"What's your email address?",
+  "invalidEmailAddress":"This email address doesn't look right. Please check the format is myemail@myaddress.com",
+  "passwordInputFocus":"What's your password?",
+  "invalidPassword":"Password must be between 6 and 20 characters long.",
+  "pswdContextual":"Password must be between 6 and 20 characters.",
+  "defaultShippingAdd":"Your default delivery/shipping address will be automatically added during checkout to make placing your next order quicker.",
+  "addressBookPhone":"We will only contact you about your order.",
+  "updatePaymentDetails":"We will only contact you about your order."
+},
+"resetPassword":{
+"uid":"What's your email address?",
+"invalidEmail":"This email address doesn't look right. Please check the format is myemail@myaddress.com"
+},
+"register":{
+   "uid":"What's your email address?",
+  "invalidEmailAddress":"This email address doesn't look right. Please check the format is myemail@myaddress.com",
+  "confirmEmail":"Please confirm your email.",
+  "matchEmail":"The emails don't match.",
+  "passwordEnter":"Please enter a password.",
+  "invalidPassword":"Password must be between 6 and 20 characters long.",
+  "confirmPassword":"Please enter confirm password.",
+  "matchPassword":"The passwords don't match.",
+  "titleCode":"Please select a title.",
+  "country":"Please select a country.",
+  "firstName":"What's your first name?",
+  "lastName":"What's your last name?",
+
+  "town":"Please enter a city.",
+  "district":"Please enter a Country/State/Region .",
+  "postCode":"What's your postcode or zip code?",  
+  "postCodeInvalid":"Please enter a valid postcode or enter the address manually.",
+  "passwordInfo":"Password must be between 6 and 20 characters.",
+  "phonenumberInfo":"We will only contact you about your order.",
+  "line1":"What's the first line of the address?",
+  "city":"Please enter a city.",
+  "phone":"What's your contact telephone number?",
+  "phoneLength":"This telephone number doesn't look right. It must be between 8 and 14 characters.",
+  
+  "termsCheckbox":"! Please agree to the terms & conditions."
+  
+},
+"updatePassword":{
+
+"oldPassword":"Please enter old password",
+"password":" Please enter a password.",
+  "confirmPassword":"Please enter confirm password.",
+   "matchPassword":"The passwords don't match.",
+  "passwordInfo":"password must be between 6 and 20 characters."
+},
+
+"checkoutReg":{
+  "emlInputFocus":"What's your email address?",
+  "invalidEmailAdd":"This email address doesn't look right. Please check the format is myemail@myaddress.com",
+  "password":" Please enter a password.",
+  "invalidPassword":"Password must be between 6 and 20 characters"
+},
+  "phoneInfo":"We will only contact you about your order."  ,  
+
+
+  "giftCardNumber":"This is the 21-digit number on the back of your gift card.",
+  "giftCardPin":"Scratch off the panel on the back of the card to reveal the 6-digit number.",
+  "amountToPay":"Enter the amount you wish to pay.",
+  "cardFormSecurityCode":"We will only contact you about your order.",
+  "postCodes":"No postcode or zip code? Just enter 000.",
+  "giftCard" : [
+    {
+      "name": "Molton Brown Gift Cards",
+      "route": "/gift-cards",
+      "template": true
+    },
+    {
+      "name": "About Gift Cards",
+      "route": "/store/gift-cards/about"
+    },
+    {
+      "name": "Buy Gift Cards",
+      "route": "/store/gifts/gift-cards/cat0012/"
+    },
+    {
+      "name": "Check your Balance",
+      "route": "/store/gift-cards/check-balance"
+    },
+    {
+      "name": "Register your Card",
+      "route": "/store/gift-cards/protected/registerCard"
+    },
+    {
+      "name": "Transfer Balance",
+      "route": "/store/gift-cards/protected/transferBalance"
+    },
+    {
+      "name": "Report Lost/StolenCards",
+      "route": "/store/gift-cards/protected/reportLostStolenCards"
+    },
+    {
+      "name": "FAQs",
+      "route": "/store/gift-terms-conditions"
+    },
+    {
+      "name": "Terms & Conditions",
+      "route": "/store/gift-terms-conditions"
+    }
+  ],
+    "welcomeCart":" WILLKOMMEN",
+    "delAndPay":"LIEFERUNG UND ZAHLUNG",
+    "confirmation":" BESTÄTIGUNG",
+    "basePrice":"Grundpreis ",
+
+"savedCard":{
+
+"cardType":"Please select a card type.",
+"cardNumber":"What's your card number? This is the long number across the front.",
+"cardHolderFirstName":"What is the first name on your card?",
+"cardHolderLastName":"What is the last name on your card?",
+"startDateMonth":"Please select a month.",
+"startDateYear":"Please select a year.",
+"newbillCountry" :"Please select a country.",
+"postCode":"What's your postcode or zip code?",
+"line1" :"What's the first line of the address?",
+"town":"Please enter a city.",
+"phone":"What's your contact telephone number?"
+},
+
+"newsLetter":{
+"emailAddress":"What's your email address?",
+"firstName":"What's your first name?",
+"lastName":"What's your last name?",
+"communication":"! Please agree to receive communications.",
+"terms":"! Please agree to the terms & conditions."
+},
+
+"payDetails":{
+  "cardType":"Please select a card type.",
+  "cardNumber":"What's your card number? This is the long number across the front.",
+  "cardholderFirstName":"What is the first name on your card?",
+  "cardholderLastName":"What is the last name on your card?",
+  "expirationDate":"Please select a month.",
+  "expirationYear":"Please select a year.",
+  "country":"Please select a country.",
+  "postCode":"What's your postcode or zip code?",
+  "line1":"What's the first line of the address?",
+  "town":"Please enter a city.",
+  "phone":"What's your contact telephone number?",
+  "invalidPhonenumber":"This telephone number doesn't look right. It must be between 8 and 14 characters."
+},
+"giftMsg":{
+  "giftMessage":"Please add a gift message."
+},
+"store":{
+  "search":"Please enter a store name, postcode or town"
+}
+}
+

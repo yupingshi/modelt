@@ -1,0 +1,196 @@
+<div class="left-menu-facets" *ngIf="!modal; else modalContent" style="border-top: 1px solid #c2c2c2;">
+  <!-- <span class="facet_header_container">
+    <h2 class="facet_header">FILTER BY</h2>
+  </span> -->
+  <div class="facetoptions">
+    <div
+      id="filterAccordion"
+      #facetTag
+      class="filter_group-options"
+      *ngFor="let filterData of facets; let sortId = index"
+    >
+      <div
+        class="collapsed facet-title"
+        (click)="onFacetClicked(filterData, sortId)"
+        [ngClass]="{ 'open-facets': filterData.open }"
+      >
+        <a class="mb-product-filter-cntnt">
+          <h4 class="filter_group-content">
+            {{ filterData.name }}
+            <span></span>
+          </h4>
+        </a>
+      </div>
+      <div class="facet-content-container"  [@openClose]="filterData.open ? 'open' : 'closed'">
+        <div class="Price mb-product-filter-div">
+          <li
+            class="facet-list"
+            *ngFor="let valueData of filterData.values; let id = index"
+          >
+            <input
+              type="checkbox"
+              name="filterBy"
+              (change)="onSortByFacets($event, sortId, id)"
+              [checked]="valueData.selected"
+              [disabled]="valueData.disable"
+            />
+            <label
+              class="facet-lbl"
+              [ngClass]="{ 'disable-cntnt': valueData.disable }"
+            >
+              <span class="facet-rating" *ngIf="valueData.name.length < 2">
+                <ngx-stars
+                  *ngIf="siteSpecific"
+                  [readonly]="true"
+                  [initialStars]="valueData.name"
+                  [color]="valueData.disable ? '#9A9D9F' : '#A2A4A6'"
+                  [size]="1"
+                >
+                </ngx-stars>
+              </span>
+              {{ valueData.name.length > 2 ? valueData.name : "" }}
+              {{ "(" + valueData.count + ")" }}
+            </label>
+          </li>
+        </div>
+      </div>
+    </div>
+    <div class="facet_clearall">
+      <span (click)="onClearAll()">Clear All</span>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalContent>
+  <div class="modal-content facet-modal-content" #facetTag>
+    <div class="modal-header">
+      <h5 class="modal-title">
+        Refine {{ refinePath ? ":" : "" }}{{ refinePath }}
+      </h5>
+      <div
+        *ngIf="IsmodelShow; else elseRefineCancelBlock"
+        class="close modal-header-close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">cancel</span>
+      </div>
+      <ng-template #elseRefineCancelBlock>
+        <div class="close modal-header-close" (click)="onResetFilters($event)">
+          <span aria-hidden="true">Back</span>
+        </div>
+      </ng-template>
+    </div>
+    <div class="modal-body p-4">
+      <div
+        class="modal-facet"
+        *ngFor="let data of facets; let sortId = index"
+        (click)="onRefineitem(data, sortId)"
+        [hidden]="!mbFacet"
+      >
+        <a class="modal-facet-title">
+          {{ data.name }}
+        </a>
+        <div class="modal-facet-selected-block">
+            <div 
+                *ngFor="let filterItem of data.checkedValue; let listId = index;let first = first;let last = last;" 
+                class="facet-value" [ngClass]="{'ds-check-val':filterItem.selected}">
+               <span  *ngIf="filterItem.selected" >{{ filterItem.name }}<span ></span></span>
+            </div>
+        </div>
+      </div>
+      <div
+        [ngClass]="{
+          'mb-facet-sort-show': !mbFacet,
+          'mb-facet-sort-hide': mbFacet
+        }"
+      >
+        <div *ngFor="let filterItem of refineFacets; let listId = index">
+          <li
+            class="facet-list modal-facet-list"
+            (click)="updateFilterData($event, listId)"
+          >
+            <input
+              type="checkbox"
+              name="filterBy"
+              [checked]="filterItem.selected"
+              [disabled]="filterItem.disable"
+            />
+            <label
+              class="facet-lbl"
+              [ngClass]="{ 'disable-cntnt': filterItem.disable }"
+            >
+              <span class="facet-rating" *ngIf="filterItem.name.length < 2">
+                <ngx-stars
+                  [readonly]="true"
+                  [initialStars]="filterItem.name"
+                  [color]="filterItem.disable ? '#c7c5c5' : '#425162'"
+                  [size]="1"
+                ></ngx-stars>
+              </span>
+              {{ filterItem.name.length > 2 ? filterItem.name : "" }}
+              {{ "(" + filterItem.count + ")" }}
+            </label>
+          </li>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="footer-action ">
+        <div
+          class="btn-fullSize"
+          [ngClass]="{
+            'hide-filterbtn': !checkedfilter,
+            'form-inline': checkedfilter
+          }"
+        >
+          <div
+            class="text-center action-text btn-size"
+            (click)="ontapClear($event)"
+          >
+            clear
+          </div>
+          <div
+            class="text-center action-text btn-size"
+            (click)="onCheckListDone()"
+          >
+            Done
+          </div>
+        </div>
+
+        <div
+          class="btn-fullSize"
+          [ngClass]="{ 'hide-filterbtn': !checkList, 'form-inline': checkList }"
+        >
+          <div
+            class="text-center action-text btn-size"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="onClearAll()"
+          >
+            Clear All
+          </div>
+          <div
+            class="text-center action-text btn-size"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="ontapApplyFacets()"
+          >
+            Apply
+          </div>
+        </div>
+        <div
+          class="text-center action-text  btn-full-size"
+          [ngClass]="{
+            'hide-filterbtn': !showFacets,
+            'show-filterbtn': showFacets
+          }"
+          data-dismiss="modal"
+        >
+          Close
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

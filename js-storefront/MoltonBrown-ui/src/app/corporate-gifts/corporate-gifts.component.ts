@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Router,ActivatedRoute,NavigationEnd } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import {SingletonService} from '../services/singleton.service';
 import * as _ from 'lodash';
 declare var $: any;
 declare var AmpCa :any
@@ -14,21 +15,22 @@ declare var AmpCa :any
 export class CorporateGiftsComponent implements OnInit {
 
   @ViewChild('corporateGift') corporateGift:ElementRef;
-  constructor() { }
+  constructor(public singletonServ:SingletonService) { }
 
   ngOnInit() {
     this.renderTemplate();
   }
   renderTemplate(){
-    const that =this;
+    const that =this;    
+    const baseSite=this.singletonServ.catalogVersion;
     AmpCa.utils = new AmpCa.Utils();
     AmpCa.utils.getHtmlServiceData({
         auth: {
             baseUrl: 'https://c1.adis.ws',
-            id:'d49b6963-7982-421b-9fc4-59a8bfb4d445',
+            id:'ee27602d-f776-483d-93b8-940f63858006',
             store: 'moltonbrown',
-            templateName: 'acc-template-text',
-            locale:'en-GB'
+            templateName: 'acc-template-homepage',
+            locale:baseSite.locale
         },
         callback: function (htm) {
             that.corporateGift.nativeElement.innerHTML=htm;                              

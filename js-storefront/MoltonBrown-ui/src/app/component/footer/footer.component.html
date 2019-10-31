@@ -1,58 +1,31 @@
 <footer>
     <div class="sociallinks" >
-        <a class="sharingIcons facebook">Share on facebook</a>
-        <a class="sharingIcons instagram">Share on instagram</a>
-        <a class="sharingIcons twitter">Share on twitter</a>
-        <a class="sharingIcons pinterest">Share on Pinterest</a>
-        <a class="sharingIcons sharingIcon youtube">Share on youtube</a>
+        <a href="https://www.facebook.com/moltonbrown" target="_blank" class="sharingIcons facebook">Share on facebook</a>
+        <a href="https://www.instagram.com/moltonbrown/"  target="_blank" class="sharingIcons instagram">Share on instagram</a>
+        <a href="https://twitter.com/moltonbrownuk"  target="_blank" class="sharingIcons twitter">Share on twitter</a>
+        <a href="https://in.pinterest.com/moltonbrownuk/"  target="_blank" class="sharingIcons pinterest">Share on Pinterest</a>
+        <a href="https://www.youtube.com/user/MoltonBrownUK"  target="_blank" class="sharingIcons sharingIcon youtube">Share on youtube</a>
     </div>
     <h3>
-        <a href="#"> JOIN THE GUEST LIST<span class="ft-arrow-right"></span>
+        <a class="footerTag"> JOIN THE GUEST LIST<span class="ft-arrow-right"></span>
         </a></h3>
     <div class="footerTop nav-footer-tabs-hide">
       <div class="container">
-        <div class="row no-margin no-padding" [ngClass]="{'mb-footer-toggle-show':toggleFooter,'mb-footer-toggle-hide':!toggleFooter}">
+        <div 
+           class="row no-margin no-padding" 
+           *ngIf="footerLinks"
+           [@openClose]="toggleFooter ? 'open' : 'closed'"
+            >
             <div class="largeCTAImages largeCTABlock">
                 <ul style="padding: 0px;margin: 0px;list-style: none">
-                    <li>
+                    <li *ngFor="let data of footerLinks">
                         <div class="promotionalContent">
-                            <a>
-                                <img src="https://www.moltonbrown.co.uk/images/4BottleBox.png" alt="Complimentary Gifts &amp; Products">
+                            <a (click)="onShowPromotionalCntnt(data)" [routerLink]="data.route" routerLinkActive="active" >
+                                <img [src]="data.image" alt="Complimentary Gifts &amp; Products">
                             </a>
                         </div>
                         <p>
-                            <a>Complimentary Gifts &amp; Products</a>
-                        </p>
-                    </li>
-                    <li>
-                        <div class="promotionalContent">
-                            <a>
-                                <img src="https://www.moltonbrown.co.uk/images/DeliveryVan.png" alt="FREE UK DELIVERY OVER £49">
-                            </a>
-                        </div>
-                        <p>
-                            <a>FREE UK DELIVERY OVER £49</a>
-                        </p>
-                    </li>
-                    <li>
-                        <div class="promotionalContent">
-                            <a>
-                                <img src="https://www.moltonbrown.co.uk/images/Click&amp;Collect.png" alt="Complimentary Click &amp; Collect">
-                            </a>
-                        </div>
-                        <p>
-                            <a>Complimentary Click &amp; Collect</a>
-                        </p>
-                    </li>
-
-                    <li>
-                        <div class="promotionalContent">
-                            <a>
-                                <img src="https://www.moltonbrown.co.uk/images/DropPinIcon.png" alt="Shop in your local store">
-                            </a>
-                        </div>
-                        <p>
-                            <a>Shop in your local store</a>
+                            <a (click)="onShowPromotionalCntnt(data)"  [routerLink]="data.route" [innerHtml]="data.name"></a>
                         </p>
                     </li>
                 </ul>
@@ -64,19 +37,26 @@
                 <a class="nav-link" [ngClass]="{'active-cls':data.active}" >{{data.name}}</a>
             </li>
         </ul>
-        <div [ngClass]="{'mb-footer-toggle-show':!toggleFooter,'mb-footer-toggle-hide':toggleFooter}">
-            <div class="container">
-                <div class="ft-close">
-                    <span class="sub-ft-close" (click)="onCancelToggleFooter()" style="float:right;"></span>
-             
-            </div>
-            <ul class="nav  justify-content-center footer-bottom-nav">
+        <div class="sub-footer">
+        <div [@openClose]="toggleFooter ? 'closed' : 'open'">
+        <div class="container">
+                   <div class="ft-close">
+                        <span class="sub-ft-close" (click)="onCancelToggleFooter()" style="float:right;"></span>
+                    </div>
+        <div class="sub-footer-links"  >
+              <ul class="nav  justify-content-center footer-bottom-nav">
                 <li class="nav-item" *ngFor="let data of mbfooterData;let k =index;">
                     <a class="nav-link" (click)="onFooterCntntClick(data)">{{data.name}}</a>
                 </li>
             </ul>
         </div>
+        </div>
 
+        <p class="copyrights text-center"> 	&copy; Molton Brown Limited 2019.&nbsp;All rights reserved.</p>
+  
+   
+   </div>
+</div>
     </div>
-    </div>
+    
 </footer>

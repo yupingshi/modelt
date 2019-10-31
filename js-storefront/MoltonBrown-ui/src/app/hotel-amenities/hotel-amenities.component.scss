@@ -1,4 +1,4 @@
-
+@import"../../variable";
 .medium-faq-list {
     margin-right: -8px;
     float: left;
@@ -10,35 +10,35 @@
 }
 .browser-info-cntnt{
     display: none;
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
         display: block;
     }
 }
 .medium-aside-menu{
     display: block;    li a{
-        color: #000 !important;
+        color: $primary-color !important;
     }
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
         display: none;
     }
 }
 .show-menu-block{
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
      display:block;
     }
 }
 .hide-menu-block{
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
         display:none;
     }   
 }
 .show-submenu-block{
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
         display:block;
     }  
 }
 .hide-submenu-block{
-    @media(max-width: 768px){
+    @media(max-width: $screen-sm){
         display:none;
     }  
 }
@@ -57,13 +57,13 @@ aside {
     width: 194px;
     border: 0;
     text-align: left;
-    padding:4px 10px 20px 10px;
+    padding:4px 6px 20px 15px;
     margin:10px 0;
      h3.facet_header {
         font-size: 14px;
         line-height: 30px;
         color: #666;
-        font-weight: bold;
+        font-family: $font-century-bold;
         text-transform: uppercase;
         cursor: pointer;
         text-align: left!important;
@@ -75,7 +75,7 @@ aside {
 .rightColumn{
            width:735px !important;
        } 
-  @media screen and (max-width:768px) {
+  @media screen and (max-width:$screen-sm) {
        aside{
            width:100% !important;
 

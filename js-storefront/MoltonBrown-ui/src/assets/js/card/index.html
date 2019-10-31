@@ -44,8 +44,6 @@
             store: 'csdemo'
         },
         callback: function (data) {
-            console.log(data[0]);
-
             var template = Handlebars.template(AmpCa.templates['acc-template-card']);
             document.querySelectorAll(".js_card_wrap")[0].innerHTML = template(data[0]);
         },

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 import { map,catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
-import { SERVER_PATHS, PATH } from '../../app.constant';
- import {publish} from  'rxjs/operators';
- import { Headers, RequestOptions } from '@angular/http';
+import {  throwError } from 'rxjs';
+import {  PATH } from '../../app.constant';
+ import { Headers } from '@angular/http';
  import { of } from 'rxjs';
+ import {environment} from '../../../environments/environment';
  import {InterPolateUrlService} from "../../services/commons/InterPolateUrl.service";
 @Injectable({ providedIn: 'root' })
 export class BasketPageComponentService extends InterPolateUrlService{
@@ -17,30 +17,8 @@ export class BasketPageComponentService extends InterPolateUrlService{
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
     }
-    getCurrentUserCartDetail(cVrsnId,token,email, cartId) {
-        const url = SERVER_PATHS.DEV + cVrsnId + PATH.CREATE_USER_PATH+'/'+email+'/carts/' + cartId+'/?fields=FULL' ;
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization':'bearer'+token
-                
-            })
-        };
-        return this.http
-            .get<any[]>(url,httpOptions).pipe(map(data => data,
-                catchError(err => of(err.message))
-            ));
-    }
-    getMBCartDetail(cVrsnId, cartId) {
-        const url = SERVER_PATHS.DEV + cVrsnId + PATH.CART_PATH + cartId+'/?fields=FULL' ;
-        return this.http
-            .get<any[]>(url).pipe(map(data => data,
-                catchError(err => of(err.message))
-            ));
-    }
-
     generateCartToken() {
-        const url = PATH.CART_TOKEN_PATH;
+        const url = this.interpolateUrl(environment.AUTHRISATION_PATH +PATH.CART_TOKEN_PATH());
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
@@ -50,61 +28,90 @@ export class BasketPageComponentService extends InterPolateUrlService{
             .post<any[]>(url, httpOptions)
             .pipe(map(data => data));
     }
-    
-    patchProductsToCart(baseSiteid, cartId, productObj, entrynumber, tokenId) {
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CART_PATH + cartId + '/entries' + entrynumber;
+
+    getFRContent(lang: string) {
+        const langPath = `assets/slots/${lang || 'en'}.json`;
+        return this.http
+             .get<any[]>(langPath).pipe(map(data => data,
+                 catchError(err => of(err.message))
+             ));
+   }
+    retrieveCartDetails(token,email,cartcode){
+        const url=this.interpolateUrl( environment.API_PATH() +  PATH.USER_CARTDETAILS(),{cartID:cartcode,email:email})
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'bearer '+tokenId
+                'Authorization': 'bearer '+token
             })
         };
-        return this.http.patch(url, JSON.stringify(productObj), httpOptions)
-            .pipe(map(data => data,
+        return this.http
+            .get<any[]>(url,httpOptions).pipe(map(data => data,
                 catchError(err => of(err.message))
             ));
     }
 
-    removePrdct(baseSiteid, cartId, entrynumber, tokenId){
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CART_PATH + cartId + '/entries' + entrynumber;
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer'+tokenId
-            })
-        };
-        return this.http.delete(url)
-            .pipe(map(data => data,
-                catchError(err => of(err.message))
-            ));
-    }
-    getSampleProducts(cVrsnId){
-            const url = SERVER_PATHS.DEV + cVrsnId + PATH.PRODUCT_DATA_PATH +'search?query=:relevance:category:0101&sort=name-asc&fields=FULL';
-              return this.http
-              .get<any[]>(url)
-              .pipe(map(data => data));
-            
-    }
 
-    storeCurrentUserProducts(baseSiteid,item,tokenId,code,_email,entry){
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CREATE_USER_PATH+'/'+_email+'/carts/'+code+'/entries/'+entry ;
+    updateEntry(token,email,code,item,entry){
+        let url = environment.API_PATH() +  '/users/'+email+'/carts/'+code+ '/entries/' + entry;
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'bearer'+tokenId
+                'Authorization': 'bearer  '+token
             })
         };
+
+        if(sessionStorage.getItem('csCustomer')){
+            const _csCustomer=JSON.parse(sessionStorage.getItem('csCustomer'));
+            let _agnetToken=_csCustomer['agentToken'];
+            url=url+"?access_token="+_agnetToken;
+
+           }
         return this.http.patch(url, JSON.stringify(item), httpOptions)
             .pipe(map(data => data,
                 catchError(err => of(err.message))
             ));
     }
-    storesampleProducts(baseSiteid,item,tokenId,code,_email){
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CREATE_USER_PATH+'/'+_email+'/carts/'+code+'/entries' ;
+
+    removeEntry(token,email,code,entry){
+        let url = environment.API_PATH() +  '/users/'+email+'/carts/'+code+ '/entries/' + entry;
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'bearer'+tokenId
+                'Authorization': 'bearer  '+token
+            })
+        };
+        if(sessionStorage.getItem('csCustomer')){
+            const _csCustomer=JSON.parse(sessionStorage.getItem('csCustomer'));
+            let _agnetToken=_csCustomer['agentToken'];
+            url=url+"?access_token="+_agnetToken;
+
+           }
+        return this.http.delete(url,httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+    }
+
+    getSampleProducts(){
+         let url=environment.API_PATH()+'/products/search?query=:relevance:category:0101&sort=name-asc&fields=FULL'
+         if(sessionStorage.getItem('csCustomer')){
+            const _csCustomer=JSON.parse(sessionStorage.getItem('csCustomer'));
+            let _agnetToken=_csCustomer['agentToken'];
+             url=url+"&access_token="+_agnetToken
+           }
+            return this.http
+              .get<any[]>(url)
+              .pipe(map(data => data));
+            
+    }
+
+    storesampleProducts(item,tokenId,code,email){
+        const url = this.interpolateUrl(environment.API_PATH()+PATH.ADD_TO_BASKET(),
+        {email:email,cartCode:code});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer  '+tokenId
             })
         };
         return this.http.post(url, JSON.stringify(item), httpOptions)
@@ -113,39 +120,15 @@ export class BasketPageComponentService extends InterPolateUrlService{
             ));
     }
 
-    removeEntry(baseSiteid,tokenId,code,_email,entry){
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CREATE_USER_PATH+'/'+_email+'/carts/'+code+'/entries/'+entry ;
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer'+tokenId
-            })
-        };
-        return this.http.delete(url,httpOptions)
-        .pipe(map(data => data,
-            catchError(err => of(err.message))
-        ));
-    }
-    storeProductsToCart(baseSiteid, cartId, productObj, tokenId) {
-        const url = SERVER_PATHS.DEV + baseSiteid + PATH.CART_PATH + cartId+'/entries' ;
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'bearer'+tokenId
-            })
-        };
-        return this.http.post(url, JSON.stringify(productObj), httpOptions)
-            .pipe(map(data => data,
-                catchError(err => of(err.message))
-            ));
-    }
     
-  giftMessage(baseSiteid,tokenId,body,email,code){
-    const url = this.interpolateUrl(SERVER_PATHS.DEV + baseSiteid + PATH.GIFT_BOX,{email:email,cartCode:code} ) ;
+
+    
+    giftMessage(tokenId,body,email,code){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.GIFT_BOX(),{email:email,cartCode:code} ) ;
     const httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': 'bearer'+tokenId
+            'Authorization': 'bearer  '+tokenId
         })
     };
     return this.http.post(url, JSON.stringify(body), httpOptions)
@@ -155,8 +138,95 @@ export class BasketPageComponentService extends InterPolateUrlService{
   }
 
 
+//   REMOVE_BUNDLE_PATH
 
-
+removeBundle(token,email,code,entry){
+    const url =this.interpolateUrl(environment.API_PATH() +  PATH.REMOVE_BUNDLE_PATH(),{email:email,cartCode:code,bundleNo:entry});
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer  '+token
+        })
+    };
+    return this.http.delete(url,httpOptions)
+    .pipe(map(data => data,
+        catchError(err => of(err.message))
+    ));
+    }
+    applyPromoCode(token,email,code,voucherId){
+        const url = this.interpolateUrl(environment.API_PATH() +  PATH.PROMOCODE(),{email:email,cartCode:code,voucherId:voucherId});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer  '+token
+            })
+        };
+        return this.http.post(url, JSON.stringify({}), httpOptions)
+            .pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+    }
+updateBundleItem(token,email,code,body, bundleNo,qty){
+    const url = this.interpolateUrl(environment.API_PATH() +  PATH.UPDATE_BUNDLE(),{email:email,cartCode:code,bundleNo:bundleNo,qty:qty});
+    const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer  '+token
+        })
+    };
+    return this.http.patch(url, JSON.stringify(body), httpOptions)
+        .pipe(map(data => data,
+            catchError(err => of(err.message))
+        ));
+}
+    removePromoCode(token,email,code,voucherId){
+        const url = this.interpolateUrl(environment.API_PATH() +  PATH.REMOVE_PROMO(),{email:email,cartCode:code,coupon:voucherId});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer  '+token
+            })
+        };
+        return this.http.delete(url,httpOptions)
+            .pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+    }
+    getStaticContent(lang: string) {
+        const langPath = `assets/i18n/${lang || 'en'}.json`;
+      return this.http
+              .get<any[]>(langPath).pipe(map(data => data,
+                  catchError(err => of(err.message))
+              ));
+    }
+    generateCartId(token,email){
+        const url = this.interpolateUrl(environment.API_PATH()+PATH.GENERATTE_CART(),
+                                         {email:email});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization':'bearer '+token
+            })
+        };
+        return this.http.post(url, JSON.stringify({}), httpOptions)
+            .pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+     }
+     addToBasket(token,email,code,productObj){
+        const url = this.interpolateUrl(environment.API_PATH()+PATH.ADD_TO_BASKET(),
+                                         {email:email,cartCode:code});
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization':'bearer '+token
+            })
+        };
+        return this.http.post(url, JSON.stringify(productObj), httpOptions)
+            .pipe(map(data => data,
+                catchError(err => of(err.message))
+            ));
+     }
     handleError(error: HttpErrorResponse) {
         let errMsg = '';
         // Client Side Error

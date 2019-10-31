@@ -5,19 +5,23 @@ import {
   ViewEncapsulation,
   ElementRef,
   ViewChild,
-  Renderer,
-  HostListener
+  OnDestroy
 } from "@angular/core";
 import { HeaderComponentService } from "./header.service";
 import { SingletonService } from "../../services/singleton.service";
 import { BasketPageComponentService } from "../../checkoutpage/basketpage/basketpage.service";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
 import * as _ from "lodash";
-
+import { environment }     from '../../../environments/environment';
+import { TranslateService } from '../../translate.service';
+import {CartComponent} from './cart/cart.component';
+import { productviewComponentService } from "../productview/productview.service";
+import { Subscription, Subject } from "rxjs";
+import { filter, map, take, toArray, takeUntil } from 'rxjs/operators';
 declare var $: any;
 declare var AmpCa: any;
+declare var window:any;
 
 @Component({
   selector: "app-header",
@@ -25,366 +29,382 @@ declare var AmpCa: any;
   styleUrls: ["./header.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit,OnDestroy {
   @ViewChild("scrollContainer") scrollCartContainer: ElementRef;
-  countryText: string;
-  menuData: any;
+  @ViewChild("storeCartCount") cartCountElement:ElementRef;
+  @ViewChild("cartRefElement") cartCo:CartComponent;
+  @ViewChild('submenuContainer') menuCartCo:ElementRef;
+  countryText: any;
   toggle: boolean;
   subscription: Subscription;
-  templates: Array<any>;
-  cart: any;
-  totalAmount: number;
-  cartStatus: boolean;
-  deliverySlotId: "ab323146-8e01-4611-8f55-c162e4f07d8b";
+  cartSubscription:Subscription;
+  createCartSubscription:Subscription;
+  entryCartSubscription:Subscription;
+  generateCartSubscription:Subscription;
   deliveryText: string;
   loggedIn: boolean;
-  showCartBlock: boolean;
+  countries = environment.countryJsonData;
+  currentCountryCode:string;
+  sidemenuStatus:boolean;
+  renderCart:boolean=true;
+  message:any;
+  updateBasket:boolean;
+  hideCart:boolean;
+  localData:any;
+  private unsubscribe$=new Subject<void>();
+  enableJP:boolean;
   constructor(
     public headerServ: HeaderComponentService,
     public singletonServ: SingletonService,
     public location: Location,
     public router: Router,
-    public basketServ: BasketPageComponentService
+    public basketServ: BasketPageComponentService,
+    public translate: TranslateService,
+    public quickServ: productviewComponentService
   ) {
-    this.toggle = false;
+    this.sidemenuStatus = false;
     this.deliveryText = "Free UK Standard Delivery when you spend £49.*";
     this.loggedIn = false;
+    
   }
-  onSignOut() {
-    sessionStorage.removeItem("customerToken");
-    sessionStorage.removeItem("cartGUID");
-    sessionStorage.clear();
-    sessionStorage.removeItem("cartGUID");
-    localStorage.removeItem("order");
-    localStorage.clear();
+
+  onSignOut() {  
+    const that =this;
+    this.singletonServ.removeItem("order");
+    let _sessionNames=Object.keys(localStorage);
+    if(_sessionNames.length){
+      _sessionNames.map((obj)=>{
+        console.log(obj);
+        if(obj !='prefered_lng'){
+           that.singletonServ.removeItem(obj);
+        }
+      })
+    }
+    this.cartCo.retrieveCartDetails(); 
     this.router.navigate(["store", "myacc"]);
-  }
-  /*rendering Amplience Content Using Ampca variable IIFE Function located in assets/js*/
-  getTopHeadCntnt() {
-    AmpCa.utils = new AmpCa.Utils();
-    AmpCa.utils.getHtmlServiceData({
-      auth: {
-        baseUrl: "https://c1.adis.ws",
-        id: "ab323146-8e01-4611-8f55-c162e4f07d8b",
-        store: "moltonbrown",
-        templateName: "acc-template-text",
-        locale: "en-GB"
-      },
-      callback: function(data) {
-        document.querySelectorAll(".header-top-amptext")[0].innerHTML = data;
-      }
-    });
   }
 
   ngOnInit() {
-    const that = this;
-    this.showCartBlock = false;
-    this.countryText = this.singletonServ.catalogVersionId;
-    this.getTopHeadCntnt();
-    if (sessionStorage.getItem("customerToken")) {
-      const data = JSON.parse(sessionStorage.getItem("customerToken"));
-      this.loggedIn = true;
-      this.singletonServ.loggedIn = true;
-      if (data.code) {
-        const message = undefined;
-        this.fetchcurrentuserBasket(data, message);
-      } else {
-        this.headerServ.generateCartToken().subscribe(
-          resp => {
-            data["token"] = resp["access_token"];
-            that.fetchRelavantBasket(data);
-          },
-          err => {}
-        );
-      }
-    } else {
-      const baseSiteid = "moltonbrown-uk";
-      if (sessionStorage.getItem("cartGUID")) {
-        const data = JSON.parse(sessionStorage.getItem("cartGUID"));
-        const cartId = "/" + data["guid"];
-        const message = undefined;
-        this.fetchBasket(baseSiteid, cartId, message);
-      } else {
-      }
-    }
-  }
-
-  fetchcurrentuserBasket(data, message) {
-    const baseSiteid = "moltonbrown-uk";
-    this.headerServ
-      .getCurrentUserCartDetail(baseSiteid, data.token, data.email, data.code)
-      .subscribe(
-        resp => {
-          this.cart = resp;
-          this.singletonServ.cartObj = this.cart;
-          this.cartStatus = resp["totalItems"] != 0 ? true : false;
-          if (this.cartStatus) {
-            let count = {
-              cartCount: true,
-              response: resp
-            };
-            this.singletonServ.sendMessage(count);
-            if (message) {
-              if (message.showCartPopUp) {
-                this.showCartBlock = true;
-                window.scrollTo(0, 0);
-                setTimeout(() => {
-                  this.showCartBlock = false;
-                }, 2000);
-              }
-            }
-          }
-        },
-        err => {}
-      );
-  }
-
-  fetchBasket(baseSiteid, cartId, message) {
-    this.headerServ.getMBCartDetail(baseSiteid, cartId).subscribe(
-      resp => {
-        this.cart = resp;
-        if (sessionStorage.getItem("cartGUID")) {
-          const data = JSON.parse(sessionStorage.getItem("cartGUID"));
-          data["code"] = resp["code"];
-          sessionStorage.setItem("cartGUID", JSON.stringify(data));
+    const that=this;
+    const baseSite =this.singletonServ.catalogVersion;
+    if(baseSite){
+      const _isoCode=this.singletonServ.catalogVersion.isoCode;
+      this.setLocalLang(baseSite.lngCode);
+      this.getTopStaticCntnt(baseSite.lngCode);
+      this.countries.map((obj)=>{
+        if(_isoCode==obj.isoCode){
+          obj['current']=true;
+          this.currentCountryCode=obj.countryName;
+        }else{
+          obj['current']=false;
         }
-        this.cartStatus = resp["totalItems"] != 0 ? true : false;
-        this.singletonServ.cartObj = resp;
-        if (message) {
-          if (message.showCartPopUp) {
-            this.showCartBlock = true;
-            const _id='#'+message.code;
-          //   let el = this.scrollCartContainer.nativeElement.querySelector(_id);
-          //  el.scrollIntoView();
-            setTimeout(() => {
-              this.showCartBlock = false;
-            }, 2000);
-          }
-        }
-        if (this.cartStatus) {
-          let count = {
-            cartCount: true,
-            response: resp
-          };
-          this.singletonServ.sendMessage(count);
-        }
-      },
-      error => {}
-    );
-  }
-  onViewBasket() {
-    this.router.navigate(["store", "mbcart"]);
-  }
-  ngAfterViewInit() {
-    const that = this;
-    const baseSiteid = "moltonbrown-uk";
-    this.subscription = this.singletonServ.getMessage().subscribe(message => {
-      if (message.updateCart) {
-        if (sessionStorage.getItem("customerToken")) {
-          let data = JSON.parse(sessionStorage.getItem("customerToken"));
-          this.loggedIn = true;
-          this.singletonServ.loggedIn = true;
-          if (data.code) {
-            this.fetchcurrentuserBasket(data, message);
-          } else {
-            this.headerServ.generateCartToken().subscribe(
-              resp => {
-                data["token"] = resp["access_token"];
-                that.fetchRelavantBasket(data);
-
-                if (message.showCartPopUp) {
-                  this.showCartBlock = true;
-                  window.scrollTo(0, 0);
-                  setTimeout(() => {
-                    this.showCartBlock = false;
-                  }, 2000);
-                }
-              },
-              err => {}
-            );
-          }
-        } else {
-          if (sessionStorage.getItem("cartGUID")) {
-            const data = JSON.parse(sessionStorage.getItem("cartGUID"));
-            const cartId = "/" + data["guid"];
-            this.fetchBasket(baseSiteid, cartId, message);
-          }
-        }
-      } else if (message.access_token) {
+      });
+      if (this.singletonServ.getStoreData(baseSite.reg)) {
         this.loggedIn = true;
         this.singletonServ.loggedIn = true;
       }
+    }
+    document.addEventListener("add-to-cart", function(e) {
+      that.addToBasket(e);   
+    });
+
+    this.cartCo.retrieveCartDetails(); 
+  }
+  setLocalLang(lng) {
+    this.headerServ.getStaticContent(lng).subscribe((response:any) => {
+      this.singletonServ.appLocaleData = response;
+      this.localData=response;
+
     });
   }
-  fetchRelavantBasket(data) {
-    const baseSiteid = "moltonbrown-uk";
-    this.headerServ
-      .getCurrentUserRelevantCart(baseSiteid, data.token, data.email)
-      .subscribe(
-        resp => {
-          if (resp["carts"]) {
-            const code = resp["carts"][0]["code"];
-            data["code"] = code;
-            sessionStorage.setItem("customerToken", JSON.stringify(data));
-            const message = undefined;
-            this.fetchcurrentuserBasket(data, message);
-          }
+  getTopStaticCntnt(lang: string){
+    this.headerServ.getPolicyContent(lang).subscribe((response:any)=>{
+      this.getTopHeadCntnt(response.headerPromotion);
+    });
+  }
+ 
+    /*rendering Amplience Content Using Ampca variable IIFE Function located in assets/js*/
+    getTopHeadCntnt(cntnt) {
+      AmpCa.utils = new AmpCa.Utils();
+      const baseSite=this.singletonServ.catalogVersion;
+      AmpCa.utils.getHtmlServiceData({
+        auth: {
+          baseUrl: "https://c1.adis.ws",
+          id: cntnt.content,
+          store: "moltonbrown",
+          templateName: "slot-contentWrapper",
+          locale:baseSite.locale
         },
-        error => {}
-      );
+        callback: function(data) {
+          if(document.querySelectorAll(".header-top-amptext")[0]){
+          document.querySelectorAll(".header-top-amptext")[0].innerHTML = data;
+         }
+       }
+      });
+    }
+
+  ngAfterViewInit() {
+    this.subscription = this.singletonServ.getMessage().pipe(takeUntil(this.unsubscribe$)).subscribe(message => {
+       if (message.access_token) {
+        this.loggedIn = true;
+        this.singletonServ.loggedIn = true;
+      }else
+          if (message.updateCart) {
+            this.message=message;
+            this.updateBasket=true;
+            this.cartCo.retrieveCartDetails(); 
+            }else if( message.showCartPopUp) {
+              this.message=message;
+              this.updateBasket=true;
+              this.cartCo.retrieveCartDetails(); 
+           }
+           else if(message.sampleAdded){
+            this.cartCo.retrieveCartDetails(); 
+           }else if(message.retrieveAsASM){
+            this.cartCo.retrieveCartDetails(); 
+           } else if(message.updateBasketCount){
+             this.cartCo.cart=message.cart;
+           }
+    });
+
+
+
   }
 
   onNewsletterClick() {
     this.router.navigate(["store", "newsletter-sign-up"]);
   }
-  onSidemenutap() {
-    this.toggle = !this.toggle;
-    const toggle = {
-      toggle: {
-        state: this.toggle
-      }
-    };
-    this.singletonServ.sendMessage(toggle);
-  }
+
 
   onProfileClick() {
-    if (sessionStorage.getItem("customerToken")) {
+    const baseSite = this.singletonServ.catalogVersion;
+    if (this.singletonServ.getStoreData(baseSite.reg)) {
       this.router.navigate(["store", "myaccount", "profile"]);
     } else {
       this.router.navigate(["store", "myacc"]);
     }
   }
-  getCartCount() {
-    let sum = 0;
-    this.totalAmount = 0;
-    const that = this;
-    if (this.cart) {
-      if (this.cart.totalItems != 0) {
-        for (let i = 0; i < that.cart["entries"].length; i++) {
-          if (!that.cart["entries"][i]["product"]["isSample"]) {
-            sum += that.cart["entries"][i]["quantity"];
-          }
-        }
-      }
-    }
-    return sum;
-  }
-  // getTotalAmount(){
-  //   const that=this;
-  //   let sum=0;
-  //   for (let i = 0; i < that.cart['entries'].length; i++) {
-  //     sum += that.cart['entries'][i]['quantity']*that.cart['entries'][i]['totalPrice']['value'];
-  //  }
-  //  this.singletonServ.totalAmount=sum;
-  //   return this.singletonServ.totalAmount;
-  // }
-  getTotalAmount() {
-    let sum = 0;
-    if (this.cart) {
-      sum = this.cart.totalPriceWithTax.formattedValue;
-    }
-    return sum;
-  }
-  getTotalProductAmount() {
-    let sum = 0;
-    for (let i = 0; i < this.cart.entries.length; i++) {
-      sum +=
-        this.cart.entries[i]["price"]["value"] * this.cart.entries[i]["count"];
-    }
-    this.singletonServ.totalAmount = sum;
-    return this.singletonServ.totalAmount;
-  }
-  onSpliceItem(event, data, k) {
-    event.stopPropagation();
-    const that = this;
-    const baseSiteid = this.singletonServ.catalogVersionId;
-    if (sessionStorage.getItem("customerToken")) {
-      let user = JSON.parse(sessionStorage.getItem("customerToken"));
-      that.basketServ
-        .removeEntry(
-          baseSiteid,
-          user["token"],
-          user["code"],
-          user["email"],
-          data["entryNumber"]
-        )
-        .subscribe(
-          resp => {
-            const obj = {
-              refreshBasket: true
-            };
-            this.singletonServ.sendMessage(obj);
-            that.fetchRelavantBasket(user);
-          },
-          err => {}
-        );
+  onCountryChange(data) {
+    if(data.isoCode != 'JP'){
+      this.countryText = data;
+      this.enableJP=false;
     } else {
-      if (sessionStorage.getItem("cartGUID")) {
-        const guidData = JSON.parse(sessionStorage.getItem("cartGUID"));
-        const cartId = "/" + guidData["guid"];
-        const entrynumber = "/" + data["entryNumber"];
-        that.basketServ.generateCartToken().subscribe(
-          res => {
-            const tokenId = res["access_token"];
-            that.basketCount(baseSiteid, cartId, entrynumber, tokenId);
-          },
-          error => {}
-        );
-      }
+      this.countryText = data;
+      this.enableJP=true;
     }
-  }
-  basketCount(baseSiteid, cartId, entrynumber, tokenId) {
-    const that = this;
-    that.basketServ
-      .removePrdct(baseSiteid, cartId, entrynumber, tokenId)
-      .subscribe(
-        res => {
-          const obj = {
-            refreshBasket: true
-          };
-          this.singletonServ.sendMessage(obj);
-          const message = undefined;
-          this.fetchBasket(baseSiteid, cartId, message);
-        },
-        error => {}
-      );
   }
 
-  onShowProduct(event, searchItem) {
-    event.stopPropagation();
-    let url = "/store" + searchItem.product.url.replace("/p/", "/");
-    this.router.navigate([url]);
+  onCancelModal(bol) {  
+   if(!this.enableJP){
+       const baseSite = this.singletonServ.catalogVersion;
+        let user;
+        if(this.singletonServ.getStoreData(baseSite.reg)){
+          user= JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
+        }
+        if (bol) {
+          this.singletonServ.setStoreData(
+            "prefered_lng",
+            JSON.stringify(this.countryText)
+          );    
+          const _isoCode=this.countryText.isoCode;
+          this.countries.map((obj)=>{
+            if(_isoCode==obj.isoCode){
+              obj['current']=true;
+            }else{
+              obj['current']=false;
+            }
+          });  
+          const _obj = {
+            baseSiteChange: true,
+          };
+          if(this.singletonServ.getStoreData(baseSite.reg)){
+            if(!this.singletonServ.getStoreData(this.countryText.reg)){       
+              let currentUser={email:''};
+              currentUser.email=user.email;
+              this.singletonServ.setStoreData(
+                this.countryText.reg,
+                JSON.stringify(currentUser)
+              );
+              if(user.token){
+                this.headerServ.getUserData(user.token,user.email).subscribe((response)=>{
+                  let userDtls= JSON.parse(this.singletonServ.getStoreData(this.countryText.reg));
+                  userDtls['isExpressCheckout']=response['isExpressCheckout'];
+                  this.singletonServ.setStoreData(
+                    this.countryText.reg,
+                    JSON.stringify(currentUser)
+                  );
+                },err=>{
+
+                })
+              }
+              this.singletonServ.catalogVersion =  JSON.parse(this.singletonServ.getStoreData("prefered_lng"));
+              this.singletonServ.sendMessage(_obj);      
+              this.goToStore();
+            }else{
+              this.singletonServ.catalogVersion =  JSON.parse(this.singletonServ.getStoreData("prefered_lng"));
+              this.singletonServ.sendMessage(_obj);      
+              this.goToStore();
+        }
+        }else{
+          this.singletonServ.catalogVersion =  JSON.parse(this.singletonServ.getStoreData("prefered_lng"));
+          this.singletonServ.sendMessage(_obj);      
+          this.goToStore();
+        }
+    
+        }
+  } else {
+    window.location.href=this.countryText.query;
   }
-  onCountryChange(country) {
-    if (country == "us") {
-      this.countryText = "moltonbrown-us";
-    } else if (country == "uk") {
-      this.countryText = "moltonbrown-uk";
-    } else if (country == "ge") {
-      this.countryText = "moltonbrown-ge";
-    } else if (country == "au") {
-      this.countryText = "moltonbrown-au";
-    } else if (country == "eu") {
-      this.countryText = "moltonbrown-eu";
-    }
+}
+  onleaveRichCart(event){
+    this.cartCo.showCartBlock=false;
+    this.cartCo.onleaveCart(event);
   }
-  onCancelModal(bol) {
-    if (bol) {
-      const obj = {
-        siteid: "moltonbrown-uk"
-      };
-      this.singletonServ.sendMessage(obj);
-      this.singletonServ.catalogVersionId = this.countryText;
-      this.router.navigate(["store"]);
-    }
-  }
-  onHoverCartIcon() {}
-  onleaveCart() {}
-  onHoverProfileIcon() {
-    if (sessionStorage.getItem("customerToken")) {
+  onHoverProfileIcon(event) {
+    const baseSite = this.singletonServ.catalogVersion;
+    if (this.singletonServ.getStoreData(baseSite.reg)) {
       this.loggedIn = true;
     } else {
       this.loggedIn = false;
     }
+    this.cartCo.onleaveCart(event);
   }
+  onFindStoreClick(){
+    this.router.navigate(['store','company','stores']);
+  }
+  onSidemenutap() {
+    this.sidemenuStatus = !this.sidemenuStatus;
+    this.toggle=this.sidemenuStatus;
+    const toggle = {
+      moltonSideumenu: {
+        state: this.sidemenuStatus
+      }
+    };
+    this.singletonServ.sendMessage(toggle);
+  }
+  removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" ;
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none";
+    var allsuspects=document.getElementsByTagName(targetelement);
+    for (var i=allsuspects.length; i>=0; i--){ 
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) ;
+    }
+  }
+  goToStore(){
+    const baseSite = this.singletonServ.catalogVersion;
+    this.removejscssfile(baseSite.bv,'js');
+    console.log(baseSite.query);
+    window.location.href=baseSite.query;
+  }
+  
+/* Start Add to basket */
+
+addToBasket(event) {
+  const baseSite = this.singletonServ.catalogVersion;
+  const productObj = event.detail;
+   if (this.singletonServ.getStoreData(baseSite.reg)) {
+        const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
+        this.singletonServ.loggedIn = true;
+        if (!user.code) {       
+          this.createCart(user.email,productObj,true);
+        } else {
+          if(user["token"]){
+            this.addToCart(user["token"],user.email,user.code,productObj);
+          }else{  
+            this.generateCartSubscription = this.quickServ.generateCartToken().subscribe(
+              resp => {
+                 const token = resp["access_token"];
+                 user.token= resp["access_token"];
+                 this.singletonServ.setStoreData(baseSite.reg, JSON.stringify(user)); 
+                 this.addToCart(token,user.email,user.code,productObj);
+              },err=>{
+
+              });
+          }
+        }
+      } else {
+        
+        if (!this.singletonServ.getStoreData(baseSite.guest)) {
+          this.createCart('anonymous',productObj,false);
+        } else {
+          const _guest = JSON.parse(this.singletonServ.getStoreData(baseSite.guest));
+          const cartId =  _guest["guid"];
+          const tokenId =_guest["token"];
+          if(tokenId){
+            this.addToCart(tokenId,'anonymous',cartId,productObj);
+          }else{
+            this.createCart('anonymous',productObj,false);
+          }
+      }
+      }
+
+}
+
+createCart(email,productObj,logged){
+  const baseSite = this.singletonServ.catalogVersion;
+ this.generateCartSubscription = this.quickServ.generateCartToken().subscribe(
+    resp => {
+      const token = resp["access_token"];
+      this.createCartSubscription = this.quickServ.generateCartId(resp["access_token"],email).subscribe(
+        data => {
+          if(logged){
+            const user = JSON.parse(this.singletonServ.getStoreData(baseSite.reg));
+            user['code']=data['code'];
+            user['guid']=data["guid"];
+            user['token']=token;
+            this.singletonServ.setStoreData(baseSite.reg, JSON.stringify(user));
+            this.addToCart(token,email,user['code'],productObj);
+          }else{
+            const _user = {token:'',guid:''};
+            _user["guid"]=data["guid"];
+            _user['code']=data['code'];
+            _user['token']=resp["access_token"];
+            this.singletonServ.setStoreData(baseSite.guest, JSON.stringify(_user));
+            this.addToCart(resp["access_token"],email,data["guid"],productObj);
+          }
+        },err=>{
+
+        });
+      },
+      error => {}
+    );
+}
+addToCart(token,email,code,productObj){
+   this.entryCartSubscription =this.quickServ.addToBasket(token,email,code,productObj).subscribe((response)=>{
+    this.message={
+      showCartPopUp:true,
+      code:productObj.product.code
+    }
+ 
+        this.updateBasket=true;
+        this.cartCo.showCartBlock=true;
+        this.cartCo.cartMessage={
+          code:productObj.product.code
+        }
+        this.cartCo.retrieveCartDetails(); 
+  },err=>{
+
+  });
+}
+
+/* End Add to basket */
+discardSubscription(event){
+  event.preventDefault();
+  this.subscription.unsubscribe();
+}
+ngOnDestroy(){
+  if( this.subscription){
+  this.subscription.unsubscribe();
+}
+if(this.createCartSubscription){
+  this.createCartSubscription.unsubscribe();
+}
+if(this.entryCartSubscription){
+  this.entryCartSubscription.unsubscribe();
+}
+if(this.generateCartSubscription){
+  this.generateCartSubscription.unsubscribe();
+}
+}
 }
