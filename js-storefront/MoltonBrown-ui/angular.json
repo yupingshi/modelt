@@ -3,6 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+
     "moltonbrown": {
       "root": "",
       "sourceRoot": "src",
@@ -17,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/moltonbrown",
+            "outputPath": "dist/MoltonBrown-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -37,6 +38,7 @@
             "styles": [
               "src/styles/all.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss",
               "node_modules/slick-carousel/slick/slick.scss",
               "node_modules/slick-carousel/slick/slick-theme.scss"
@@ -45,29 +47,12 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "./src/assets/js/amp-min.js",
-              "./src/assets/js/yre05t09.js",
-              "./src/assets/js/handlebar.min.js",
-              "./src/assets/js/handlebars_helpers.js",
               "./src/assets/js/utils.js",
-              "./src/assets/js/acc-template-text.min.js",
-              "./src/assets/js/banner/acc-template-banner.min.js",
-              "./src/assets/js/blog/acc-template-blog.min.js",
-              "./src/assets/js/blog/acc-template-snippet.min.js",
-              "./src/assets/js/card/acc-template-card.min.js",
-              "./src/assets/js/cardList/acc-template-cardList.min.js",
-              "./src/assets/js/externalBlock/acc-template-externalBlock.min.js",
-              "./src/assets/js/homepage/acc-template-homepage.min.js",
-              "./src/assets/js/image/acc-template-image.min.js",
-              "./src/assets/js/promoBanner/acc-template-promoBanner.min.js",
-              "./src/assets/js/promoBannerSection/acc-template-promoBannerSection.min.js",
-              "./src/assets/js/slider/acc-template-slider.min.js",
-              "./src/assets/js/splitBlock/acc-template-splitBlock.min.js",
-              "./src/assets/js/text/acc-template-text.min.js",
-              "./src/assets/js/video/acc-template-video.min.js",
-              "./src/assets/js/bvApi.js",
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/slick-carousel/slick/slick.min.js"
+              "node_modules/slick-carousel/slick/slick.min.js",
+              "./src/assets/js/jqueryUICustom.js",
+              "./src/assets/js/viewer.js",
+              "./src/assets/js/scrollSmooth.js",
+              "./src/assets/js/sapContentPage.js"
             ]
           },
           "configurations": {
@@ -88,7 +73,41 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true
-            }
+            },
+             "dev": {
+              "fileReplacements": [
+               {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.dev.ts"
+               }],
+               "optimization": true,
+               "outputHashing": "all",
+               "sourceMap": false,
+               "extractCss": true,
+               "namedChunks": false,
+               "aot": true,
+               "extractLicenses": true,
+               "vendorChunk": false,
+               "buildOptimizer": true,
+               "serviceWorker": true
+             },
+             "qa": {
+              "fileReplacements": [
+               {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.qa.ts"
+               }],
+               "optimization": true,
+               "outputHashing": "all",
+               "sourceMap": false,
+               "extractCss": true,
+               "namedChunks": false,
+               "aot": true,
+               "extractLicenses": true,
+               "vendorChunk": false,
+               "buildOptimizer": true,
+               "serviceWorker": true
+             }
           }
         },
         "serve": {
@@ -99,7 +118,14 @@
           "configurations": {
             "production": {
               "browserTarget": "moltonbrown:build:production"
+            },
+            "dev": {
+              "browserTarget": "moltonbrown:build:dev"
+            },
+            "qa": {
+              "browserTarget": "moltonbrown:build:qa"
             }
+
           }
         },
         "extract-i18n": {
@@ -122,7 +148,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"
+              "src/manifest.json",
+              {"glob": "robots.txt", "input": "src/assets", "output": "/"},
+              {"glob": "sitemap.xml", "input": "src/assets", "output": "/"}
             ]
           }
         },
@@ -168,5 +196,6 @@
       }
     }
   },
+
   "defaultProject": "moltonbrown"
 }
