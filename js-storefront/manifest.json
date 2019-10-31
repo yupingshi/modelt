@@ -1,7 +1,7 @@
 {
-    "applications": [       
+    "applications": [
         {
-            "name": "MoltonBrown-ui",
+            "name": "moltonbrown",
             "path": "MoltonBrown-ui"
         }
     ]
