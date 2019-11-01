@@ -1,9 +1,0 @@
-{
-  "/api/*": {
-    "target": "https://api.cxur-kaocorpor1-s3-public.model-t.cc.commerce.ondemand.com/",
-    "secure": false,
-    "pathRewrite": {"^/api" : ""},
-    "changeOrigin":true,
-    "logLevel": "debug"
-  }
-}
