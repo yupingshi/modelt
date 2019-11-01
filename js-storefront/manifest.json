@@ -1,8 +1,8 @@
 {
-    "applications": [
+    "applications": [       
         {
-            "name": "MoltonBrown-ui",
-            "path": "MoltonBrown-ui"
+            "name": "mystore",
+            "path": "mystore"
         }
     ]
 }
