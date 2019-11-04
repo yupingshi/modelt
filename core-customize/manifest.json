@@ -242,7 +242,7 @@
         },
         {
     			"name": "api",
-    			/* "properties": [
+    			 "properties": [
     					{
     						"key":"xss.filter.header.X-Frame-Options",
     						"value":""
@@ -264,7 +264,7 @@
                 "key":"assistedservicewebservices.xss.filter.header.Access-Control-Allow-Headers",
                 "value":"Content-Type"
               }
-    			], */
+    			], 
     			"webapps": [
     				{
     					"name": "platformwebservices",
