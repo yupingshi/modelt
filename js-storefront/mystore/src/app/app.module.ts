@@ -12,7 +12,7 @@ import { StorefrontModule } from "@spartacus/storefront";
     BrowserModule,
     StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://accstorefront.cfc5lg-fenghudev1-d1-public.model-t.cc.commerce.ondemand.com',
+        baseUrl: 'https://accstorefront.cmja9gw7m-psdevapjd1-p5-public.model-t.cc.commerce.ondemand.com/',
         occPrefix: '/rest/v2/'
       }, 
       authentication: {
