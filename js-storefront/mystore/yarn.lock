@@ -401,24 +401,24 @@
     semver "5.6.0"
     semver-intersect "1.4.0"
 
-"@spartacus/core@0.1.0-prealpha.9":
-  version "0.1.0-prealpha.9"
-  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-prealpha.9.tgz#b53f684589783723d326f0132fe8161e2d2be422"
-  integrity sha512-NoAOA9ovcq/cZ+Aqzaog79Ay9r5xjUxymooYVY05G24rjsIdOZ2fuWE4Fw7yCTUK6z8AgBqHpWjOwyWJrdDlgA==
+"@spartacus/core@0.1.0-alpha.1":
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-alpha.1.tgz#9f9910623505e30c7bc9a72bf34737c9d24b5dd0"
+  integrity sha512-nXtzygM1z9H4ONYtgCvUNJmd0Fx67VFzH+x0CesRQf59YQoACstvjVTAqhAfPCaQUI/6PI7yg0DL5yIji6765g==
   dependencies:
     tslib "^1.9.0"
 
-"@spartacus/storefront@0.1.0-prealpha.15":
-  version "0.1.0-prealpha.15"
-  resolved "https://registry.yarnpkg.com/@spartacus/storefront/-/storefront-0.1.0-prealpha.15.tgz#9de4341ee384334eba05f2504b1099dcf4849cfc"
-  integrity sha512-RpSDxUwUntM6InfFS+De/yxw/Jp5PMZMegLaQVBdX4QYyGGhDXMsbfl4WqxH2zVMPWFdVrB9rpWjpxZFIlVbKg==
+"@spartacus/storefront@0.1.0-alpha.1":
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@spartacus/storefront/-/storefront-0.1.0-alpha.1.tgz#d1c58a4331ed5f890c733d4b3bc3085cf2111e98"
+  integrity sha512-IZG8Rji8dW9k9XBfRyNX4Ahc1QZplyLn/lJQFPOlZ6s7egrCFOqN4NaBH0Qyr740fr3zaYjufyVdjHfos7DCjg==
   dependencies:
     tslib "^1.9.0"
 
-"@spartacus/styles@0.1.0-prealpha.10":
-  version "0.1.0-prealpha.10"
-  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-prealpha.10.tgz#8dde595355d1a52c466e7a3761eaf72df6cde938"
-  integrity sha512-b+GQtXdmpycAM2pTm5DURLTWUwgMBbC0wKB+IkERSOpgZLzy5FarcyTEvMNmk4FFDbmbrGRSU/G+weGaNZuR+g==
+"@spartacus/styles@0.1.0-alpha.1":
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-alpha.1.tgz#7597527923654322740e189400c5ce5dcfa676a7"
+  integrity sha512-PX+kxm5DAxIB9qYzjV2CULSzPPGfdNCpTtvWTeRNzwfjFN+6ke3uOWz66lqpX+rsiB8uV5gR52waBG3I5kg/xA==
   dependencies:
     hamburgers "^1.1.3"
 

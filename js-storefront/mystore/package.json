@@ -22,11 +22,11 @@
     "ngrx-store-localstorage": "^5.1.0",
     "i18next": "^15.0.6",
     "i18next-xhr-backend": "^2.0.1",
-	
-    "@spartacus/core": "0.1.0-prealpha.9",
-    "@spartacus/storefront": "0.1.0-prealpha.15",
-    "@spartacus/styles": "0.1.0-prealpha.10",
-	
+
+    "@spartacus/core": "0.1.0-alpha.1",
+    "@spartacus/storefront": "0.1.0-alpha.1",
+    "@spartacus/styles": "0.1.0-alpha.1",
+
     "@angular/animations": "~7.2.0",
     "@angular/common": "~7.2.0",
     "@angular/compiler": "~7.2.0",

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { StorefrontModule } from "@spartacus/storefront";
-import { translations } from "@spartacus/storefront";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,9 +22,6 @@ import { translations } from "@spartacus/storefront";
       },
       site: {
         baseSite: 'electronics'
-      },
-      i18n: {
-        resources: translations
       }
     })
   ],
