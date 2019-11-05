@@ -12,13 +12,13 @@ import { StorefrontModule } from "@spartacus/storefront";
     BrowserModule,
     StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://accstorefront.cmja9gw7m-psdevapjd1-p5-public.model-t.cc.commerce.ondemand.com/',
+        baseUrl: 'https://accstorefront.cmja9gw7m-psdevapjd1-p5-public.model-t.cc.commerce.ondemand.com',
         occPrefix: '/rest/v2/'
-      }, 
+      },
       authentication: {
         client_id: 'mobile_client',
         client_secret: '123456'
-      }, 
+      },
       site: {
         baseSite: 'electronics'
       }
