@@ -3,11 +3,12 @@
     "extensions": [
 		"commerceservicesbackoffice",
 		"solrfacetsearchbackoffice",
+    "cmsoccaddon",
 		"solrserver",
-	    	"assistedserviceservices",
-	      	"assistedservicefacades",
-	        "assistedservicestorefront",
-	        "assistedservicewebservices",
+	  "assistedserviceservices",
+	  "assistedservicefacades",
+	  "assistedservicestorefront",
+	  "assistedservicewebservices",
 		"yacceleratorcockpits",
 		"yacceleratorinitialdata",
 		"yacceleratorstorefront",
@@ -43,11 +44,21 @@
 		    "storefront": "yacceleratorstorefront",
 		    "template": "yacceleratorstorefront"
 		},
+    {
+        "addon": "acceleratorwebservicesaddon",
+        "storefront": "ycommercewebservices",
+        "template": "yacceleratorstorefront"
+    },
 		{
 		    "addon": "smarteditaddon",
 		    "storefront": "yacceleratorstorefront",
 		    "template": "yacceleratorstorefront"
-		}
+		},
+    {
+        "addon": "cmsoccaddon",
+        "storefront": "ycommercewebservices",
+        "template": "ycommercewebservices"
+    }
 
 	],
     "properties": [

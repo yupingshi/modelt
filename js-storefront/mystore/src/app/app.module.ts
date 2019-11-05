@@ -21,6 +21,9 @@ import { StorefrontModule } from "@spartacus/storefront";
       },
       site: {
         baseSite: 'electronics'
+      },
+      i18n: {
+        resources: translations
       }
     })
   ],
