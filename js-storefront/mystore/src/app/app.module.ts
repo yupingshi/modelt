@@ -4,26 +4,36 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { StorefrontModule } from "@spartacus/storefront";
+import { ConfigModule } from '@spartacus/core';
+import { translations, translationChunksConfig } from '@spartacus/assets';
+import { B2cStorefrontModule, defaultCmsContentConfig } from '@spartacus/storefront';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    StorefrontModule.withConfig({
-      server: {
+    B2cStorefrontModule.withConfig({
+    backend: {
+      occ: {
         baseUrl: 'https://accstorefront.cmja9gw7m-psdevapjd1-p5-public.model-t.cc.commerce.ondemand.com',
-        occPrefix: '/rest/v2/'
-      },
-      authentication: {
-        client_id: 'mobile_client',
-        client_secret: '123456'
-      },
-      site: {
-        baseSite: 'electronics'
+        prefix: '/rest/v2/',
+        legacy: false
       }
-    })
+    },
+    authentication: {
+      client_id: 'mobile_android',
+      client_secret: '123456'
+    },
+    context: {
+      baseSite: ['electronics']
+    },
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    }
+  }),
   ],
   providers: [],
   bootstrap: [AppComponent]
