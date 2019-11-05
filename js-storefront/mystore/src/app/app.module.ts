@@ -23,7 +23,7 @@ import { B2cStorefrontModule, defaultCmsContentConfig } from '@spartacus/storefr
     },
     authentication: {
       client_id: 'mobile_android',
-      client_secret: '123456'
+      client_secret: 'secret'
     },
     context: {
       baseSite: ['electronics']
